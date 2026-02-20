@@ -1,0 +1,27 @@
+{
+  "name": "batsirai/dev-debug",
+  "description": "Send PHP debug data to DevDebug macOS app and dump data",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "DevDebug\\": "src/"
+    },
+    "files": [
+      "bootstrap.php"
+    ]
+  },
+  "bin": [
+    "bin/dev-debug-cli.sh"
+  ],
+  "authors": [
+    {
+      "name": "Batsirai Muchareva"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "symfony/var-dumper": "^7.4"
+  }
+}
