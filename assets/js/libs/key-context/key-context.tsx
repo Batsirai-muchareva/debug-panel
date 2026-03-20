@@ -1,5 +1,4 @@
-import React from "react";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import { createContext, useContext } from "@wordpress/element";
 
 const KeyContext = createContext<string | undefined >( undefined );
