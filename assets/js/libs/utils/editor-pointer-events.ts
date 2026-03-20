@@ -1,4 +1,4 @@
-import { bemBlock } from "@app/utils/bem";
+import { bemBlock } from "./bem";
 
 export function editorPointerEvents( disableEvents: boolean ) {
     const elementorPreview = document.getElementById( 'elementor-preview' );

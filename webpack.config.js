@@ -7,7 +7,6 @@ module.exports = {
     entry: {
         main: path.resolve(__dirname, 'assets/js/main.ts'),
         styles: path.resolve(__dirname, 'assets/scss/styles.scss'),
-        'dev-debug': path.resolve(__dirname, 'assets/scss/dev-debug.scss'),
     },
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -17,8 +16,8 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
 
         alias: {
-            '@component': path.resolve(__dirname, 'assets/js/core/components'),
-            '@app': path.resolve(__dirname, 'assets/js/core'),
+            '@component': path.resolve(__dirname, 'assets/js/app/components'),
+            '@app': path.resolve(__dirname, 'assets/js/app'),
             '@libs': path.resolve(__dirname, 'assets/js/libs'),
         }
     },
@@ -43,8 +42,8 @@ module.exports = {
     },
     plugins: [
         ...defaultConfig.plugins,
-        new MiniCssExtractPlugin({
+        new MiniCssExtractPlugin( {
             filename: '[name].css', // Output CSS files
-        }),
+        } ),
     ],
 };

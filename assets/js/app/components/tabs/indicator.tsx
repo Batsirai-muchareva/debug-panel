@@ -1,7 +1,9 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { Box } from "@component/ui/box";
+
+import { useEventBus } from "@libs/events";
+
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { useEventBus } from "@app/events";
+import { Box } from "@component/ui/box";
 
 type Props = {
     tabCount: number;

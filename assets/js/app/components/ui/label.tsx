@@ -1,6 +1,6 @@
 import React from "react";
 
-import { bemBlock } from "@app/utils/bem";
+import { bemBlock } from "@libs/utils";
 
 type Props = {
     text: string;

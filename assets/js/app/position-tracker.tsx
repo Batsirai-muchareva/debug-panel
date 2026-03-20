@@ -1,9 +1,10 @@
 import React from "react";
 import { useCallback, useState } from "react";
-import { useEffect, useRef } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
-import { POSITION_TRACKER_SLOT_ID } from "@component/toggle-button/toggle-button";
+import { useEffect, useRef } from "@wordpress/element";
+
 import { useBounds } from "@app/context/bounds-context";
+import { POSITION_TRACKER_SLOT_ID } from "@component/toggle-button/toggle-button";
 
 export const PositionTracker = () => {
     const [ node, setNode ] = useState<HTMLElement>();

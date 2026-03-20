@@ -1,6 +1,8 @@
-import { Button } from "@component/ui/button";
 import React from "react";
-import { bemBlock } from "@app/utils/bem";
+
+import { bemBlock } from "@libs/utils";
+
+import { Button } from "@component/ui/button";
 
 export const CloseButton = ( { onClick }: { onClick?: () => void } ) => {
     return (

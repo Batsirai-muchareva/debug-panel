@@ -1,6 +1,6 @@
 import React, { CSSProperties, forwardRef, PropsWithChildren } from "react";
 
-import { bemBlock } from "@app/utils/bem";
+import { bemBlock } from "@libs/utils";
 
 type Props = PropsWithChildren & {
     className?: string;

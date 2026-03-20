@@ -1,43 +1,44 @@
 import React, { PropsWithChildren } from "react";
 import { createContext, useContext, useState } from "@wordpress/element";
 
-import { useTabs } from "@app/context/tabs/tabs-context";
+import { store } from "@libs/storage";
+
+type NestedPaths = {
+    [key: string]: string;
+};
 
 type State = {
     path: string;
-    isSearching: boolean;
     setPath: ( newPath: string ) => void;
 };
 
 const PathContext = createContext<State | undefined >( undefined );
 
-export const PathProvider = ( { children }: PropsWithChildren ) => {
-    const [ paths, setPaths ] = useState<Record<string, Record<string, string>>>({});
-    const { activeProvider, activeVariant } = useTabs();
-    const [ isSearching, setIsSearching ] = useState<boolean>( false );
+// TODO key here is confusing lets choose a diff name I could not understand what is key when I came back later it took me time to understand
+// We also need to indicate that path will set path of nested selectors
+export const PathProvider = ( { children, variantId }: PropsWithChildren< { variantId: string; } > ) => {
+    const [ paths, setPaths ] = useState<NestedPaths>( () => {
+        // how times triggered
+        const storedPath = store.getPath()
+
+        if ( storedPath ) {
+            return { [ variantId ]: storedPath }
+        }
+
+        return {};
+    } );
 
     const setPath = ( newPath: string ) => {
-        setIsSearching( true );
+        setPaths( prev => ( { ...prev, [ variantId ]: newPath } ) );
 
-        setPaths( prev  => ( {
-            ...prev,
-            [ activeProvider ]: {
-                ...prev[ activeProvider ],
-                [ activeVariant ]: newPath
-            }
-        } ) );
-
-        setTimeout( () => {
-            setIsSearching( false );
-        }, 2000 )
+        store.setPath( newPath )
     };
 
     return (
         <PathContext.Provider
             value={ {
-                path: paths[ activeProvider ]?.[activeVariant] ?? "",
+                path: paths[ variantId ],
                 setPath,
-                isSearching
             } }
         >
             { children }

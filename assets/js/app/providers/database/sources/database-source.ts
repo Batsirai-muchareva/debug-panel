@@ -1,15 +1,13 @@
-import { wordPressAdapter } from "@app/adapters";
-import { getSettings } from "@app/sync/get-settings";
+import { wordPressAdapter } from "@libs/adapters";
+import { eventBus } from "@libs/events";
+
 import { DatabaseData, SourceConfig } from "@app/providers/database/types";
-import { Unsubscribe } from "@app/types";
-import { eventBus } from "@app/events";
 import { createSource } from "@app/source-manager/create-source";
 
 export const databaseSource = createSource< DatabaseData, SourceConfig >( ( notify, config ) => {
-    let unsubscribePublish: Unsubscribe | null = null;
+    let unsubscribePublish: ( () => void ) | null = null;
     let isFetching = false;
 
-    const { databaseAjaxAction } = getSettings();
     const { metaKey, postId } = config;
 
     const fetchData = async () => {
@@ -22,7 +20,7 @@ export const databaseSource = createSource< DatabaseData, SourceConfig >( ( noti
         isFetching = true;
 
         try {
-            const result = await wordPressAdapter.fetch( databaseAjaxAction, {
+            const result = await wordPressAdapter.fetch( {
                 meta_key: metaKey,
                 post_id: postId,
             } )

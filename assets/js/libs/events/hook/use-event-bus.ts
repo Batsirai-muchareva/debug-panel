@@ -1,4 +1,5 @@
 import { useEffect } from "@wordpress/element";
+
 import { eventBus, EventHandler, EventName } from "../event-bus";
 
 export const useEventBus = <E extends EventName | readonly EventName[]>(

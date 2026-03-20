@@ -1,6 +1,8 @@
-import * as React from "react";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import { createContext, useContext, useState } from "@wordpress/element";
+
+export const MAIN_POPOVER_KEY = 'main-content-popover';
+export const SEARCH_POPOVER_KEY = 'search-popover';
 
 type PopoverState = {
     isOpen: boolean,
@@ -15,9 +17,6 @@ type PopoverContextState = {
     openPopover: ( id: string ) => void;
     closePopover: ( id: string ) => void;
 };
-
-export const MAIN_POPOVER_KEY = 'main-content-popover';
-export const SEARCH_POPOVER_KEY = 'search-popover';
 
 const PopoverContext = createContext<PopoverContextState | undefined>( undefined );
 

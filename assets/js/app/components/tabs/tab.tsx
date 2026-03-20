@@ -1,7 +1,8 @@
 import React from "react";
-import { bemBlock } from "@app/utils/bem";
+
+import { useKey } from "@libs/key-context";
+
 import { Button } from "@component/ui/button";
-import { useKey } from "@app/context/key-context";
 
 export type TabProps = {
     active?: boolean;
@@ -10,16 +11,22 @@ export type TabProps = {
     id: string;
 };
 
-export const Tab = ( { active, label, onClick, id }: TabProps ) => {
+export const Tab = ( { active = false, label, onClick, id }: TabProps ) => {
     const variant = useKey();
 
     if ( ! variant ) {
         throw Error( `Variant is required for ${ id }` );
     }
 
+    const classNames = [ `dp__${variant}` ];
+
+    if ( active ) {
+        classNames.push( 'dp__active' )
+    }
+
     return (
         <Button
-            className={ bemBlock.condElemMod( variant ?? '', 'active', active ?? false ) }
+            className={ classNames.join( ' ' ) }
             onClick={ onClick }
         >
             <p aria-label={ id }>{ label }</p>

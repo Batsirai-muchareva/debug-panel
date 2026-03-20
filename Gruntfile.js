@@ -1,108 +1,88 @@
 module.exports = function (grunt) {
-
-    // Project configuration
-    grunt.initConfig({
-
+    grunt.initConfig( {
         pkg: grunt.file.readJSON('package.json'),
 
         clean: {
-            zip: ['zip-builds']
+            zip: 'zip-builds',
+            dest: 'dest'
+        },
+
+        shell: {
+            npm_install: {
+                command: 'npm install'
+            },
+            npm_build: {
+                command: 'npm run build:production'
+            },
+            npm_production: {
+                command: 'npm ci --omit=dev'
+            }
         },
 
         compress: {
-            main: {
+            zip: {
                 options: {
-                    archive: 'zip-builds/app-build-<%= grunt.template.today("yyyy-mm-dd_HHMMss") %>.zip'
+                    archive: 'zip-builds/dev-debug-tool.zip',
                 },
                 files: [
                     {
                         expand: true,
-                        cwd: '.',
-                        src: [
-                            '**/*',
-                            '!node_modules/**',
-                            '!zip-builds/**'
-                        ],
+                        cwd: 'dest',
+                        src: ['**/*'],
                         dest: '/'
                     }
                 ]
             }
         },
-        // // Clean dist folder
-        // clean: {
-        //     build: ['dist']
-        // },
 
-        // Copy static files (HTML, images, etc.)
         copy: {
-            build: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'src',
-                        src: ['**', '!css/**', '!js/**'],
-                        dest: 'dist'
-                    }
-                ]
-            }
-        },
+            main: {
+                src: [
+                    '**',
+                    '!assets/**',
+                    '!deleted/**',
+                    '!docs/**',
+                    '!node_modules/**',
+                    '!vendor/**',
+                    '!zip-builds/**',
+                    '!dest/**',
 
-        // Minify JS
-        uglify: {
-            build: {
-                files: {
-                    'dist/js/app.min.js': ['src/js/**/*.js']
-                }
-            }
-        },
+                    // ⛔ exclude generated files
+                    '!build/styles.js',
+                    '!build/styles.asset.php',
+                    '!build/styles-rtl.css',
 
-        // Minify CSS
-        cssmin: {
-            build: {
-                files: {
-                    'dist/css/styles.min.css': ['src/css/**/*.css']
-                }
-            }
-        },
-
-        // Watch files for changes (optional)
-        watch: {
-            scripts: {
-                files: ['src/**/*'],
-                tasks: ['build'],
-                options: {
-                    spawn: false
-                }
+                    '!.gitignore',
+                    '!composer.json',
+                    '!composer.lock',
+                    '!Gruntfile.js',
+                    '!package-lock.json',
+                    '!package.json',
+                    '!README.md',
+                    '!tsconfig.json',
+                    '!webpack.config.js',
+                ],
+                expand: true,
+                dest: 'dest/'
             }
         }
+    } );
 
-    });
-
-    // Load plugins
-    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('zip', [
-        'clean:zip',
-        'compress'
-    ]);
+    grunt.registerTask( 'zip', [ 'compress:zip' ]);
 
-    grunt.registerTask('default', ['zip']);
-
-    // Build task
-    // grunt.registerTask('build', [
-    //     'clean',
-    //     'copy',
-    //     'uglify',
-    //     'cssmin'
-    // ]);
-
-    // Default task
-    // grunt.registerTask('default', ['build']);
+    grunt.registerTask( 'build', [
+        'shell:npm_install',
+        'shell:npm_build',
+        'shell:npm_production',
+        'clean',
+        'copy',
+        'zip',
+        'clean:dest',
+        'shell:npm_install',
+    ] );
 };

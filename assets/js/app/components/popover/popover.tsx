@@ -1,7 +1,7 @@
-import React, { forwardRef, PropsWithChildren } from "react";
+import React from "react";
+import { forwardRef, PropsWithChildren } from "react";
 
 import { usePopover } from "@app/context/popover-context";
-
 import { AnchoredLayout } from "@component/popover/layouts/anchored-layout";
 import { FloatingLayout } from "@component/popover/layouts/floating-layout";
 

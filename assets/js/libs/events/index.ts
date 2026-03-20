@@ -1,2 +1,3 @@
-export { useEventBus } from "@app/events/hook/use-event-bus";
-export { eventBus } from "./event-bus";
+export { EventMap } from "./event-map";
+export { useEventBus } from "./hook/use-event-bus";
+export { eventBus, EventName } from "./event-bus";

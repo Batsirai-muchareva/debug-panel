@@ -1,4 +1,6 @@
-const BLOCK_NAME = 'dev';
+const BLOCK_NAME = 'dp';
+
+
 
 const bem = ( block: string ) => {
     const cls = ( ...parts: ( string | false | null | undefined )[] ) =>

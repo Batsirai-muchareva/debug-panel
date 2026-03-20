@@ -1,7 +1,6 @@
-import React, { PropsWithChildren } from "react";
-
-import { bemBlock } from "@app/utils/bem";
+import React from "react";
+import { PropsWithChildren } from "react";
 
 export const PopoverContent = ( { children }: PropsWithChildren ) => {
-    return <div className={ bemBlock.element( 'popover__content' )}>{ children }</div>
+    return <div className="dp__popover__content">{ children }</div>
 }

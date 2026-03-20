@@ -1,8 +1,10 @@
-import { Box } from "@component/ui/box";
-import React, { PropsWithChildren, Children, useMemo, useRef } from "react";
+import React, { Children, PropsWithChildren, useMemo, useRef } from "react";
+
+import { KeyProvider } from "@libs/key-context";
+import { bemBlock } from "@libs/utils";
+
 import { Indicator } from "@component/tabs/indicator";
-import { bemBlock } from "@app/utils/bem";
-import { KeyProvider } from "@app/context/key-context";
+import { Box } from "@component/ui/box";
 
 type Props = PropsWithChildren & {
     type: 'tab' | 'variant';

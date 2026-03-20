@@ -1,9 +1,7 @@
-import { Data } from "@app/types";
+type DataGetter = ( path: string ) => unknown;
 
-type DataGetter = ( path: string ) => Data;
-
-export const createPathValueGetter = ( data: Data ): DataGetter => {
-    return ( path: string ): Data => {
+export const createPathValueGetter = ( data: unknown ): DataGetter => {
+    return ( path: string ): unknown => {
         if ( ! isObject( data ) ) {
             return null;
         }
@@ -23,7 +21,7 @@ export const createPathValueGetter = ( data: Data ): DataGetter => {
                 current = current[ key as keyof typeof current ];
             }
 
-            return current as Data;
+            return current as unknown;
         } catch {
             return null;
         }

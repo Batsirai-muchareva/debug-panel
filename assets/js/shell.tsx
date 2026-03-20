@@ -1,16 +1,16 @@
 import * as React from "react";
-import { MAIN_POPOVER_KEY, usePopover } from "@app/context/popover-context";
-import { TabsProvider } from "@app/context/tabs/tabs-context";
+
+import { PathProvider } from "@libs/path";
+
 import { BrowseProvider } from "@app/context/browse-context";
-import { SuggestionsPopover } from "./popovers/suggestions-popover";
-import { useRef } from "@wordpress/element";
-import { MainPopover } from "./popovers/main/main-popover";
-import { PathProvider } from "@app/context/path-context";
-import { ResolvedDataProvider } from "@app/context/data/resolved-data-context";
+import { FilteredDataProvider } from "@app/context/filtered-data-context";
+import { MAIN_POPOVER_KEY, usePopover } from "@app/context/popover-context";
+import { TabsProvider, useTabs } from "@app/context/tabs/tabs-context";
+
+import { MainPopover } from "./main-popover";
 
 export const Shell = () => {
     const { isOpen: mainPopoverState } = usePopover( MAIN_POPOVER_KEY );
-    const mainPopoverRef = useRef( null );
 
     if ( ! mainPopoverState ) {
         return null;
@@ -18,14 +18,21 @@ export const Shell = () => {
 
     return (
         <TabsProvider>
-            <PathProvider>
-                <BrowseProvider>
-                    <ResolvedDataProvider>
-                        <MainPopover ref={ mainPopoverRef } />
-                        <SuggestionsPopover anchorRef={ mainPopoverRef } />
-                    </ResolvedDataProvider>
-                </BrowseProvider>
-            </PathProvider>
+            <ShellContent />
         </TabsProvider>
+    )
+}
+
+const ShellContent = () => {
+    const { activeVariant } = useTabs();
+
+    return (
+        <PathProvider variantId={ activeVariant }>
+            <FilteredDataProvider>
+                <BrowseProvider>
+                    <MainPopover />
+                </BrowseProvider>
+            </FilteredDataProvider>
+        </PathProvider>
     )
 }

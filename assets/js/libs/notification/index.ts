@@ -1,6 +1,7 @@
-import { eventBus } from "@app/events";
+import { eventBus } from "@libs/events";
+export { Notification } from './notification'
 
-export type NotificationType = 'success' | 'error' | 'info';
+export type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
 export interface INotification {
     id: string;

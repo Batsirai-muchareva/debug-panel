@@ -1,8 +1,10 @@
 import { useRef } from "@wordpress/element";
 
 import { windowAdapter } from "@libs/adapters";
-import { eventBus, EventMap,useEventBus } from "@libs/events";
+import { eventBus, useEventBus } from "@libs/events";
 import { editorPointerEvents } from "@libs/utils";
+
+import { useBounds } from "@app/context/bounds-context";
 
 export function useDraggable() {
     const { position, setPosition } = useBounds();
@@ -34,7 +36,7 @@ export function useDraggable() {
         editorPointerEvents( false );
     };
 
-    const handleDrag = ( e: EventMap['window:mousemove'] ) => {
+    const handleDrag = ( e: { clientX: number; clientY: number; } ) => {
         const state = dragStateRef.current;
 
         if ( ! state.isDragging ) {

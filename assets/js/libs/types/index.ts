@@ -1,4 +1,8 @@
-export type Data = Record<string, unknown> | null;
+type Brand<T, B> = T & { __brand: B };
+
+export type RawData = Brand<Record<string, unknown>, "RawData"> | null;
+export type Data    = Brand<Record<string, unknown>, "Data"> | null;
+
 
 export type Notify<T> = ( data: T | null ) => void;
 

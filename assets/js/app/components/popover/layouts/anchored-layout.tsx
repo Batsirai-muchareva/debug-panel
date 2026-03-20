@@ -1,10 +1,9 @@
-import React, { PropsWithChildren } from "react";
-import { forwardRef } from "react";
+import React from "react";
+import { forwardRef, PropsWithChildren } from "react";
 
 import { useAnchoredPosition } from "@app/hooks/use-anchored-position";
-
-import { Container } from "@component/ui/container";
 import { PopoverProps } from "@component/popover/popover";
+import { Container } from "@component/ui/container";
 
 type Props = PropsWithChildren & {
     anchor?: HTMLElement | null;

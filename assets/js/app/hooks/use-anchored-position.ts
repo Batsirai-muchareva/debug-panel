@@ -1,6 +1,7 @@
-import { useRef } from "@wordpress/element";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { useEventBus } from "@app/events";
+import { useRef } from "@wordpress/element";
+
+import { useEventBus } from "@libs/events";
 
 export const useAnchoredPosition = ( anchor?: HTMLElement | null, width = 300, side = 'left') => {
     const [ position, setPosition ] = useState( { top: 0, left: 0 } );

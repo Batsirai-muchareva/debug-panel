@@ -1,4 +1,4 @@
-import { Provider, Variant } from "@app/types";
+import { Provider, Variant } from "@libs/types";
 
 export type VariantTab = Pick<Variant, 'id' | 'label'>;
 

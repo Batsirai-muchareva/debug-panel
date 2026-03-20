@@ -18,7 +18,7 @@ import { Flex } from "@component/ui/flex";
 import { Label } from "@component/ui/label";
 import { Padding } from "@component/ui/padding";
 
-import { Panel } from "../panel";
+import { Panel } from "./panel";
 
 const variantSlotFillName = ( name: string ) => `${ name }-variant`;
 

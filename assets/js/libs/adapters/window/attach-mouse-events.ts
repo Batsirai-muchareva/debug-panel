@@ -1,4 +1,4 @@
-import { eventBus } from "@app/events";
+import { eventBus } from "@libs/events";
 
 export const attachMouseEvents = () => {
     const onMouseMove = ( event: MouseEvent ) => {

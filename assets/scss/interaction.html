@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTION — Animation Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+      --bg: #060608;
+      --fg: #f0ede6;
+      --accent: #ff3c2e;
+      --accent2: #ffe14d;
+      --accent3: #4dffcb;
+      --muted: #2a2a30;
+      --card-bg: #0f0f14;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: crosshair;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 2rem;
+      overflow: hidden;
+  }
+
+  .hero-bg-circle {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff3c2e18 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-glow 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+      0%  { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+      100%{ opacity: 1;   transform: translate(-50%, -50%) scale(1.2); }
+  }
+
+  .hero-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      animation: fade-up 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 0.2s;
+  }
+
+  .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 18vw, 16rem);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+  }
+
+  .hero-title span {
+      display: block;
+      animation: fade-up 0.8s ease forwards;
+      opacity: 0;
+  }
+
+  .hero-title span:nth-child(1) { animation-delay: 0.4s; color: var(--fg); }
+  .hero-title span:nth-child(2) { animation-delay: 0.6s; color: var(--accent); -webkit-text-stroke: 2px var(--accent); color: transparent; }
+  .hero-title span:nth-child(3) { animation-delay: 0.8s; color: var(--fg); }
+
+  @keyframes fade-up {
+      0%  { opacity: 0; transform: translateY(40px); }
+      100%{ opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-sub {
+      margin-top: 2.5rem;
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: #888;
+      animation: fade-up 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 1s;
+  }
+
+  .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #444;
+      animation: fade-up 1s ease forwards;
+      opacity: 0;
+      animation-delay: 1.4s;
+  }
+
+  .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, #444, transparent);
+      animation: scroll-drop 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scroll-drop {
+      0%  { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      100%{ transform: scaleY(1); transform-origin: top; opacity: 1; }
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section {
+      padding: 8rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+  }
+
+  .section-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+  }
+
+  .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 1;
+      margin-bottom: 4rem;
+      color: var(--fg);
+  }
+
+  /* ─── CARDS GRID ─── */
+  .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5px;
+  }
+
+  .card {
+      background: var(--card-bg);
+      border: 1px solid #1a1a20;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      transition: border-color 0.3s;
+  }
+
+  .card:hover { border-color: #333; }
+
+  .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 60%, #ffffff04);
+      pointer-events: none;
+  }
+
+  .card-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: #333;
+  }
+
+  .card-demo {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+  }
+
+  .card-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      color: var(--fg);
+  }
+
+  .card-desc {
+      font-size: 0.8rem;
+      color: #555;
+      font-style: italic;
+      line-height: 1.7;
+  }
+
+  .card-tag {
+      align-self: flex-start;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid #2a2a30;
+      color: #444;
+  }
+
+  /* ─── 1. OPACITY ─── */
+  .demo-opacity .shape {
+      width: 80px; height: 80px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: anim-opacity 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes anim-opacity {
+      0%  { opacity: 0; }
+      100%{ opacity: 1; }
+  }
+
+  /* ─── 2. SCALE ─── */
+  .demo-scale .shape {
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, var(--accent2), #ff8c00);
+      animation: anim-scale 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes anim-scale {
+      0%  { transform: scale(0.1); }
+      100%{ transform: scale(1.4); }
+  }
+
+  /* ─── 3. MOVE (translate) ─── */
+  .demo-move {
+      overflow: hidden;
+  }
+
+  .demo-move .shape {
+      width: 16px; height: 60px;
+      background: var(--accent3);
+      border-radius: 8px;
+      animation: anim-move 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes anim-move {
+      0%  { transform: translateX(-80px); }
+      100%{ transform: translateX(80px); }
+  }
+
+  /* ─── 4. ROTATE ─── */
+  .demo-rotate .shape {
+      width: 70px; height: 70px;
+      border: 3px solid var(--accent);
+      position: relative;
+      animation: anim-rotate 3s linear infinite;
+  }
+
+  .demo-rotate .shape::after {
+      content: '';
+      position: absolute;
+      top: -8px; right: -8px;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+  }
+
+  @keyframes anim-rotate {
+      0%  { transform: rotate(0deg); }
+      100%{ transform: rotate(360deg); }
+  }
+
+  /* ─── 5. SKEW ─── */
+  .demo-skew .shape {
+      width: 80px; height: 50px;
+      background: linear-gradient(90deg, #7b2fff, var(--accent));
+      animation: anim-skew 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes anim-skew {
+      0%  { transform: skewX(-30deg) skewY(-5deg); }
+      100%{ transform: skewX(30deg)  skewY(5deg); }
+  }
+
+  /* ─── 6. COMBINED ─── */
+  .demo-combined .shape {
+      width: 60px; height: 60px;
+      background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
+      border-radius: 12px;
+      animation: anim-combined 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes anim-combined {
+      0%  { transform: translateY(40px) rotate(0deg)   scale(0.5) skewX(0deg);  opacity: 0.2; }
+      100%{ transform: translateY(-40px) rotate(180deg) scale(1.2) skewX(15deg); opacity: 1; }
+  }
+
+  /* ─── MARQUEE STRIP ─── */
+  .marquee-wrap {
+      border-top: 1px solid #1a1a20;
+      border-bottom: 1px solid #1a1a20;
+      overflow: hidden;
+      padding: 1.2rem 0;
+      background: var(--card-bg);
+  }
+
+  .marquee-inner {
+      display: flex;
+      gap: 3rem;
+      width: max-content;
+      animation: marquee 14s linear infinite;
+      white-space: nowrap;
+  }
+
+  .marquee-inner span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      color: #2a2a30;
+  }
+
+  .marquee-inner span.highlight { color: var(--accent); }
+
+  @keyframes marquee {
+      0%  { transform: translateX(0); }
+      100%{ transform: translateX(-50%); }
+  }
+
+  /* ─── CODE STRIP ─── */
+  .code-section {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 4rem 2rem 8rem;
+  }
+
+  .code-block {
+      background: #0a0a0d;
+      border: 1px solid #1a1a20;
+      padding: 2.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: #555;
+      overflow-x: auto;
+  }
+
+  .code-block .kw { color: var(--accent); }
+  .code-block .val { color: var(--accent2); }
+  .code-block .prop { color: var(--accent3); }
+  .code-block .comment { color: #333; font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  footer {
+      border-top: 1px solid #1a1a20;
+      padding: 3rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1300px;
+      margin: 0 auto;
+  }
+
+  footer .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      color: var(--fg);
+  }
+
+  footer .note {
+      font-size: 0.7rem;
+      color: #333;
+      letter-spacing: 0.15em;
+  }
+
+  /* ─── BIG TEXT RULE ─── */
+  .big-rule {
+      border: none;
+      border-top: 1px solid #1a1a20;
+      margin: 0;
+  }
+
+  /* ─── FLOATING PARTICLES ─── */
+  .particle {
+      position: fixed;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 0;
+  }
+
+  .p1 { top: 20%; left: 10%; animation: float1 6s ease-in-out infinite alternate; opacity: 0.4; }
+  .p2 { top: 70%; left: 85%; animation: float2 8s ease-in-out infinite alternate; opacity: 0.3; width: 3px; height: 3px; background: var(--accent2); }
+  .p3 { top: 40%; left: 92%; animation: float1 5s ease-in-out infinite alternate; opacity: 0.25; background: var(--accent3); }
+  .p4 { top: 85%; left: 20%; animation: float2 7s ease-in-out infinite alternate; opacity: 0.35; }
+
+  @keyframes float1 {
+      0%  { transform: translateY(0px) translateX(0px); opacity: 0; }
+      100%{ transform: translateY(-60px) translateX(30px); opacity: 0.6; }
+  }
+  @keyframes float2 {
+      0%  { transform: translateY(0px) translateX(0px); opacity: 0; }
+      100%{ transform: translateY(50px) translateX(-40px); opacity: 0.5; }
+  }
+
+  /* ─── FEATURE ROW ─── */
+  .feature-row {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      padding: 5rem 0;
+      border-bottom: 1px solid #1a1a20;
+  }
+
+  .feature-row:last-child { border-bottom: none; }
+
+  .feature-row .big-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      line-height: 1;
+      color: #111;
+      min-width: 140px;
+      text-align: right;
+  }
+
+  .feature-row .content { flex: 1; }
+  .feature-row .content h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+  }
+  .feature-row .content p { color: #555; font-size: 0.85rem; line-height: 1.8; max-width: 480px; }
+
+  .feature-row .demo-area {
+      min-width: 200px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #1a1a20;
+      background: var(--card-bg);
+  }
+
+  @media (max-width: 700px) {
+      .feature-row { flex-direction: column; gap: 2rem; }
+      .feature-row .big-num { font-size: 4rem; min-width: auto; text-align: left; }
+      footer { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particle p1"></div>
+<div class="particle p2"></div>
+<div class="particle p3"></div>
+<div class="particle p4"></div>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-bg-circle"></div>
+  <p class="hero-label">CSS Animation Primitives</p>
+  <h1 class="hero-title">
+    <span>THE</span>
+    <span>MOTION</span>
+    <span>BIBLE</span>
+  </h1>
+  <p class="hero-sub">Six fundamental animations — pure CSS — only two keyframe stops.</p>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="highlight">OPACITY</span>
+    <span>—</span>
+    <span>SCALE</span>
+    <span>—</span>
+    <span class="highlight">TRANSLATE</span>
+    <span>—</span>
+    <span>ROTATE</span>
+    <span>—</span>
+    <span class="highlight">SKEW</span>
+    <span>—</span>
+    <span>COMBINED</span>
+    <span>—</span>
+    <span class="highlight">OPACITY</span>
+    <span>—</span>
+    <span>SCALE</span>
+    <span>—</span>
+    <span class="highlight">TRANSLATE</span>
+    <span>—</span>
+    <span>ROTATE</span>
+    <span>—</span>
+    <span class="highlight">SKEW</span>
+    <span>—</span>
+    <span>COMBINED</span>
+    <span>—</span>
+  </div>
+</div>
+
+<!-- ─── CARDS ─── -->
+<section>
+  <p class="section-eyebrow">Animation Showcase</p>
+  <h2 class="section-title">Pure CSS<br>In Motion</h2>
+
+  <div class="cards-grid">
+
+    <!-- 1. Opacity -->
+    <div class="card">
+      <span class="card-number">01 / 06</span>
+      <div class="card-demo demo-opacity">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Opacity</div>
+        <p class="card-desc">Visibility transitions from fully transparent to fully opaque. The simplest, most universal fade.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+    <!-- 2. Scale -->
+    <div class="card">
+      <span class="card-number">02 / 06</span>
+      <div class="card-demo demo-scale">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Scale</div>
+        <p class="card-desc">Uniform growth from near-zero to oversized, creating depth and emphasis through size change.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+    <!-- 3. Move -->
+    <div class="card">
+      <span class="card-number">03 / 06</span>
+      <div class="card-demo demo-move">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Move</div>
+        <p class="card-desc">Horizontal translation sweeping the element across its container. Pure spatial displacement.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+    <!-- 4. Rotate -->
+    <div class="card">
+      <span class="card-number">04 / 06</span>
+      <div class="card-demo demo-rotate">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Rotate</div>
+        <p class="card-desc">A full 360° orbit. The most iconic CSS animation — endlessly looping circular motion.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+    <!-- 5. Skew -->
+    <div class="card">
+      <span class="card-number">05 / 06</span>
+      <div class="card-demo demo-skew">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Skew</div>
+        <p class="card-desc">Shearing transformation warping the element's geometry — the most dynamic of the CSS primitives.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+    <!-- 6. Combined -->
+    <div class="card">
+      <span class="card-number">06 / 06</span>
+      <div class="card-demo demo-combined">
+        <div class="shape"></div>
+      </div>
+      <div>
+        <div class="card-label">Combined</div>
+        <p class="card-desc">All five primitives composited: translate, rotate, scale, skew, and opacity working in unison.</p>
+      </div>
+      <span class="card-tag">0% → 100%</span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="big-rule">
+
+<!-- ─── FEATURE ROWS ─── -->
+<section>
+  <p class="section-eyebrow">Deep Dive</p>
+  <h2 class="section-title">Behind the<br>Keyframes</h2>
+
+    <!-- Opacity feature row -->
+  <div class="feature-row">
+    <div class="big-num">01</div>
+    <div class="content">
+      <h3>Opacity</h3>
+      <p>The most fundamental visibility control in CSS. Animating opacity alone triggers the GPU compositor layer, making it one of the most performant animations available.</p>
+    </div>
+    <div class="demo-area">
+      <div style="width:60px;height:60px;background:var(--accent);border-radius:50%;animation:anim-opacity 2.5s ease-in-out infinite alternate;"></div>
+    </div>
+  </div>
+
+    <!-- Scale feature row -->
+  <div class="feature-row">
+    <div class="big-num">02</div>
+    <div class="content">
+      <h3>Scale</h3>
+      <p>Scale transforms affect perceived depth and hierarchy. Combined with transform-origin, they produce natural growth from any anchor point on the element.</p>
+    </div>
+    <div class="demo-area">
+      <div style="width:50px;height:50px;background:var(--accent2);animation:anim-scale 2s ease-in-out infinite alternate;"></div>
+    </div>
+  </div>
+
+    <!-- Move feature row -->
+  <div class="feature-row">
+    <div class="big-num">03</div>
+    <div class="content">
+      <h3>Move</h3>
+      <p>Translate moves elements without disturbing document flow — the other elements stay in place. It's why translate is preferred over top/left for animation.</p>
+    </div>
+    <div class="demo-area" style="overflow:hidden;">
+      <div style="width:12px;height:50px;background:var(--accent3);border-radius:6px;animation:anim-move 2s ease-in-out infinite alternate;"></div>
+    </div>
+  </div>
+
+    <!-- Rotate feature row -->
+  <div class="feature-row">
+    <div class="big-num">04</div>
+    <div class="content">
+      <h3>Rotate</h3>
+      <p>Continuous rotation with <code style="color:var(--accent3);font-size:0.8em">linear</code> timing feels mechanical and intentional. Pair with <code style="color:var(--accent3);font-size:0.8em">ease-in-out</code> for organic oscillation.</p>
+    </div>
+    <div class="demo-area">
+      <div style="width:50px;height:50px;border:2px solid var(--accent);position:relative;animation:anim-rotate 3s linear infinite;">
+        <div style="position:absolute;top:-6px;right:-6px;width:10px;height:10px;background:var(--accent);border-radius:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Skew feature row -->
+  <div class="feature-row">
+    <div class="big-num">05</div>
+    <div class="content">
+      <h3>Skew</h3>
+      <p>Skewing shears the coordinate system of the element. It's rarely used in production, which makes it feel fresh and editorial — perfect for expressive brand motion.</p>
+    </div>
+    <div class="demo-area">
+      <div style="width:60px;height:40px;background:linear-gradient(90deg,#7b2fff,var(--accent));animation:anim-skew 2.5s ease-in-out infinite alternate;"></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ─── CODE EXAMPLE ─── -->
+<div class="code-section">
+  <p class="section-eyebrow">The Rule</p>
+  <h2 class="section-title" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,5rem);margin-bottom:2rem;">Two stops.<br>Zero compromise.</h2>
+  <div class="code-block">
+<span class="comment">/* Only two keyframe stops — 0% and 100% */</span>
+
+<span class="kw">@keyframes</span> anim-opacity {
+  <span class="prop">0%</span>   { <span class="kw">opacity</span>: <span class="val">0</span>; }
+  <span class="prop">100%</span> { <span class="kw">opacity</span>: <span class="val">1</span>; }
+}
+
+<span class="kw">@keyframes</span> anim-scale {
+  <span class="prop">0%</span>   { <span class="kw">transform</span>: <span class="val">scale(0.1)</span>; }
+  <span class="prop">100%</span> { <span class="kw">transform</span>: <span class="val">scale(1.4)</span>; }
+}
+
+<span class="kw">@keyframes</span> anim-move {
+  <span class="prop">0%</span>   { <span class="kw">transform</span>: <span class="val">translateX(-80px)</span>; }
+  <span class="prop">100%</span> { <span class="kw">transform</span>: <span class="val">translateX(80px)</span>; }
+}
+
+<span class="kw">@keyframes</span> anim-rotate {
+  <span class="prop">0%</span>   { <span class="kw">transform</span>: <span class="val">rotate(0deg)</span>; }
+  <span class="prop">100%</span> { <span class="kw">transform</span>: <span class="val">rotate(360deg)</span>; }
+}
+
+<span class="kw">@keyframes</span> anim-skew {
+  <span class="prop">0%</span>   { <span class="kw">transform</span>: <span class="val">skewX(-30deg) skewY(-5deg)</span>; }
+  <span class="prop">100%</span> { <span class="kw">transform</span>: <span class="val">skewX(30deg) skewY(5deg)</span>; }
+}
+
+<span class="kw">@keyframes</span> anim-combined {
+  <span class="prop">0%</span>   { <span class="kw">transform</span>: <span class="val">translateY(40px) rotate(0deg) scale(0.5) skewX(0deg)</span>; <span class="kw">opacity</span>: <span class="val">0.2</span>; }
+  <span class="prop">100%</span> { <span class="kw">transform</span>: <span class="val">translateY(-40px) rotate(180deg) scale(1.2) skewX(15deg)</span>; <span class="kw">opacity</span>: <span class="val">1</span>; }
+}
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<hr class="big-rule">
+<footer>
+  <div class="logo">Motion</div>
+  <div class="note">CSS Animation Primitives &mdash; Two Stops Only</div>
+</footer>
+
+</body>
+</html>

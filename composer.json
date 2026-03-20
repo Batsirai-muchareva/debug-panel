@@ -7,5 +7,7 @@
       "DevDebugTool\\": "src/"
     }
   },
-  "require": {}
+  "require": {
+    "spatie/ray": "^1.45"
+  }
 }

@@ -31,6 +31,7 @@
   }
 
   &__content {
+    position: relative;
     display: flex; // Add this
     flex-direction: column; // Add this
     //height: calc(100% - 50px); // Adjust based on your header height

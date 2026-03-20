@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toolbar Search</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+      background: #111d1d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      padding: 40px 24px;
+  }
+
+  .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3a6060;
+      margin-bottom: 12px;
+  }
+  .note {
+      font-size: 12px;
+      color: #3a6060;
+      margin-top: 10px;
+      text-align: center;
+      max-width: 460px;
+      line-height: 1.6;
+  }
+  .note strong { color: #5a9a8a; }
+
+  .modal {
+      background: #0f1e1e;
+      border: 1px solid #1e3535;
+      border-radius: 16px;
+      width: 460px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+  .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 18px;
+      border-bottom: 1px solid #1e3535;
+  }
+  .modal-title {
+      font-size: 13px; font-weight: 600;
+      color: #7ab8a8;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+  }
+  .close-btn {
+      background: none; border: none;
+      color: #4a7a6a; cursor: pointer;
+      font-size: 17px; padding: 2px 6px;
+      border-radius: 6px;
+  }
+
+  /* Tabs */
+  .nav {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid #1e3535;
+  }
+  .tabs { display: flex; flex: 1; }
+  .tab {
+      padding: 10px 15px;
+      font-size: 13px; font-weight: 500;
+      color: #4a7a6a; cursor: pointer;
+      border: none; background: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.15s;
+  }
+  .tab.active { color: #eee; border-bottom-color: #7ab8a8; background: rgba(122,184,168,0.04); }
+  .tab:hover:not(.active) { color: #7ab8a8; }
+  .nav-right {
+      display: flex; align-items: center;
+      padding: 0 10px; gap: 2px;
+      border-left: 1px solid #1e3535;
+  }
+  .sub-pill {
+      padding: 3px 9px; border-radius: 5px;
+      font-size: 11.5px; font-weight: 500;
+      color: #4a7a6a; cursor: pointer;
+      border: none; background: none;
+      transition: all 0.15s;
+  }
+  .sub-pill.active { background: #1e3535; color: #eee; }
+  .sub-pill:hover:not(.active) { color: #7ab8a8; }
+
+  /* ── Toolbar ── */
+  .toolbar {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      background: #0d1a1a;
+      border-bottom: 1px solid #1e3535;
+      gap: 4px;
+      min-height: 38px;
+  }
+  .tool-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 9px; border-radius: 6px;
+      font-size: 11.5px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: 1px solid transparent;
+      background: transparent; color: #4a7a6a;
+      transition: all 0.15s; white-space: nowrap;
+      flex-shrink: 0;
+  }
+  .tool-btn:hover { background: #1e3535; color: #ccc; border-color: #2a4545; }
+  .tool-btn.active { background: #1e3535; color: #e5c47a; border-color: #3a5545; }
+  .tool-btn.confirm { color: #5ecfa0; border-color: #5ecfa044; }
+  .tool-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .tool-btn.icon-only { padding: 5px 6px; }
+
+  .toolbar-divider { width: 1px; height: 16px; background: #1e3535; margin: 0 2px; flex-shrink: 0; }
+  .toolbar-spacer { flex: 1; }
+
+  /* ── Search variants ── */
+
+  /* VARIANT A: icon expands inline, pushes other tools left */
+  .search-wrap-a {
+      display: flex;
+      align-items: center;
+      position: relative;
+  }
+  .search-trigger {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 9px; border-radius: 6px;
+      font-size: 11.5px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: 1px solid transparent;
+      background: transparent; color: #4a7a6a;
+      transition: all 0.15s;
+  }
+  .search-trigger:hover { background: #1e3535; color: #ccc; border-color: #2a4545; }
+  .search-trigger svg { width: 13px; height: 13px; }
+
+  .search-input-wrap {
+      display: flex; align-items: center;
+      overflow: hidden;
+      width: 0;
+      opacity: 0;
+      transition: width 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.18s;
+  }
+  .search-input-wrap.open {
+      width: 150px;
+      opacity: 1;
+  }
+  .search-input {
+      width: 100%;
+      background: #1a2e2e;
+      border: 1px solid #2a4545;
+      border-radius: 6px;
+      padding: 4px 28px 4px 9px;
+      font-size: 11.5px;
+      font-family: 'DM Sans', sans-serif;
+      color: #eee;
+      outline: none;
+      transition: border-color 0.15s;
+  }
+  .search-input::placeholder { color: #3a6060; }
+  .search-input:focus { border-color: #7ab8a8; }
+  .search-clear {
+      position: absolute;
+      right: 6px;
+      background: none; border: none;
+      color: #4a7a6a; cursor: pointer;
+      font-size: 13px; padding: 2px;
+      display: none;
+      line-height: 1;
+  }
+  .search-clear.visible { display: block; }
+  .search-clear:hover { color: #ccc; }
+
+  /* match highlight in code */
+  .match { background: rgba(229,196,122,0.25); border-radius: 2px; color: #e5c47a; }
+  .match.current { background: rgba(229,196,122,0.5); }
+
+  /* VARIANT B: search expands to full toolbar width, hides other tools */
+  .toolbar-b-default { display: flex; align-items: center; gap: 4px; width: 100%; }
+  .toolbar-b-search {
+      display: flex; align-items: center; gap: 6px;
+      width: 100%;
+      animation: slideIn 0.18s ease;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(6px); } to { opacity: 1; transform: none; } }
+  .toolbar-b-search.hidden { display: none; }
+  .toolbar-b-default.hidden { display: none; }
+
+  .search-input-full {
+      flex: 1;
+      background: #1a2e2e;
+      border: 1px solid #2a4545;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      color: #eee;
+      outline: none;
+  }
+  .search-input-full::placeholder { color: #3a6060; }
+  .search-input-full:focus { border-color: #7ab8a8; }
+  .search-meta {
+      font-size: 11px; color: #4a7a6a;
+      white-space: nowrap; flex-shrink: 0;
+  }
+  .search-meta.has-results { color: #7ab8a8; }
+
+  /* code */
+  .code-block {
+      background: #0a1515;
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.75;
+      overflow-y: auto;
+      max-height: 300px;
+  }
+  .code-block::-webkit-scrollbar { width: 6px; }
+  .code-block::-webkit-scrollbar-thumb { background: #1e3535; border-radius: 3px; }
+  .line { display: block; white-space: pre; padding: 0 2px; border-radius: 3px; }
+  .line.dim { opacity: 0.3; transition: opacity 0.15s; }
+  .indent-1 { padding-left: 16px; }
+  .t-key { color: #61afef; }
+  .t-str { color: #e06c75; }
+  .t-bool { color: #c678dd; }
+  .t-num { color: #d19a66; }
+  .t-brace { color: #e5c07b; }
+  .t-arrow { color: #abb2bf; }
+</style>
+</head>
+<body>
+
+<!-- ══ VARIANT A: Inline expanding search ══ -->
+<div>
+  <div class="label">Variant A — Inline expand, other tools stay visible</div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Dev Debug</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="nav">
+      <div class="tabs">
+        <button class="tab active">Editor</button>
+        <button class="tab">Database</button>
+        <button class="tab">Schema</button>
+      </div>
+      <div class="nav-right">
+        <button class="sub-pill active">Local</button>
+        <button class="sub-pill">Classes</button>
+      </div>
+    </div>
+
+    <div class="toolbar" id="toolbarA">
+      <!-- left tools -->
+      <button class="tool-btn" id="highlightA">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Highlight
+      </button>
+      <button class="tool-btn" id="collapseA">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+        Collapse
+      </button>
+
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-spacer"></div>
+
+      <!-- Search — expands inline -->
+      <div class="search-wrap-a" id="searchWrapA">
+        <div class="search-input-wrap" id="searchInputWrapA">
+          <input class="search-input" id="searchInputA" placeholder="Search…" oninput="doSearchA(this.value)" />
+          <button class="search-clear" id="searchClearA" onclick="clearSearchA()">✕</button>
+        </div>
+        <button class="search-trigger" id="searchTriggerA" onclick="toggleSearchA()" title="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- right tools -->
+      <button class="tool-btn" id="copyA" onclick="handleCopy('copyA', 'copyLabelA')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span id="copyLabelA">Copy</span>
+      </button>
+      <button class="tool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+
+    <div class="code-block" id="codeA">
+      <span class="line"><span class="t-brace">{</span></span>
+      <span class="line indent-1"><span class="t-key">"id"</span><span class="t-arrow">: </span><span class="t-str">"fdafb88"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"elType"</span><span class="t-arrow">: </span><span class="t-str">"widget"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"isInner"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+      <span class="line indent-1"><span class="t-key">"isLocked"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+      <span class="line indent-1"><span class="t-key">"widgetType"</span><span class="t-arrow">: </span><span class="t-str">"e-heading"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"version"</span><span class="t-arrow">: </span><span class="t-num">3</span></span>
+      <span class="line"><span class="t-brace">}</span></span>
+    </div>
+  </div>
+  <div class="note">Search icon sits on the right of the toolbar. Click to expand an input <strong>inline</strong> — other tools stay visible and shift left. Clean, minimal footprint. Best when you have few toolbar items.</div>
+</div>
+
+<!-- ══ VARIANT B: Full toolbar takeover ══ -->
+<div>
+  <div class="label">Variant B — Full toolbar takeover</div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Dev Debug</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="nav">
+      <div class="tabs">
+        <button class="tab active">Editor</button>
+        <button class="tab">Database</button>
+        <button class="tab">Schema</button>
+      </div>
+      <div class="nav-right">
+        <button class="sub-pill active">Local</button>
+        <button class="sub-pill">Classes</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <!-- Default toolbar state -->
+      <div class="toolbar-b-default" id="toolbarBDefault">
+        <button class="tool-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Highlight
+        </button>
+        <button class="tool-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+          Collapse
+        </button>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-spacer"></div>
+        <button class="tool-btn" onclick="openSearchB()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+        <div class="toolbar-divider"></div>
+        <button class="tool-btn" onclick="handleCopy('copyB', 'copyLabelB')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="copyLabelB">Copy</span>
+        </button>
+        <button class="tool-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+      </div>
+
+      <!-- Search active state — takes over full toolbar -->
+      <div class="toolbar-b-search hidden" id="toolbarBSearch">
+        <button class="tool-btn icon-only" onclick="closeSearchB()" title="Close search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <input class="search-input-full" id="searchInputB" placeholder="Search in editor…" oninput="doSearchB(this.value)" autofocus />
+        <span class="search-meta" id="searchMetaB">Type to search</span>
+        <button class="tool-btn icon-only" id="searchClearB" onclick="clearSearchB()" style="display:none" title="Clear">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="code-block" id="codeB">
+      <span class="line"><span class="t-brace">{</span></span>
+      <span class="line indent-1"><span class="t-key">"id"</span><span class="t-arrow">: </span><span class="t-str">"fdafb88"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"elType"</span><span class="t-arrow">: </span><span class="t-str">"widget"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"isInner"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+      <span class="line indent-1"><span class="t-key">"isLocked"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+      <span class="line indent-1"><span class="t-key">"widgetType"</span><span class="t-arrow">: </span><span class="t-str">"e-heading"</span>,</span>
+      <span class="line indent-1"><span class="t-key">"version"</span><span class="t-arrow">: </span><span class="t-num">3</span></span>
+      <span class="line"><span class="t-brace">}</span></span>
+    </div>
+  </div>
+  <div class="note">Clicking Search <strong>replaces the entire toolbar</strong> with a full-width input + match count + back arrow. Maximum focus, no distractions. Best when search is a primary action or toolbar is crowded.</div>
+</div>
+
+<script>
+  // ── Variant A ──
+  let searchAOpen = false;
+
+  function toggleSearchA() {
+      searchAOpen = !searchAOpen;
+      const wrap = document.getElementById('searchInputWrapA');
+      wrap.classList.toggle('open', searchAOpen);
+      if (searchAOpen) {
+          setTimeout(() => document.getElementById('searchInputA').focus(), 220);
+      } else {
+          clearSearchA();
+      }
+  }
+
+  function clearSearchA() {
+      const input = document.getElementById('searchInputA');
+      input.value = '';
+      doSearchA('');
+      document.getElementById('searchClearA').classList.remove('visible');
+  }
+
+  function doSearchA(val) {
+      document.getElementById('searchClearA').classList.toggle('visible', val.length > 0);
+      highlightMatches('codeA', val);
+  }
+
+  // ── Variant B ──
+  function openSearchB() {
+      document.getElementById('toolbarBDefault').classList.add('hidden');
+      document.getElementById('toolbarBSearch').classList.remove('hidden');
+      setTimeout(() => document.getElementById('searchInputB').focus(), 50);
+  }
+
+  function closeSearchB() {
+      document.getElementById('toolbarBDefault').classList.remove('hidden');
+      document.getElementById('toolbarBSearch').classList.add('hidden');
+      clearSearchB();
+  }
+
+  function clearSearchB() {
+      document.getElementById('searchInputB').value = '';
+      doSearchB('');
+      document.getElementById('searchClearB').style.display = 'none';
+  }
+
+  function doSearchB(val) {
+      document.getElementById('searchClearB').style.display = val ? 'flex' : 'none';
+      const count = highlightMatches('codeB', val);
+      const meta = document.getElementById('searchMetaB');
+      if (!val) { meta.textContent = 'Type to search'; meta.classList.remove('has-results'); }
+      else if (count === 0) { meta.textContent = 'No matches'; meta.classList.remove('has-results'); }
+      else { meta.textContent = `${count} match${count !== 1 ? 'es' : ''}`; meta.classList.add('has-results'); }
+  }
+
+  // ── Shared: highlight matches in code block ──
+  function highlightMatches(blockId, query) {
+      const block = document.getElementById(blockId);
+      const lines = block.querySelectorAll('.line');
+      let total = 0;
+
+      lines.forEach(line => {
+          // restore original text by stripping match spans
+          line.querySelectorAll('.match').forEach(m => {
+              m.replaceWith(document.createTextNode(m.textContent));
+          });
+          // normalize text nodes
+          line.normalize();
+
+          if (!query) {
+              line.classList.remove('dim');
+              return;
+          }
+
+          const text = line.textContent;
+          const lower = text.toLowerCase();
+          const q = query.toLowerCase();
+          let count = 0;
+          let idx = lower.indexOf(q);
+          while (idx !== -1) { count++; idx = lower.indexOf(q, idx + 1); }
+          total += count;
+
+          line.classList.toggle('dim', count === 0);
+
+          // wrap matches in spans — walk text nodes
+          if (count > 0) {
+              wrapTextMatches(line, query);
+          }
+      });
+
+      return total;
+  }
+
+  function wrapTextMatches(node, query) {
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      const textNodes = [];
+      let n;
+      while ((n = walker.nextNode())) textNodes.push(n);
+
+      textNodes.forEach(tn => {
+          const lower = tn.textContent.toLowerCase();
+          const q = query.toLowerCase();
+          if (!lower.includes(q)) return;
+
+          const frag = document.createDocumentFragment();
+          let last = 0, idx;
+          while ((idx = lower.indexOf(q, last)) !== -1) {
+              if (idx > last) frag.appendChild(document.createTextNode(tn.textContent.slice(last, idx)));
+              const mark = document.createElement('span');
+              mark.className = 'match';
+              mark.textContent = tn.textContent.slice(idx, idx + query.length);
+              frag.appendChild(mark);
+              last = idx + query.length;
+          }
+          if (last < tn.textContent.length) frag.appendChild(document.createTextNode(tn.textContent.slice(last)));
+          tn.replaceWith(frag);
+      });
+  }
+
+  // ── Copy ──
+  function handleCopy(btnId, labelId) {
+      const btn = document.getElementById(btnId);
+      const lbl = document.getElementById(labelId);
+      btn.classList.add('confirm');
+      lbl.textContent = 'Copied!';
+      setTimeout(() => { btn.classList.remove('confirm'); lbl.textContent = 'Copy'; }, 1800);
+  }
+
+  // close search on Escape
+  document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+          if (searchAOpen) toggleSearchA();
+          if (!document.getElementById('toolbarBSearch').classList.contains('hidden')) closeSearchB();
+      }
+  });
+</script>
+</body>
+</html>

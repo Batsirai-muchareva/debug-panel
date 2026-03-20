@@ -1,15 +1,15 @@
-import { getElementorCommands } from "@app/adapters/elementor/sync/get-elementor-commands";
-import { ElementData, getSelectedElement, StyleDefinition } from "@app/adapters/elementor/sync/get-selected-element";
-import { getPostId } from "@app/adapters/elementor/sync/post-id";
-import {
-    createElementEventSubscriber,
-} from "@app/adapters/elementor/marionette-element/create-element-event-subscriber";
-import { dataExtractor } from "@app/adapters/elementor/marionette-element/data-extractor";
-import { getUsedGlobalClassesSnapshot } from "@app/adapters/elementor/get-used-global-classes-snapshot";
-import { eventBus } from "@app/events";
-import { getInteractionsSchema } from "@app/adapters/elementor/sync/get-interactions-schema";
-import { getAtomicElementsSchema } from "@app/adapters/elementor/sync/get-atomic-elements-schema";
-import { getAtomicStyleSchema } from "@app/adapters/elementor/sync/get-atomic-style-schema";
+import { eventBus } from "@libs/events";
+
+import { getUsedGlobalClassesSnapshot } from "./get-used-global-classes-snapshot";
+import { createElementEventSubscriber } from "./marionette-element/create-element-event-subscriber";
+import { dataExtractor } from "./marionette-element/data-extractor";
+import { getAtomicElementsSchema } from "./sync/get-atomic-elements-schema";
+import { getAtomicStyleSchema } from "./sync/get-atomic-style-schema";
+import { getElementorCommands } from "./sync/get-elementor-commands";
+import { getInteractionsSchema } from "./sync/get-interactions-schema";
+import { ElementData, getSelectedElement, StyleDefinition } from "./sync/get-selected-element";
+import { getSettings } from "./sync/get-settings";
+import { getPostId } from "./sync/post-id";
 
 export type ElementorCommand =
     | 'document/elements/select'
@@ -74,14 +74,13 @@ const createElementorAdapter = () => {
             style: getAtomicStyleSchema,
             interaction: getInteractionsSchema,
             elements: getAtomicElementsSchema
-        }
+        },
+        settings: getSettings()
     }
 }
 
 const elementorAdapter = createElementorAdapter();
 
-
-console.log( elementorAdapter.schemaTypes.elements() )
 elementorAdapter.onCommand(
     'document/elements/select',
     () => {

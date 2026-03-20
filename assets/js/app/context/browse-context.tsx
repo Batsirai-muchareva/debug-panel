@@ -1,40 +1,51 @@
-import React from "react";
-import { useState, PropsWithChildren } from "react";
-import { createContext, useContext, useCallback } from "@wordpress/element";
+import React, { PropsWithChildren } from "react";
+import { createContext, useCallback,useContext, useState } from "@wordpress/element";
+
+import { usePath } from "@libs/path";
+
+import { useFilteredData } from "@app/context/filtered-data-context";
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { usePath } from "@app/context/path-context";
-import { sourceManager } from "@app/source-manager/source-manager";
+import { useProvider } from "@app/hooks/use-provider";
 
 type BrowseContextState = {
     selectedKey: string | null;
     setSelectedKey: ( key: string | null ) => void;
     isBrowsing: boolean;
     back: () => void;
+    data: string[];
 };
 
 const BrowseContext = createContext< BrowseContextState | undefined >( undefined );
 
 export const BrowseProvider = ( { children }: PropsWithChildren ) => {
-    const { activeProvider, activeVariant } = useTabs();
-    const { setPath } = usePath();
+    const { config } = useProvider();
+    const { data } = useFilteredData();
+    const { path, setPath } = usePath();
+    const { activeProvider } = useTabs();
+
     const [ selections, setSelections ] = useState< Record< string, string | null > >( {} );
 
-    const selectedKey = selections[ activeVariant ] ?? null;
-    const supportsBrowsing = sourceManager.find( activeProvider )?.supportsBrowsing ?? false;
-
-    const isBrowsing = supportsBrowsing && selectedKey === null;
+    const selectedKey = selections[ activeProvider ] ?? null;
+    const isBrowsing = !! config?.supportsBrowsing && selectedKey === null;
 
     const setSelectedKey = useCallback( ( key: string | null ) => {
         setSelections( prev => ( {
             ...prev,
-            [ activeVariant ]: key,
+            [ activeProvider ]: key,
         } ) );
-    }, [ activeVariant ] );
+
+        setPath( '' );
+    }, [ activeProvider ] );
 
     const back = useCallback( () => {
         setSelectedKey( null );
         setPath( '' );
     }, [ setSelectedKey ] );
+
+    const getData = useCallback( () => {
+        return Object.keys( data as Record<string, unknown> ?? {} )
+            .filter( (key) =>  key.includes( path ) )
+    }, [ data ] )
 
     return (
         <BrowseContext.Provider value={ {
@@ -42,6 +53,7 @@ export const BrowseProvider = ( { children }: PropsWithChildren ) => {
             setSelectedKey,
             isBrowsing,
             back,
+            data: getData()
         } }>
             { children }
         </BrowseContext.Provider>

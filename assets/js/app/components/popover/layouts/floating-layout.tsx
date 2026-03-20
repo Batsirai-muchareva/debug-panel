@@ -1,8 +1,8 @@
-import React, { forwardRef } from "react";
-import { PropsWithChildren } from "react";
+import React from "react";
+import { forwardRef, PropsWithChildren } from "react";
 
-import { Container } from "@component/ui/container";
 import { useBounds } from "@app/context/bounds-context";
+import { Container } from "@component/ui/container";
 
 type Props = PropsWithChildren & {
     className: string;

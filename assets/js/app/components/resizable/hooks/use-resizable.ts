@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 
+import { windowAdapter } from "@libs/adapters";
 import { eventBus, useEventBus } from "@libs/events";
-import { applyConstraints } from "@libs/resizable/apply-constraints";
-import { calculateNewDimensions } from "@libs/resizable/calculate-new-dimension";
-import { DIRECTION } from "@libs/resizable/types";
+import { editorPointerEvents } from "@libs/utils";
 
-import { windowAdapter } from "@app/adapters";
 import { useBounds } from "@app/context/bounds-context";
-import { EventMap } from "@app/events/event-map";
-import { editorPointerEvents } from "@app/utils/editor-pointer-events";
+
+import { DIRECTION } from "../types";
+import { applyConstraints } from "../utils/apply-constraints";
+import { calculateNewDimensions } from "../utils/calculate-new-dimension";
 
 type RefState = {
     isResizing: boolean;
@@ -68,7 +68,7 @@ export const useResizable = ( minConstraints: number[], maxConstraints: number[]
         }
     };
 
-    const handleResize = ( e: EventMap['window:mousemove'] ) => {
+    const handleResize = ( e: { clientX: number; clientY: number; } ) => {
         const state = resizeStateRef.current;
 
         if ( ! state.isResizing ) {

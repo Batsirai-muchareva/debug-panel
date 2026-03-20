@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import { Data, Provider, Source, Variant } from "@app/types";
+import { useEffect, useMemo, useRef, useState } from "@wordpress/element";
+
+import { Provider, RawData, Source, Variant } from "@libs/types";
+
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { useRef } from "@wordpress/element";
 import { sourceManager } from "@app/source-manager/source-manager";
 
-type State = Record< Provider['id'], Record<Variant['id'], Data> >;
+type State = Record< Provider['id'], Record<Variant['id'], RawData> >;
 
 export function useProvider() {
     const { activeProvider, activeVariant } = useTabs();
@@ -38,9 +39,23 @@ export function useProvider() {
 
     // Re-run when tab, variant, OR selectedKey changes
     useEffect( () => {
-        startSource();
+        const variant = sourceManager.findVariant( activeProvider, activeVariant );
 
-        return stopActiveSource
+        const source = variant.createSource( variant.sourceConfig );
+
+        source.start( ( sourceData ) => {
+            update( activeProvider, activeVariant, sourceData );
+        } );
+
+        activeSource.current = source;
+
+        return () => {
+            source.stop();
+            activeSource.current = null;
+        };
+        // startSource();
+        //
+        // return stopActiveSource
     }, [ activeProvider, activeVariant ] )
 
     const startSource = () => {

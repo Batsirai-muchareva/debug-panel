@@ -1,3 +1,3 @@
-import { GlobalClasses, LocalElementData } from "@app/adapters/elementor/elementor-adapter";
+import { GlobalClasses, LocalElementData } from "@libs/adapters";
 
 export type EditorData = LocalElementData | GlobalClasses;

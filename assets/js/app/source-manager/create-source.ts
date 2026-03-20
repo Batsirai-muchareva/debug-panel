@@ -1,4 +1,4 @@
-import { Notify, Variant } from "@app/types";
+import { Notify, Variant } from "@libs/types";
 
 type SourceEffects= {
     setup?: () => void;

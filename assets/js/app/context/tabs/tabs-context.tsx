@@ -1,10 +1,13 @@
-import React, { useMemo } from "react";
-import { useState, PropsWithChildren } from "react";
-import { createContext, useContext } from "@wordpress/element";
-import { ContextState, Tab } from "@app/context/tabs/types";
-import { createIndexResolver } from "@app/context/tabs/create-index-resolver";
+import React, { PropsWithChildren } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "@wordpress/element";
+
+import { jsonDelta } from "@libs/json-delta";
+import { store } from "@libs/storage";
+import { Variant } from "@libs/types";
+
 import { buildTabs } from "@app/context/tabs/build-tabs";
-import { Variant } from "@app/types";
+import { createIndexResolver } from "@app/context/tabs/create-index-resolver";
+import { ContextState, Tab } from "@app/context/tabs/types";
 
 const TabsContext = createContext< ContextState | undefined >( undefined );
 
@@ -12,13 +15,21 @@ export const TabsProvider = ( { children }: PropsWithChildren ) => {
     const { tabs, initialState } = useMemo( () => getTabState( buildTabs() ), [] );
 
     const [ activeProvider, setActiveProvider ] = useState< Tab['id'] >( initialState.activeProvider );
-    const [ activeVariants, setActiveVariants ] = useState< Record<Tab['id'], Variant['id']> >( initialState.activeVariant );
+    const [ activeVariants, setActiveVariants ] = useState< Record<Tab['id'], Variant['id']> >( () => {
+        store.setVariantId( initialState.activeVariant[ initialState.activeProvider ] );
+
+        return initialState.activeVariant
+    } );
 
     const setProvider = ( tabId: Tab["id"] ) => {
+        jsonDelta.reset();
+
         setActiveProvider( tabId );
     }
 
     const setVariant = ( variantId: Variant["id"] ) => {
+        jsonDelta.reset();
+
         setActiveVariants( prev => ( {
             ...prev,
             [ activeProvider ]: variantId,
@@ -26,6 +37,10 @@ export const TabsProvider = ( { children }: PropsWithChildren ) => {
     };
 
     const activeVariant = activeVariants[ activeProvider ];
+
+    useEffect( () => {
+        store.setVariantId( activeVariant );
+    }, [ activeVariant ] )
 
     return (
         <TabsContext.Provider value={ {

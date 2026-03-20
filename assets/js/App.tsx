@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { SlotFillProvider } from "@wordpress/components";
 
-import { PositionTracker } from "@app/position-tracker";
+import { registerToolbarActions } from "@libs/toolbar";
+
 import { BoundsProvider } from "@app/context/bounds-context";
 import { PopoverProvider } from "@app/context/popover-context";
-
-import { registerSuggestionValueTypes } from "@app/suggestions/register-value-types";
-import { Shell } from "./shell";
-import { ToggleButton } from "@component/toggle-button/toggle-button";
-import { Notification } from "@libs/notification/notification";
+import { PositionTracker } from "@app/position-tracker";
 import { registerDataSources } from "@app/source-manager";
-import { registerActions } from "@app/actions";
+import { ToggleButton } from "@component/toggle-button/toggle-button";
 
-registerSuggestionValueTypes();
+import { Shell } from "./shell";
+
 registerDataSources();
-registerActions();
+registerToolbarActions();
 
 export const App = () => {
     return (
@@ -24,7 +22,6 @@ export const App = () => {
                     <ToggleButton />
                     <PositionTracker />
                     <Shell />
-                    <Notification />
                 </BoundsProvider>
             </PopoverProvider>
         </SlotFillProvider>

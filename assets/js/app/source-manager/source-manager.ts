@@ -1,4 +1,4 @@
-import { Provider, Variant } from "@app/types";
+import { Provider, Variant } from "@libs/types";
 
 const DEFAULT_ORDER = 10;
 

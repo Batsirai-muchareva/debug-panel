@@ -1,9 +1,8 @@
-import * as React from "react";
-import { PropsWithChildren, Dispatch, SetStateAction, useState } from "react";
-import { createContext, useContext } from "@wordpress/element";
+import React, { Dispatch, PropsWithChildren, SetStateAction } from "react";
+import { createContext, useContext, useState } from "@wordpress/element";
 
 const INITIAL_HEIGHT = 550;
-const INITIAL_WIDTH = 400;
+const INITIAL_WIDTH = 420;
 
 type Position = {
     x: number;

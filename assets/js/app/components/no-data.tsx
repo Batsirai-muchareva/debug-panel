@@ -1,5 +1,7 @@
 import React from "react"
-import { bemBlock } from "@app/utils/bem";
+
+import { bemBlock } from "@libs/utils";
+
 import { useProvider } from "@app/hooks/use-provider";
 
 export const NoData = () => {

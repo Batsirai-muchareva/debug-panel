@@ -1,10 +1,11 @@
-import { Unsubscribe } from "@app/types";
-import { EventMap } from "@app/events/event-map";
+import { EventMap } from "./event-map";
 
 interface EventBusOptions {
     historySize?: number;
     debug?: boolean;
 }
+
+type Unsubscribe = () => void;
 
 export type EventName = keyof EventMap;
 export type EventHandler<E extends EventName> = ( payload: EventPayload<E>) => void;
@@ -34,12 +35,6 @@ const createEventBus = ( options: EventBusOptions = {} ): EventBus => {
         timestamp: number
     }> = [];
 
-    const log = ( message: string, ...args: unknown[] ) => {
-        if ( debug ) {
-            console.debug(`[EventBus] ${message}`, ...args);
-        }
-    };
-
     const getListeners = <E extends EventName>(event: E): Set<EventHandler<E>> => {
         if ( ! listeners.has( event ) ) {
             listeners.set( event, new Set() );
@@ -52,11 +47,8 @@ const createEventBus = ( options: EventBusOptions = {} ): EventBus => {
             const eventListeners = getListeners( event );
             eventListeners.add( handler as EventHandler<EventName> );
 
-            log( `Subscribed to "${event}" (${eventListeners.size} listeners)` );
-
             return () => {
                 eventListeners.delete( handler as EventHandler<EventName> );
-                log(`Unsubscribed from "${event}" (${eventListeners.size} listeners)`);
             }
         },
         once<E extends EventName>( event: E, handler: EventHandler<E> ) {
@@ -67,7 +59,6 @@ const createEventBus = ( options: EventBusOptions = {} ): EventBus => {
             };
 
             getListeners( event ).add( wrappedHandler as EventHandler<EventName> );
-            log( `Subscribed once to "${event}"` );
         },
         emit<E extends EventName>(
             event: E,
@@ -76,8 +67,6 @@ const createEventBus = ( options: EventBusOptions = {} ): EventBus => {
                 : [payload: EventPayload<E>]
         ) {
             const payload = args[0] as EventPayload<E>;
-
-            log( `Emitting "${event}"`, payload );
 
             history.push( {
                 event,
@@ -103,12 +92,9 @@ const createEventBus = ( options: EventBusOptions = {} ): EventBus => {
         },
         off( event ) {
             listeners.delete( event );
-
-            log( `Removed all listeners for "${event}"` );
         },
         offAll() {
             listeners.clear();
-            log( 'Removed all listeners' );
         },
     }
 }

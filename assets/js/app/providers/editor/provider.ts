@@ -1,7 +1,8 @@
-import { Provider } from "@app/types";
-import { EditorData } from "@app/providers/editor/types";
-import { localSource } from "@app/providers/editor/sources/local-source";
+import { Provider } from "@libs/types";
+
 import { globalClassesSource } from "@app/providers/editor/sources/global-classes-source";
+import { localSource } from "@app/providers/editor/sources/local-source";
+import { EditorData } from "@app/providers/editor/types";
 
 export const editorProvider =
     (): Provider< EditorData, { onIdle?: () => void } > => {

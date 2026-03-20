@@ -11,8 +11,8 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "@component/*": ["assets/js/core/components/*"],
-      "@app/*": ["assets/js/core/*"],
+      "@component/*": ["assets/js/app/components/*"],
+      "@app/*": ["assets/js/app/*"],
       "@libs/*": ["assets/js/libs/*"]
     }
   },

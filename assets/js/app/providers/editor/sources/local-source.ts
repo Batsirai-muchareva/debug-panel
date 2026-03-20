@@ -1,9 +1,11 @@
-import { elementorAdapter } from "@app/adapters";
-import { Unsubscribe } from "@app/types";
-import { MarionetteElement } from "@app/adapters/elementor/sync/get-selected-element";
-import { LocalElementData } from "@app/adapters/elementor/elementor-adapter";
-import { eventBus } from "@app/events";
+import { elementorAdapter } from "@libs/adapters";
+import { MarionetteElement } from "@libs/adapters";
+import { LocalElementData } from "@libs/adapters";
+import { eventBus } from "@libs/events";
+
 import { createSource } from "@app/source-manager/create-source";
+
+type Unsubscribe = () => void;
 
 export const localSource = createSource<LocalElementData, { onIdle?: () => void }>( ( notify ) => {
     let unsubscribeSelect: Unsubscribe | null = null;
@@ -31,8 +33,87 @@ export const localSource = createSource<LocalElementData, { onIdle?: () => void 
         )
 
         // initial call
-        notify?.( getData( element ) );
+        validateAndNotify( getData( element ) );
+
+        /**
+         * The best approach is dispathc an event and we do the validate closer to higher level
+         *
+         *  const data = getData( element );
+         *     eventBus.emit( 'element:data:changed', { data } ); // ← emit on initial select
+         *     notify?.( data );
+         *
+         *     // path-validator.ts — call once at app init
+         * export const initPathValidator = () => {
+         *     eventBus.on( 'element:data:changed', ( { data } ) => {
+         *         // get all active path stores and validate
+         *         pathStores.forEach( ( store, variantId ) => {
+         *             const currentPath = store.readState();
+         *             if ( ! currentPath ) return;
+         *
+         *             const getter = createPathValueGetter( data );
+         *             const isValid = getter( currentPath ) !== undefined;
+         *
+         *             if ( isValid ) return;
+         *
+         *             const parts = currentPath.split( '.' );
+         *             let validPath = '';
+         *
+         *             for ( let i = parts.length - 1; i >= 0; i-- ) {
+         *                 const candidate = parts.slice( 0, i ).join( '.' );
+         *                 if ( ! candidate ) break;
+         *                 if ( getter( candidate ) !== undefined ) {
+         *                     validPath = candidate;
+         *                     break;
+         *                 }
+         *             }
+         *
+         *             store.writeState( validPath );
+         *         } );
+         *     } );
+         * };
+         *
+         * // app/init.ts or wherever you bootstrap the debug panel
+         *
+         * import { registerToolbarActions } from "@app/toolbar/register-toolbar-actions";
+         * import { initPathValidator } from "@app/path/path-validator";
+         *
+         * export const initApp = () => {
+         *     registerToolbarActions();
+         *     initPathValidator();   // ← same level
+         * };
+         *
+         *
+         */
     }
+
+    const validateAndNotify = ( data: LocalElementData ) => {
+        // const pathStore = getPathStore( 'local' );
+        // const currentPath = pathStore.getStateSync();
+
+        // if ( currentPath ) {
+        //     const getter = createPathValueGetter( data );
+        //     const isValid = getter( currentPath ) !== undefined;
+        //
+        //     if ( ! isValid ) {
+        //         // walk up to find deepest valid ancestor
+        //         const parts = currentPath.split( '.' );
+        //         let validPath = '';
+        //
+        //         for ( let i = parts.length - 1; i >= 0; i-- ) {
+        //             const candidate = parts.slice( 0, i ).join( '.' );
+        //             if ( ! candidate ) break;
+        //             if ( getter( candidate ) !== undefined ) {
+        //                 validPath = candidate;
+        //                 break;
+        //             }
+        //         }
+        //
+        //         pathStore.setStateSync( validPath );
+        //     }
+        // }
+
+        notify?.( data );
+    };
 
     const handleDeselect = () => {
         modelCleanup?.();

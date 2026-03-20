@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Path Nav</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+      background: #0b1c1b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 32px;
+      padding: 40px 24px;
+      font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── PATH NAV COMPONENT ─── */
+  .path-nav {
+      --bg: #0e2322;
+      --border: #1e3d3b;
+      --fade-color: #0e2322;
+      --text-dim: #3d7a78;
+      --text-mid: #5a9a97;
+      --text-active: #c8e8e6;
+      --text-hover: #9dd4d1;
+      --accent: #e8c84a;
+      --clear-bg: #122e2c;
+      --clear-border: #1e4a48;
+
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      height: 36px;
+      overflow: hidden;
+      position: relative;
+  }
+
+  /* PATH label — pinned left */
+  .path-nav__label {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 0 10px 0 12px;
+      flex-shrink: 0;
+      user-select: none;
+      z-index: 3;
+  }
+
+  /* left-side fade over the label edge */
+  .path-nav__label-fade {
+      position: absolute;
+      left: 54px; /* right edge of label */
+      top: 0; bottom: 0;
+      width: 20px;
+      background: linear-gradient(to right, var(--fade-color), transparent);
+      z-index: 2;
+      pointer-events: none;
+  }
+
+  /* scrollable strip */
+  .path-nav__track {
+      flex: 1;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      align-items: center;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      padding: 0 8px;
+      gap: 0;
+      /* prevent height collapse */
+      height: 100%;
+  }
+  .path-nav__track::-webkit-scrollbar { display: none; }
+
+  /* right fade — always present but opacity driven by JS */
+  .path-nav__fade-right {
+      position: absolute;
+      right: 68px; /* clears the clear button */
+      top: 0; bottom: 0;
+      width: 28px;
+      background: linear-gradient(to right, transparent, var(--fade-color));
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+  }
+  .path-nav__fade-right.visible { opacity: 1; }
+
+  /* left fade — shows when scrolled away from start */
+  .path-nav__fade-left {
+      position: absolute;
+      left: 54px;
+      top: 0; bottom: 0;
+      width: 20px;
+      background: linear-gradient(to right, var(--fade-color), transparent);
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+  }
+  .path-nav__fade-left.visible { opacity: 1; }
+
+  /* crumb */
+  .crumb {
+      font-size: 12px;
+      color: var(--text-mid);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 2px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1;
+  }
+  .crumb:hover { color: var(--text-hover); background: rgba(157,212,209,0.07); }
+  .crumb.is-last { color: var(--text-active); font-weight: 600; cursor: default; }
+  .crumb.is-last:hover { background: transparent; }
+
+  .sep {
+      font-size: 11px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      padding: 0 1px;
+      user-select: none;
+  }
+
+  /* empty hint */
+  .path-nav__empty {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-style: italic;
+      white-space: nowrap;
+      padding: 0 4px;
+  }
+
+  /* clear button — pinned right */
+  .path-nav__clear {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      padding: 0 12px 0 10px;
+      background: transparent;
+      border: none;
+      border-left: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      flex-shrink: 0;
+      z-index: 3;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+  }
+  .path-nav__clear:hover { color: var(--text-hover); background: #1a3230; }
+  .path-nav__clear svg { width: 9px; height: 9px; }
+  .path-nav__clear.hidden { display: none; }
+
+  /* ─── DEMO CONTROLS ─── */
+  .demo-section {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .demo-label {
+      font-size: 10px;
+      color: #2e5e5c;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+  }
+
+  .demo-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+  }
+
+  .demo-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      background: #0e2322;
+      border: 1px solid #1e3d3b;
+      color: #4a7a78;
+      cursor: pointer;
+      transition: all 0.15s;
+  }
+  .demo-btn:hover { background: #152e2c; color: #7ac4c1; border-color: #2a5a58; }
+  .demo-btn.on { background: #1a3d3b; color: #9dd4d1; border-color: #2a6a68; }
+
+  .hint {
+      font-size: 10px;
+      color: #2a5a58;
+      line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- THE COMPONENT -->
+<div class="path-nav" id="pathNav">
+  <span class="path-nav__label">PATH</span>
+  <div class="path-nav__fade-left" id="fadeLeft"></div>
+  <div class="path-nav__track" id="track"></div>
+  <div class="path-nav__fade-right" id="fadeRight"></div>
+  <button class="path-nav__clear hidden" id="clearBtn" onclick="clearPath()">
+    <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M2 2l6 6M8 2l-6 6"/>
+    </svg>
+    Clear
+  </button>
+</div>
+
+<!-- DEMO CONTROLS -->
+<div class="demo-section">
+  <span class="demo-label">Try these paths</span>
+  <div class="demo-btns">
+    <button class="demo-btn on" onclick="setPath('short', this)">Short</button>
+    <button class="demo-btn" onclick="setPath('medium', this)">Medium</button>
+    <button class="demo-btn" onclick="setPath('long', this)">Long →</button>
+    <button class="demo-btn" onclick="setPath('verylong', this)">Very long →→</button>
+    <button class="demo-btn" onclick="clearPath(this)">Cleared</button>
+  </div>
+  <span class="hint">
+    Scroll horizontally to explore · Always anchored to last crumb on load · Click any crumb to trim path
+  </span>
+</div>
+
+<script>
+  const PATHS = {
+      short:    ['settings', 'title', 'value'],
+      medium:   ['config', 'layout', 'components', 'header', 'title', 'value'],
+      long:     ['root', 'application', 'config', 'layout', 'components', 'header', 'title', 'value'],
+      verylong: ['root', 'application', 'config', 'theme', 'layout', 'components', 'navigation', 'header', 'branding', 'logo', 'title', 'content', 'value'],
+  };
+
+  let activePath = [...PATHS.short];
+
+  const track    = document.getElementById('track');
+  const fadeL    = document.getElementById('fadeLeft');
+  const fadeR    = document.getElementById('fadeRight');
+  const clearBtn = document.getElementById('clearBtn');
+
+  function render() {
+      track.innerHTML = '';
+
+      if (activePath.length === 0) {
+          const hint = document.createElement('span');
+          hint.className = 'path-nav__empty';
+          hint.textContent = '— no path selected —';
+          track.appendChild(hint);
+          clearBtn.classList.add('hidden');
+          updateFades();
+          return;
+      }
+
+      clearBtn.classList.remove('hidden');
+
+      activePath.forEach((seg, i) => {
+          const isLast = i === activePath.length - 1;
+
+          if (i > 0) {
+              const sep = document.createElement('span');
+              sep.className = 'sep';
+              sep.textContent = '›';
+              track.appendChild(sep);
+          }
+
+          const crumb = document.createElement('span');
+          crumb.className = 'crumb' + (isLast ? ' is-last' : '');
+          crumb.textContent = seg;
+          if (!isLast) {
+              crumb.onclick = () => {
+                  activePath = activePath.slice(0, i + 1);
+                  render();
+              };
+          }
+          track.appendChild(crumb);
+      });
+
+      // Scroll to end so the active crumb is always visible
+      requestAnimationFrame(() => {
+          track.scrollLeft = track.scrollWidth;
+          updateFades();
+      });
+  }
+
+  function updateFades() {
+      const atStart = track.scrollLeft <= 2;
+      const atEnd   = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+
+      fadeL.classList.toggle('visible', !atStart && activePath.length > 0);
+      fadeR.classList.toggle('visible', !atEnd && activePath.length > 0);
+  }
+
+  track.addEventListener('scroll', updateFades, { passive: true });
+  window.addEventListener('resize', updateFades);
+
+  function setPath(key, btn) {
+      activePath = [...PATHS[key]];
+      render();
+      document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('on'));
+      if (btn) btn.classList.add('on');
+  }
+
+  function clearPath(btn) {
+      activePath = [];
+      render();
+      document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('on'));
+      if (btn) btn.classList.add('on');
+  }
+
+  render();
+</script>
+</body>
+</html>

@@ -1,5 +1,4 @@
-import { Data, RawData } from "@libs/types";
-import { isObject } from "@libs/utils";
+import { RawData } from "@libs/types";
 
 type StackItem = {
     value: unknown;
@@ -74,26 +73,32 @@ const processArray = (
     seen: WeakSet<object>,
     onValue: (path: string) => void
 ) => {
-    if ( seen.has( arr ) ) {
+    if (seen.has(arr)) {
         return;
     }
 
-    seen.add( arr );
+    seen.add(arr);
 
-    if ( arr.length === 0 ) {
+    if (arr.length === 0) {
         return;
     }
 
-    const first = arr[0];
-    if ( ! isObject( first ) ) {
-        return;
+    for (let i = 0; i < arr.length; i++) {
+        const item = arr[i];
+
+        if (!isObject(item)) {
+            continue;
+        }
+
+        const arrPath = basePath ? `${basePath}.${i}` : `${i}`;
+
+        onValue(arrPath);
+
+        stack.push({
+            value: item,
+            path: arrPath
+        });
     }
-
-    const arrPath = `${basePath}[0]`;
-
-    onValue( arrPath );
-
-    stack.push( { value: first, path: arrPath } );
 };
 
 
@@ -128,42 +133,6 @@ const processObject = (
     }
 };
 
-
-    // export const traverseData =
-//     ( data: Data, onValue: ( path: string ) => void ) => {
-//         const stack: Array<{ value: unknown; path: string }> = [];
-//
-//         if ( isObject( data ) ) {
-//             stack.push( { value: data, path: "" } );
-//         }
-//
-//         const seen = new WeakSet<object>(); // Prevent circular loops
-//
-//         while ( stack.length > 0 ) {
-//             const { value, path } = stack.pop()!;
-//
-//             if ( ! isObject( value ) || seen.has( value ) ) {
-//                 continue;
-//             }
-//
-//             seen.add( value );
-//
-//             for ( const key of Object.keys( value ) ) {
-//                 const child = value[key];
-//                 const childPath = path ? `${path}.${key}` : key;
-//
-//                 if ( isObject( child ) ) {
-//                     onValue( childPath );
-//                     stack.push( { value: child, path: childPath } );
-//
-//                     if ( Array.isArray( child ) && child.length > 0 ) {
-//                         if ( isObject(child[0] ) ) {
-//                             const arrPath = `${childPath}[0]`;
-//                             onValue( arrPath );
-//                             stack.push({ value: child[0], path: arrPath });
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
+const isObject = (v: unknown): v is Record<string, unknown> => {
+    return typeof v === "object" && v !== null;
+}

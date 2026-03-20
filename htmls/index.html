@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Debug — Search</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+      background: #111d1d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── Modal ── */
+  .modal {
+      background: #0f1e1e;
+      border: 1px solid #1e3535;
+      border-radius: 16px;
+      width: 460px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+  }
+
+  /* ── Header ── */
+  .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 18px;
+      border-bottom: 1px solid #1e3535;
+      flex-shrink: 0;
+  }
+  .modal-title {
+      font-size: 13px; font-weight: 600;
+      color: #7ab8a8; letter-spacing: 0.04em;
+      text-transform: uppercase;
+  }
+  .close-btn {
+      background: none; border: none;
+      color: #4a7a6a; cursor: pointer;
+      font-size: 17px; padding: 2px 6px;
+      border-radius: 6px; line-height: 1;
+      transition: color 0.15s;
+  }
+  .close-btn:hover { color: #ccc; }
+
+  /* ── Primary tabs ── */
+  .tabs-primary {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid #1e3535;
+      flex-shrink: 0;
+  }
+  .tabs-list { display: flex; flex: 1; }
+  .tab-primary {
+      padding: 10px 15px;
+      font-size: 13px; font-weight: 500;
+      color: #4a7a6a; cursor: pointer;
+      border: none; background: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.15s;
+      position: relative;
+  }
+  .tab-primary.active {
+      color: #eee;
+      border-bottom-color: #7ab8a8;
+      background: rgba(122,184,168,0.04);
+  }
+  .tab-primary:hover:not(.active) { color: #7ab8a8; }
+
+  /* search active dot on tab */
+  .tab-primary .search-dot {
+      display: none;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #e5a820;
+      position: absolute;
+      top: 7px; right: 4px;
+  }
+  .tab-primary.has-search .search-dot { display: block; }
+
+  .tabs-right {
+      display: flex; align-items: center;
+      padding: 0 10px; gap: 2px;
+      border-left: 1px solid #1e3535;
+  }
+  .sub-pill {
+      padding: 3px 9px; border-radius: 5px;
+      font-size: 11.5px; font-weight: 500;
+      color: #4a7a6a; cursor: pointer;
+      border: none; background: none;
+      transition: all 0.15s;
+  }
+  .sub-pill.active { background: #1e3535; color: #eee; }
+  .sub-pill:hover:not(.active) { color: #7ab8a8; }
+
+  /* ── Toolbar ── */
+  .toolbar {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      background: #0d1a1a;
+      border-bottom: 1px solid #1e3535;
+      gap: 4px;
+      min-height: 38px;
+      flex-shrink: 0;
+  }
+  .tool-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 9px; border-radius: 6px;
+      font-size: 11.5px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: 1px solid transparent;
+      background: transparent; color: #4a7a6a;
+      transition: all 0.15s; white-space: nowrap;
+      flex-shrink: 0;
+  }
+  .tool-btn:hover { background: #1e3535; color: #ccc; border-color: #2a4545; }
+  .tool-btn.active { background: #1e3535; color: #e5c47a; border-color: #3a5545; }
+  .tool-btn.confirm { color: #5ecfa0; border-color: #5ecfa044; }
+  .tool-btn.search-active { color: #7ab8a8; border-color: #2a4545; background: #1a2e2e; }
+  .tool-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .tool-btn.icon-only { padding: 5px 7px; }
+  .toolbar-divider { width: 1px; height: 16px; background: #1e3535; margin: 0 2px; flex-shrink: 0; }
+  .toolbar-spacer { flex: 1; }
+
+  /* ── Search bar row ── */
+  .search-bar {
+      display: flex;
+      flex-direction: column;
+      background: #0a1818;
+      border-bottom: 1px solid #1e3535;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.18s;
+      flex-shrink: 0;
+  }
+  .search-bar.open {
+      max-height: 72px;
+      opacity: 1;
+  }
+
+  .search-bar-input-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px 4px;
+  }
+  .search-icon-sm {
+      color: #4a7a6a;
+      flex-shrink: 0;
+      width: 13px; height: 13px;
+  }
+  .search-field {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 12.5px;
+      font-family: 'DM Sans', sans-serif;
+      color: #eee;
+      caret-color: #7ab8a8;
+  }
+  .search-field::placeholder { color: #2a5050; }
+
+  .search-count {
+      font-size: 11px;
+      color: #4a7a6a;
+      white-space: nowrap;
+      flex-shrink: 0;
+  }
+  .search-count.has-results { color: #7ab8a8; }
+  .search-count.no-results { color: #8a4a4a; }
+
+  .search-nav-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 5px;
+      background: none; border: none;
+      color: #4a7a6a; cursor: pointer;
+      transition: all 0.12s;
+      flex-shrink: 0;
+  }
+  .search-nav-btn:hover { background: #1e3535; color: #ccc; }
+  .search-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .search-nav-btn svg { width: 12px; height: 12px; }
+
+  .search-clear-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 4px;
+      background: none; border: none;
+      color: #3a6060; cursor: pointer;
+      transition: all 0.12s;
+      flex-shrink: 0;
+  }
+  .search-clear-btn:hover { background: #1e3535; color: #ccc; }
+  .search-clear-btn svg { width: 11px; height: 11px; }
+
+  /* path breadcrumb row */
+  .search-path-row {
+      display: flex;
+      align-items: center;
+      padding: 0 10px 6px;
+      min-height: 20px;
+      gap: 0;
+      overflow: hidden;
+  }
+  .path-label {
+      font-size: 10.5px;
+      color: #2a5050;
+      margin-right: 5px;
+      flex-shrink: 0;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+  }
+  .path-crumb {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5a9a7a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  .path-sep {
+      color: #2a5050;
+      margin: 0 3px;
+      font-size: 11px;
+  }
+  .path-key { color: #61afef; }
+  .path-idx { color: #d19a66; }
+
+  /* ── Code block ── */
+  .code-block {
+      background: #0a1515;
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.75;
+      overflow-y: auto;
+      height: 320px;
+      flex-shrink: 0;
+  }
+  .code-block::-webkit-scrollbar { width: 6px; }
+  .code-block::-webkit-scrollbar-thumb { background: #1e3535; border-radius: 3px; }
+
+  .line {
+      display: block; white-space: pre;
+      padding: 0 4px; border-radius: 3px;
+      border-left: 2px solid transparent;
+      transition: opacity 0.12s, background 0.12s;
+  }
+  .line.dim { opacity: 0.2; }
+  .line.match-line { opacity: 1; }
+  .line.current-line {
+      background: rgba(122,184,168,0.08);
+      border-left-color: #7ab8a8;
+  }
+  .indent-1 { padding-left: 18px; }
+  .indent-2 { padding-left: 36px; }
+  .indent-3 { padding-left: 54px; }
+
+  .t-brace { color: #e5c07b; }
+  .t-key   { color: #61afef; }
+  .t-str   { color: #e06c75; }
+  .t-bool  { color: #c678dd; }
+  .t-num   { color: #d19a66; }
+  .t-arrow { color: #abb2bf; }
+  .t-fold  { color: #3a6060; cursor: pointer; user-select: none; font-size: 10px; }
+
+  .match { background: rgba(229,196,122,0.2); border-radius: 2px; }
+  .match.current-match { background: rgba(229,196,122,0.55); color: #1a2020; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="modal">
+
+  <!-- Header -->
+  <div class="modal-header">
+    <span class="modal-title">Dev Debug</span>
+    <button class="close-btn">✕</button>
+  </div>
+
+  <!-- Primary tabs -->
+  <div class="tabs-primary">
+    <div class="tabs-list">
+      <button class="tab-primary active" data-tab="editor" onclick="switchTab('editor')">
+        Editor<span class="search-dot"></span>
+      </button>
+      <button class="tab-primary" data-tab="database" onclick="switchTab('database')">
+        Database<span class="search-dot"></span>
+      </button>
+      <button class="tab-primary" data-tab="schema" onclick="switchTab('schema')">
+        Schema<span class="search-dot"></span>
+      </button>
+    </div>
+    <div class="tabs-right">
+      <button class="sub-pill active">Local</button>
+      <button class="sub-pill" onclick="this.closest('.tabs-right').querySelectorAll('.sub-pill').forEach(b=>b.classList.remove('active')); this.classList.add('active')">Classes</button>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="tool-btn" id="highlightBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Highlight
+    </button>
+    <button class="tool-btn" id="collapseBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+      Collapse all
+    </button>
+
+    <div class="toolbar-divider"></div>
+
+      <!-- Search trigger — stays visible always -->
+    <button class="tool-btn icon-only" id="searchToggleBtn" onclick="toggleSearch()" title="Search (⌘F)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <div class="toolbar-spacer"></div>
+    <div class="toolbar-divider"></div>
+
+    <button class="tool-btn" id="copyBtn" onclick="handleCopy()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span id="copyLabel">Copy</span>
+    </button>
+    <button class="tool-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export
+    </button>
+  </div>
+
+  <!-- Search bar (persistent, per-tab state) -->
+  <div class="search-bar" id="searchBar">
+    <div class="search-bar-input-row">
+      <svg class="search-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-field" id="searchField" placeholder="Search in editor…" oninput="onSearchInput(this.value)" />
+      <span class="search-count" id="searchCount"></span>
+      <button class="search-nav-btn" id="prevBtn" onclick="navigateMatch(-1)" disabled title="Previous match">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
+      <button class="search-nav-btn" id="nextBtn" onclick="navigateMatch(1)" disabled title="Next match">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="search-clear-btn" onclick="clearSearch()" title="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+      <!-- Path breadcrumb -->
+    <div class="search-path-row" id="pathRow">
+      <span class="path-label">Path</span>
+      <span class="path-crumb" id="pathCrumb"></span>
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="code-block" id="codeBlock">
+    <span class="line" data-path=""><span class="t-brace">{</span></span>
+    <span class="line indent-1" data-path="id"><span class="t-key">"id"</span><span class="t-arrow">: </span><span class="t-str">"05694dd"</span>,</span>
+    <span class="line indent-1" data-path="elType"><span class="t-key">"elType"</span><span class="t-arrow">: </span><span class="t-str">"widget"</span>,</span>
+    <span class="line indent-1" data-path="isInner"><span class="t-key">"isInner"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+    <span class="line indent-1" data-path="isLocked"><span class="t-key">"isLocked"</span><span class="t-arrow">: </span><span class="t-bool">false</span>,</span>
+    <span class="line indent-1" data-path="settings"><span class="t-key">"settings"</span><span class="t-arrow">: </span><span class="t-brace">{}</span>,</span>
+    <span class="line indent-1" data-path="interactions"><span class="t-key">"interactions"</span><span class="t-arrow">: </span><span class="t-brace">{</span></span>
+    <span class="line indent-2" data-path="interactions.items"><span class="t-key">"items"</span><span class="t-arrow">: </span><span class="t-brace">[</span></span>
+    <span class="line indent-3" data-path="interactions.items.0"><span class="t-brace">{</span></span>
+    <span class="line indent-3" data-path="interactions.items.0.type"><span class="t-key">"type"</span><span class="t-arrow">: </span><span class="t-str">"mouseEnter"</span>,</span>
+    <span class="line indent-3" data-path="interactions.items.0.action"><span class="t-key">"action"</span><span class="t-arrow">: </span><span class="t-str">"show"</span></span>
+    <span class="line indent-3" data-path="interactions.items.0"><span class="t-brace">}</span></span>
+    <span class="line indent-2" data-path="interactions.items"><span class="t-brace">]</span>,</span>
+    <span class="line indent-2" data-path="interactions.version"><span class="t-key">"version"</span><span class="t-arrow">: </span><span class="t-num">1</span></span>
+    <span class="line indent-1" data-path="interactions"><span class="t-brace">}</span>,</span>
+    <span class="line indent-1" data-path="elements"><span class="t-key">"elements"</span><span class="t-arrow">: </span><span class="t-brace">[]</span>,</span>
+    <span class="line indent-1" data-path="widgetType"><span class="t-key">"widgetType"</span><span class="t-arrow">: </span><span class="t-str">"e-heading"</span>,</span>
+    <span class="line indent-1" data-path="styles"><span class="t-key">"styles"</span><span class="t-arrow">: </span><span class="t-brace">[]</span>,</span>
+    <span class="line indent-1" data-path="editor_settings"><span class="t-key">"editor_settings"</span><span class="t-arrow">: </span><span class="t-brace">[]</span></span>
+    <span class="line" data-path=""><span class="t-brace">}</span></span>
+  </div>
+
+</div>
+
+<script>
+  // ── Per-tab search state ──
+  const tabState = {
+      editor:   { query: '', matchIndex: 0, open: false },
+      database: { query: '', matchIndex: 0, open: false },
+      schema:   { query: '', matchIndex: 0, open: false },
+  };
+  let activeTab = 'editor';
+  let matchLines = []; // current match line elements
+
+  // ── Tab switching ──
+  function switchTab(tab) {
+      // save current state
+      tabState[activeTab].matchIndex = currentMatchIndex();
+
+      // switch
+      activeTab = tab;
+      document.querySelectorAll('.tab-primary').forEach(b => {
+          b.classList.toggle('active', b.dataset.tab === tab);
+      });
+
+      // restore state for new tab
+      const state = tabState[tab];
+      const field = document.getElementById('searchField');
+      const bar = document.getElementById('searchBar');
+      const btn = document.getElementById('searchToggleBtn');
+
+      field.value = state.query;
+
+      const shouldBeOpen = state.open || state.query.length > 0;
+      bar.classList.toggle('open', shouldBeOpen);
+      btn.classList.toggle('search-active', shouldBeOpen);
+
+      if (state.query) {
+          runSearch(state.query, state.matchIndex);
+      } else {
+          clearHighlights();
+          updatePathCrumb(null);
+          updateCount(0, 0);
+      }
+  }
+
+  // ── Toggle search bar ──
+  function toggleSearch() {
+      const bar = document.getElementById('searchBar');
+      const btn = document.getElementById('searchToggleBtn');
+      const isOpen = bar.classList.contains('open');
+
+      if (isOpen) {
+          bar.classList.remove('open');
+          btn.classList.remove('search-active');
+          tabState[activeTab].open = false;
+          clearSearch();
+      } else {
+          bar.classList.add('open');
+          btn.classList.add('search-active');
+          tabState[activeTab].open = true;
+          setTimeout(() => document.getElementById('searchField').focus(), 220);
+      }
+  }
+
+  // ── Search input ──
+  function onSearchInput(val) {
+      tabState[activeTab].query = val;
+      tabState[activeTab].matchIndex = 0;
+
+      // update dot indicator on tab
+      const tabBtn = document.querySelector(`[data-tab="${activeTab}"]`);
+      tabBtn?.classList.toggle('has-search', val.length > 0);
+
+      if (!val) {
+          clearHighlights();
+          updateCount(0, 0);
+          updatePathCrumb(null);
+          setNavEnabled(false);
+          return;
+      }
+      runSearch(val, 0);
+  }
+
+  // ── Run search ──
+  function runSearch(query, startIndex = 0) {
+      clearHighlights();
+      const lines = document.querySelectorAll('#codeBlock .line');
+      matchLines = [];
+
+      lines.forEach(line => {
+          const text = line.textContent;
+          if (text.toLowerCase().includes(query.toLowerCase())) {
+              matchLines.push(line);
+              line.classList.add('match-line');
+              wrapMatches(line, query);
+          } else {
+              line.classList.add('dim');
+          }
+      });
+
+      if (matchLines.length === 0) {
+          updateCount(0, 0);
+          updatePathCrumb(null);
+          setNavEnabled(false);
+          return;
+      }
+
+      // clamp index
+      const idx = Math.min(startIndex, matchLines.length - 1);
+      tabState[activeTab].matchIndex = idx;
+      focusMatch(idx);
+      setNavEnabled(true);
+  }
+
+  // ── Focus a specific match ──
+  function focusMatch(idx) {
+      // clear current highlight
+      document.querySelectorAll('.current-line').forEach(l => l.classList.remove('current-line'));
+      document.querySelectorAll('.current-match').forEach(m => m.classList.remove('current-match'));
+
+      if (!matchLines[idx]) return;
+      const line = matchLines[idx];
+      line.classList.add('current-line');
+
+      // highlight current match span
+      const spans = line.querySelectorAll('.match');
+      if (spans[0]) spans[0].classList.add('current-match');
+
+      // scroll into view
+      line.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      updateCount(idx + 1, matchLines.length);
+      updatePathCrumb(line.dataset.path);
+  }
+
+  // ── Navigate matches ──
+  function navigateMatch(dir) {
+      if (!matchLines.length) return;
+      let idx = tabState[activeTab].matchIndex + dir;
+      if (idx < 0) idx = matchLines.length - 1;
+      if (idx >= matchLines.length) idx = 0;
+      tabState[activeTab].matchIndex = idx;
+      focusMatch(idx);
+  }
+
+  function currentMatchIndex() {
+      return tabState[activeTab]?.matchIndex ?? 0;
+  }
+
+  // ── Clear ──
+  function clearSearch() {
+      document.getElementById('searchField').value = '';
+      tabState[activeTab].query = '';
+      tabState[activeTab].matchIndex = 0;
+      document.querySelector(`[data-tab="${activeTab}"]`)?.classList.remove('has-search');
+      clearHighlights();
+      updateCount(0, 0);
+      updatePathCrumb(null);
+      setNavEnabled(false);
+  }
+
+  function clearHighlights() {
+      document.querySelectorAll('#codeBlock .line').forEach(l => {
+          l.classList.remove('dim', 'match-line', 'current-line');
+          // restore original text by replacing match spans
+          l.querySelectorAll('.match').forEach(m => {
+              m.replaceWith(document.createTextNode(m.textContent));
+          });
+          l.normalize();
+      });
+      matchLines = [];
+  }
+
+  // ── Wrap match text in spans ──
+  function wrapMatches(node, query) {
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      let n;
+      while ((n = walker.nextNode())) nodes.push(n);
+
+      nodes.forEach(tn => {
+          const lower = tn.textContent.toLowerCase();
+          const q = query.toLowerCase();
+          if (!lower.includes(q)) return;
+          const frag = document.createDocumentFragment();
+          let last = 0, idx;
+          while ((idx = lower.indexOf(q, last)) !== -1) {
+              if (idx > last) frag.appendChild(document.createTextNode(tn.textContent.slice(last, idx)));
+              const mark = document.createElement('span');
+              mark.className = 'match';
+              mark.textContent = tn.textContent.slice(idx, idx + query.length);
+              frag.appendChild(mark);
+              last = idx + query.length;
+          }
+          if (last < tn.textContent.length) frag.appendChild(document.createTextNode(tn.textContent.slice(last)));
+          tn.replaceWith(frag);
+      });
+  }
+
+  // ── Path breadcrumb ──
+  function updatePathCrumb(path) {
+      const el = document.getElementById('pathCrumb');
+      const row = document.getElementById('pathRow');
+      if (!path) {
+          el.innerHTML = '';
+          row.style.opacity = '0';
+          return;
+      }
+      row.style.opacity = '1';
+      const parts = path.split('.').filter(Boolean);
+      if (!parts.length) { el.innerHTML = '<span style="color:#2a5050">root</span>'; return; }
+
+      el.innerHTML = parts.map((p, i) => {
+          const isLast = i === parts.length - 1;
+          const isIndex = /^\d+$/.test(p);
+          const cls = isIndex ? 'path-idx' : 'path-key';
+          const sep = i < parts.length - 1 ? '<span class="path-sep">›</span>' : '';
+          return `<span class="${cls}" style="${isLast ? 'color:#eee' : ''}">${p}</span>${sep}`;
+      }).join('');
+  }
+
+  // ── Count ──
+  function updateCount(current, total) {
+      const el = document.getElementById('searchCount');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (total === 0 && document.getElementById('searchField').value) {
+          el.textContent = 'No matches';
+          el.className = 'search-count no-results';
+      } else if (total > 0) {
+          el.textContent = `${current} / ${total}`;
+          el.className = 'search-count has-results';
+      } else {
+          el.textContent = '';
+          el.className = 'search-count';
+      }
+  }
+
+  function setNavEnabled(enabled) {
+      document.getElementById('prevBtn').disabled = !enabled;
+      document.getElementById('nextBtn').disabled = !enabled;
+  }
+
+  // ── Copy ──
+  function handleCopy() {
+      const btn = document.getElementById('copyBtn');
+      const lbl = document.getElementById('copyLabel');
+      btn.classList.add('confirm');
+      lbl.textContent = 'Copied!';
+      setTimeout(() => { btn.classList.remove('confirm'); lbl.textContent = 'Copy'; }, 1800);
+  }
+
+  // ── Keyboard shortcuts ──
+  document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+          e.preventDefault();
+          const bar = document.getElementById('searchBar');
+          if (!bar.classList.contains('open')) toggleSearch();
+          else document.getElementById('searchField').focus();
+      }
+      if (e.key === 'Escape') {
+          const bar = document.getElementById('searchBar');
+          if (bar.classList.contains('open')) toggleSearch();
+      }
+      if (e.key === 'Enter' && document.activeElement.id === 'searchField') {
+          navigateMatch(e.shiftKey ? -1 : 1);
+      }
+  });
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { Delta, DIRECTION, StartState } from "@libs/resizable/types";
+import { Delta, DIRECTION, StartState } from "../types";
 
 export const calculateNewDimensions = (
     direction: DIRECTION,

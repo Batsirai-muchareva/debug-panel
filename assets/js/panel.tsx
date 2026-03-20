@@ -1,16 +1,22 @@
-import React, { PropsWithChildren } from "react";
-import { Slot } from "@wordpress/components";
+import React from "react";
 
-import { bemBlock } from "@libs/utils";
+import { useBrowse } from "@app/context/browse-context";
+import { useHasData } from "@app/hooks/use-has-data";
+import { BrowseView } from "@app/views/browse-view";
+import { JsonView } from "@app/views/json-view";
+import { NoData } from "@component/no-data";
 
-import { Box } from "@component/ui/box";
+export const Panel = () => {
+  const hasData = useHasData();
+  const { isBrowsing } = useBrowse();
 
-export const TabPanel = ( { children }: PropsWithChildren ) => {
+  if ( ! hasData ) {
+    return <NoData />;
+  }
 
-    return (
-        <Slot />
-        // <Box className={ bemBlock.element( 'tab-content' )}>
-        //     { children }
-        // </Box>
-    )
-}
+  if ( isBrowsing ) {
+    return <BrowseView />;
+  }
+
+    return <JsonView />
+};

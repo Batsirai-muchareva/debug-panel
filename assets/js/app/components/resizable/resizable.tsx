@@ -1,8 +1,9 @@
-import React, { PropsWithChildren }from "react";
+import React, { PropsWithChildren } from "react";
+
+import { useResizable } from "@component/resizable/hooks/use-resizable";
 
 import { ResizeBarHandle } from "./handles/resize-bar-handle";
 import { ResizeCornerHandle } from "./handles/resize-corner-handle";
-import { useResizable } from "./hooks/use-resizable";
 import { DIRECTION } from "./types";
 
 const RESIZE_DIRECTIONS = {
@@ -46,7 +47,7 @@ export const Resizable = ( { children, minConstraints = [ 280, 280 ], maxConstra
             { edgeHandles.map( ( { dir, className } ) => (
                 <ResizeBarHandle
                     key={ dir }
-                    className={ classPrefix + className }
+                    className={ 'dp__' + classPrefix + className }
                     onMouseDown={ ( e) => startResize( e, dir as DIRECTION ) }
                 />
             ))}
@@ -54,7 +55,7 @@ export const Resizable = ( { children, minConstraints = [ 280, 280 ], maxConstra
             { cornerHandles.map( ( { dir, className } ) => (
                 <ResizeCornerHandle
                     key={ dir }
-                    className={ classPrefix + className }
+                    className={ 'dp__' + classPrefix + className }
                     onMouseDown={ ( e) => startResize( e, dir as DIRECTION ) }
                 />
             ))}

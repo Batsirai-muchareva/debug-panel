@@ -1,6 +1,6 @@
-import { Provider } from "@app/types";
-import { SchemaData, schemaSource, SourceConfig } from "@app/providers/schema/sources/schema-source";
+import { Provider } from "@libs/types";
 
+import { SchemaData, schemaSource, SourceConfig } from "@app/providers/schema/sources/schema-source";
 
 export const schemaProvider =
     (): Provider< SchemaData, SourceConfig > => {

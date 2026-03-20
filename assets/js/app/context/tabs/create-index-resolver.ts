@@ -1,6 +1,7 @@
+import { useKey } from "@libs/key-context";
+import { Variant } from "@libs/types";
+
 import { Tab } from "@app/context/tabs/types";
-import { useKey } from "@app/context/key-context";
-import { Variant } from "@app/types";
 
 export const createIndexResolver =
     (

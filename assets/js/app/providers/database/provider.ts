@@ -1,12 +1,12 @@
-import { Provider } from "@app/types";
-import { DatabaseData, SourceConfig } from "@app/providers/database/types";
-import { getSettings } from "@app/sync/get-settings";
-import { elementorAdapter } from "@app/adapters";
+import { elementorAdapter } from "@libs/adapters";
+import { Provider } from "@libs/types";
+
 import { databaseSource } from "@app/providers/database/sources/database-source";
+import { DatabaseData, SourceConfig } from "@app/providers/database/types";
 
 export const databaseProvider =
     (): Provider< DatabaseData, SourceConfig > => {
-    const { metaKeys, kitId } = getSettings();
+    const { metaKeys, kitId } = elementorAdapter.settings;
 
     return {
         id: 'database',

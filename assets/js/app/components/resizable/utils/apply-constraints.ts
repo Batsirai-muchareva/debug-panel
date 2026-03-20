@@ -1,4 +1,4 @@
-import { Constraints, Dimensions } from "@libs/resizable/types";
+import { Constraints, Dimensions } from "../types";
 
 export const applyConstraints = (
     dimensions: Dimensions,

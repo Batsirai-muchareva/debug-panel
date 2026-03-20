@@ -1,5 +1,6 @@
-import { elementorAdapter } from "@app/adapters";
-import { GlobalClasses } from "@app/adapters/elementor/elementor-adapter";
+import { elementorAdapter } from "@libs/adapters";
+import { GlobalClasses } from "@libs/adapters";
+
 import { createSource } from "@app/source-manager/create-source";
 
 const POLL_INTERVAL = 1000;

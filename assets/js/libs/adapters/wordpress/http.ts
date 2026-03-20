@@ -1,7 +1,7 @@
-import { getSettings } from "@app/sync/get-settings";
+import { elementorAdapter } from "@libs/adapters";
 
 export const http = () => {
-    const { nonce, baseUrl } = getSettings();
+    const { nonce, baseUrl } = elementorAdapter.settings;
 
     return {
         post: async ( params: URLSearchParams ) => {

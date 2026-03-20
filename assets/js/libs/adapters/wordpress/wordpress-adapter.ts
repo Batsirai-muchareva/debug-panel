@@ -1,8 +1,10 @@
-import { http } from "./http";
+import { elementorAdapter } from "@libs/adapters";
+
 import { createError } from "./create-error";
+import { http } from "./http";
 
 export interface IWordPressAdapter {
-    fetch<R>(action: string, { post_id, meta_key }: { post_id: string; meta_key: string } ): Promise<{
+    fetch<R>( { post_id, meta_key }: { post_id: string; meta_key: string } ): Promise<{
         success: boolean;
         data?: R;
         error?: { message: string };
@@ -19,10 +21,10 @@ const createWordPressAdapter = (): IWordPressAdapter => {
     const api = http();
 
     return {
-        fetch: async ( action: string, { post_id, meta_key }: { post_id: string; meta_key: string } ) => {
+        fetch: async ( { post_id, meta_key }: { post_id: string; meta_key: string } ) => {
             try {
                 const params = new URLSearchParams( {
-                    action,
+                    action: elementorAdapter.settings.databaseAjaxAction,
                     post_id,
                     meta_key,
                 } );
@@ -46,7 +48,8 @@ const createWordPressAdapter = (): IWordPressAdapter => {
                     }
                 }
             }
-        }
+        },
+
     }
 }
 

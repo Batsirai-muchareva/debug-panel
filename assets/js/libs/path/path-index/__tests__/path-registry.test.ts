@@ -9,7 +9,7 @@
  * 3. Use a factory pattern
  */
 
-import { pathIndex } from '../';
+import { pathIndex } from '../../';
 
 describe('path-registry (build function)', () => {
     beforeEach( ()=>{
@@ -113,6 +113,10 @@ describe('path-registry (build function)', () => {
                         id: 1,
                         name: 'John',
                     },
+                    {
+                        id: 2,
+                        name: 'Doe',
+                    },
                 ],
                 __brand: "RawData"
             }, true );
@@ -123,9 +127,12 @@ describe('path-registry (build function)', () => {
                 'settings',
                 'users',
                 "__brand",
-                'users[0]',
-                'users[0].id',
-                'users[0].name',
+                'users.0',
+                "users.1",
+                "users.1.id",
+                "users.1.name",
+                'users.0.id',
+                'users.0.name',
                 'settings.colors',
                 'settings.theme',
                 'settings.colors.primary',
