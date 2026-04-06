@@ -9,7 +9,7 @@ import { eventBus } from '@debug-panel/events';
 import { Box, Button, cx } from '@debug-panel/ui';
 
 import styles from './actions-clip.module.scss';
-import { RightChevron, UpChevron } from '@debug-panel/icons';
+import { RightChevron, SolidDownChevron, UpChevron } from '@debug-panel/icons';
 
 const attribute = 'data-action';
 
@@ -105,7 +105,7 @@ export const ActionsClip = ( {
                 { children }
                 { isOverflowing &&
                     <Button onClick={ () => toggleMore( ! moreActive ) } ref={ moreRef } className={ cx(styles.more, {[styles.moreActive]: moreActive}) }>
-                        More <UpChevron />
+                        More <SolidDownChevron />
                     </Button> }
             </Box>
         </Box>

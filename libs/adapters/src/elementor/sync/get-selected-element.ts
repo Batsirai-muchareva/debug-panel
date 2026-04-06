@@ -1,6 +1,6 @@
 type Handler = ( element: MarionetteElement ) => void;
 
-export type GlobalClasses = Array<StyleDefinition>;
+// export type GlobalClasses = Array<StyleDefinition>;
 
 export type StyleDefinition = {
     id: string;
@@ -18,7 +18,7 @@ export type ElementData = {
     settings: Record<string, any>;
     interactions: [];
     elements?: ElementData[];
-    styles: Record<string, StyleDefinition>;
+    styles: Record<string, unknown>;
 }
 
 export type MarionetteElement = {

@@ -1,54 +1,107 @@
-import { elementorAdapter, type GlobalClasses } from '@debug-panel/adapters';
-import { createSource } from '@debug-panel/dev-panel-sdk';
+import { elementorAdapter } from '@debug-panel/adapters';
+import { createElementSource } from './create-element-source';
 
-const POLL_INTERVAL = 1000;
+export const globalClassesSource = createElementSource<any>( {
+    onSelect: ( element, notify ) => {
+        notify( elementorAdapter.globalClasses.get() );
 
-const INACTIVITY_LIMIT = 2 * 60 * 1000;
+        const unsubscribeClasses = elementorAdapter.globalClasses.subscribe( notify );
 
-export const globalClassesSource = createSource<GlobalClasses>( ( { notify } ) => {
-    let intervalId: number | null = null;
-    let lastSnapshot: any | null = null;
-    let lastActivity = 0;
+        let prevClasses = elementorAdapter.elementDataExtractor( element ).settings?.classes?.value;
 
-    const poll = () => {
-        const current = elementorAdapter.getUsedGlobalClassesSnapshot();
+        const unsubscribeElement = elementorAdapter.elementSubscriber.subscribe(
+            element,
+            ( el ) => {
+                const nextClasses = elementorAdapter.elementDataExtractor( el ).settings?.classes?.value;
 
-        if (JSON.stringify(current) !== JSON.stringify(lastSnapshot)) {
-            lastSnapshot = current;
-            lastActivity = Date.now();
-            notify?.(current);
-        }
+                if ( prevClasses !== nextClasses ) {
+                    prevClasses = nextClasses;
+                    notify( elementorAdapter.globalClasses.get() );
+                }
+            },
+        );
 
-        if (Date.now() - lastActivity > INACTIVITY_LIMIT) {
-            stop();
-
-            // if (config?.onIdle) { GlobalClasses
-            //     config?.onIdle();
-            // }
-        }
-    };
-
-    return {
-        setup: () => {
-            if (intervalId !== null) {
-                return;
-            }
-
-            lastSnapshot = elementorAdapter.getUsedGlobalClassesSnapshot();
-            lastActivity = Date.now();
-
-            notify?.(lastSnapshot);
-
-            intervalId = window.setInterval(poll, POLL_INTERVAL);
-        },
-        teardown: () => {
-            if (intervalId === null) {
-                return;
-            }
-
-            clearInterval(intervalId);
-            intervalId = null;
-            lastSnapshot = null;
-        },
-    };
-});
+        return () => {
+            unsubscribeClasses?.();
+            unsubscribeElement?.();
+        };
+    },
+} );
+// import { createSource } from '@debug-panel/dev-panel-sdk';
+// import { Unsubscribe } from '@reduxjs/toolkit';
+// import { elementorAdapter } from "@debug-panel/adapters";
+// import { eventBus } from "@debug-panel/events";
+//
+// export const globalClassesSource = createSource<any>( ( { notify } ) => {
+//     let unsubscribeSelect: Unsubscribe | null = null;
+//     let unsubscribeDeselect: Unsubscribe | null = null;
+//     let modelCleanup: Unsubscribe | null = null;
+//     let modelCleanup2: Unsubscribe | null = null;
+//
+//     const handleSelect = () => {
+//         modelCleanup?.();
+//         modelCleanup = null;
+//         modelCleanup2 = null;
+//
+//         const element = elementorAdapter.getSelectedElement();
+//
+//         if ( ! element ) {
+//             notify?.( null );
+//
+//             return;
+//         }
+//
+//         modelCleanup = elementorAdapter.globalClasses.subscribe( notify )
+//
+//         let addedOrRemoved;
+//
+//         modelCleanup2 = elementorAdapter.elementSubscriber.subscribe( element,
+//             ( element ) => {
+//             if ( addedOrRemoved !== getData( element ).settings.classes.value ) {
+//                 console.log('changed', getData( element ) )
+//
+//                 notify?.( elementorAdapter.globalClasses.get() );
+//             }
+//
+//                 // Make sure it does not fire twice with subscribe
+//                 // elementorAdapter.globalClasses.get()
+//             },
+//         );
+//
+//         /** initial call **/
+//         notify?.( elementorAdapter.globalClasses.get() );
+//     };
+//
+//     const handleDeselect = () => {
+//         modelCleanup?.();
+//         modelCleanup2?.();
+//         modelCleanup = null;
+//         modelCleanup2 = null;
+//         notify?.(null);
+//     };
+//
+//     return {
+//         setup: () => {
+//             unsubscribeSelect = eventBus.on('element:selected', handleSelect);
+//
+//             unsubscribeDeselect = eventBus.on( 'element:deselected', handleDeselect );
+//
+//             handleSelect();
+//         },
+//         teardown: () => {
+//             unsubscribeSelect?.();
+//             unsubscribeDeselect?.();
+//             modelCleanup2?.();
+//             modelCleanup?.();
+//
+//             unsubscribeSelect = null;
+//             unsubscribeDeselect = null;
+//             modelCleanup = null;
+//             modelCleanup2 = null;
+//         },
+//     };
+// } );
+//
+// const getData = ( element: MarionetteElement ) => {
+//     return elementorAdapter.elementDataExtractor( element );
+// };
