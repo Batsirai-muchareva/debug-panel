@@ -1,0 +1,14 @@
+.wrapper {
+  padding: $spacing-sm;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  overflow: hidden;
+  height: 100%;
+  border-radius: $radius-lg;
+
+  @include fill-column;
+}

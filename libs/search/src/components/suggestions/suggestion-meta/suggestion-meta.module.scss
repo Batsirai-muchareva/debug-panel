@@ -1,0 +1,23 @@
+.meta {
+  font-size: 11px;
+  color: #3a6060;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: $spacing-sm;
+}
+
+.segment {
+  color: #4a8a7a;
+
+  &-separator {
+    color: #2a5050;
+    margin-inline: $spacing-xs;
+  }
+}
+
+.hl {
+  color: #e5a820;
+  font-weight: 600;
+}

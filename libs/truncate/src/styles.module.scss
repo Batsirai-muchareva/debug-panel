@@ -1,0 +1,54 @@
+.clip-row {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
+  position: relative;
+}
+
+.dots {
+  //flex-shrink: 0;
+  //color: #4a8a6a;
+  //cursor: default;
+  //padding: 0 2px;
+  //
+  //position: absolute;
+  //z-index: 10000;
+  //font-size: 16px;
+  //right: 0;
+  //background: yellow;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+
+  flex-shrink: 0;
+  color: #ffffff;
+  cursor: default;
+  padding: 0 2px 0px 10px;
+  position: absolute;
+  z-index: 10000;
+  font-size: 16px;
+  right: 0;
+  background: #0b1c1c;
+  //background: #0d1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.tooltip {
+  position: absolute;
+  background: #0a1a14;
+  border: 0.5px solid #2a5a3a;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: JetBrains Mono, monospace;
+  color: #9FE1CB;
+  white-space: nowrap;
+  z-index: 99999;
+  pointer-events: none;
+}

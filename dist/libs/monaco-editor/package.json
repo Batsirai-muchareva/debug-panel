@@ -1,0 +1,8 @@
+{
+  "name": "@debug-panel/monaco-editor",
+  "version": "0.0.1",
+  "module": "./index.esm.js",
+  "type": "module",
+  "main": "./index.esm.js",
+  "types": "./index.d.ts"
+}

@@ -1,1 +1,0 @@
-export { Resizable } from './resizable'

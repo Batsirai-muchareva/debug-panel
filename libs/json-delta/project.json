@@ -1,0 +1,9 @@
+{
+    "name": "json-delta",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/json-delta/src",
+    "projectType": "library",
+    "tags": [],
+    "// targets": "to see all targets run: nx show project json-delta --web",
+    "targets": {}
+}

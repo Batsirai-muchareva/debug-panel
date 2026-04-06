@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+//#debug-panel-slot * {
+//  //height: 90px!important;
+//  //background: $primary!important;
+//  //overflow: scroll!important;
+//  font-family: Manrope, sans-serif;
+//}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.highlighted {
+  background: rgb(124 110 49 / 61%);
+  animation: highlightFade 2s ease-out forwards;
+}
+
+.monaco-changed-line-gutter {
+  background: yellow;
+  //background: #7ab8a8;
+  width: 3px !important;
+}
+
+@keyframes highlightFade {
+  0% {
+    background-color: rgba(124, 110, 49, 0);
+  }
+  20% {
+    background-color: rgb(124 110 49 / 61%);
+  }
+  80% {
+    background-color: rgb(124 110 49 / 61%);
+  }
+  100% {
+    background-color: rgba(124, 110, 49, 0);
+  }
+}

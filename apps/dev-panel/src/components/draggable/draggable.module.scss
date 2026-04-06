@@ -1,0 +1,13 @@
+.draggable {
+  cursor: move;
+  user-select: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #b9dfd326;
+
+    &:has( button:hover ) {
+      background: transparent;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s;
+  font-size: $font-size-sm;
+  font-family: Manrope, sans-serif;
+
+  &.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+// sizes
+.sm { padding: 5px 12px; font-size: 12px; }
+.md { padding: 8px 16px; font-size: 13px; }
+.lg { padding: 11px 20px; font-size: 15px; }
+
+// variants
+.primary {
+  background: #111;
+  color: #fff;
+  &:hover { opacity: 0.85; }
+}
+
+.secondary {
+  background: transparent;
+  color: #111;
+  border-color: rgba(0,0,0,0.15);
+  &:hover { background: rgba(0,0,0,0.04); }
+}
+
+.ghost {
+  background: transparent;
+  color: #111;
+  border-color: transparent;
+  &:hover { background: rgba(0,0,0,0.06); }
+}

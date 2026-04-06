@@ -1,0 +1,9 @@
+{
+    "name": "@debug-panel/pipeline",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/pipeline/src",
+    "projectType": "library",
+    "tags": [],
+    "// targets": "to see all targets run: nx show project @debug-panel/pipeline --web",
+    "targets": {}
+}

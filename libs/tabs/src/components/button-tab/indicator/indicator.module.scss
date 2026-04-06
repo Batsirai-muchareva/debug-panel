@@ -1,0 +1,21 @@
+.indicator {
+  position: absolute;
+  top: 3px;
+  left: 0; // driven entirely by translateX now
+  bottom: 3px;
+  border-radius: 8px;
+  pointer-events: none;
+
+  background: #1c4243;
+  //border-color: #33645f;
+  //
+  //background: color(srgb 0.1112 0.2583 0.2608);
+  box-shadow:
+          inset 0 0 0 1px color(srgb 0.1991 0.3929 0.3733),
+          0 2px 10px rgba(0, 0, 0, 0.25);
+
+  transition:
+          transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1),
+          width 0.28s cubic-bezier(0.2, 0.8, 0.3, 1), // animate width change too
+          opacity 0.15s ease; // smooth the initial flash prevention
+}

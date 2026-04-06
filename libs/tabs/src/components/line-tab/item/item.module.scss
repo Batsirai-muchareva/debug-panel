@@ -1,0 +1,55 @@
+.item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  flex: 1;
+  //padding: $spacing-sm $spacing-md;
+  padding: $tab-item-padding-y $tab-item-padding-x;
+  font-size: $tab-font-size;
+  font-weight: $tab-font-weight;
+  //font-size: $font-size-md;
+  //font-weight: $font-weight-medium;
+  border: none;
+  background: transparent;
+  color: $color-text-secondary;
+  cursor: pointer;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: transparent;
+    transform: scaleX(0.3);
+    transform-origin: left;
+    transition:
+            background $transition-base,
+            transform $transition-base;
+  }
+}
+
+.itemActive {
+  color: $color-text-primary;
+
+}
+
+//&::after {
+//  background: #e9b226;
+//  //background: $color-border-default;
+//  transform: scaleX(1);
+//}
+
+//&:hover {
+//  color: $color-text-primary;
+//
+//  &::after {
+//    background: $color-border-subtle;
+//    transform: scaleX(0.6);
+//  }
+//}

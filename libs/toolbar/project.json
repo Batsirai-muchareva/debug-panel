@@ -1,0 +1,9 @@
+{
+    "name": "@debug-panel/toolbar",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/toolbar/src",
+    "projectType": "library",
+    "tags": ["toolbar"],
+    "// targets": "to see all targets run: nx show project @debug-panel/toolbar --web",
+    "targets": {}
+}

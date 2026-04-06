@@ -1,0 +1,60 @@
+.path {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  height: 28px;
+}
+
+.segment {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &[data-hidden="false"]:has(+ [data-hidden="true"]) {
+    svg {
+      visibility: hidden;
+    }
+  }
+}
+
+.chevron {
+  color: #7ec0c0;
+}
+
+.segment-btn {
+  background: none;
+  flex: none;
+  border: none;
+  padding: 2px 6px;
+  cursor: pointer;
+  color: #7ecfaa;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+  font-family: JetBrains Mono, monospace;
+  transition: background 0.12s, color 0.12s;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+
+  &:not(.active):hover {
+    text-decoration: underline;
+  }
+}
+
+.active {
+  color: white;
+  cursor: default;
+  pointer-events: none;
+}
+
+.lastItem {
+  padding: 2px;
+  background: #353433;
+  position: absolute;
+  right: -10px;
+  border-radius: 50%;
+  top: -7px;
+}
