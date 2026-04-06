@@ -1,17 +1,21 @@
-import { dataExtractor } from "../marionette-element/data-extractor";
-import { getSelectedElement, type GlobalClasses } from '../sync/get-selected-element';
+import { elementDataExtractor } from "../marionette-element/element-data-extractor";
+import type { GlobalClasses } from '../sync/get-redux-store';
+import { getSelectedElement } from '../sync/get-selected-element';
 
-
-export const getElementGlobalClasses = ( globalClasses: GlobalClasses ): GlobalClasses | null => {
+export const filterClassesBySelectedElement = (
+    globalClasses: GlobalClasses
+): GlobalClasses['items'] | null => {
     const element = getSelectedElement();
 
     if ( ! element ) {
         return null;
     }
 
-    const usedGlobalClasses = dataExtractor( element ).settings?.classes?.value ?? [];
+    const elementClasses = elementDataExtractor( element ).settings?.classes?.value ?? [];
 
-    return globalClasses.filter( ( globalClasses: { id: string } ) =>
-        usedGlobalClasses.includes( globalClasses.id )
+    return Object.fromEntries(
+        Object.entries( globalClasses.items ).filter( ( [ id ] ) => {
+            return elementClasses.includes( id )
+        } )
     );
 }
