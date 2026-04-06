@@ -1,0 +1,112 @@
+.handle {
+  position: absolute;
+  z-index: 10;
+
+  &[data-direction="n"] {
+    cursor: n-resize;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  &[data-direction="s"] {
+    cursor: s-resize;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  &[data-direction="e"] {
+    cursor: e-resize;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+
+  &[data-direction="w"] {
+    cursor: w-resize;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+
+  &[data-direction="nw"] {
+    cursor: nw-resize;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+  }
+
+  &[data-direction="ne"] {
+    cursor: ne-resize;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+  }
+
+  &[data-direction="sw"] {
+    cursor: sw-resize;
+    bottom: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+  }
+
+  &[data-direction="se"] {
+    cursor: se-resize;
+    bottom: 0;
+    right: 0;
+    width: 8px;
+    height: 8px; }
+}
+
+.edge {
+  &:hover {
+    background-color: rgb(167 234 209 / 30%);
+    border-radius: 100px;
+  }
+}
+
+.corner {
+  width: 20px;
+  height: 20px;
+
+  &:hover {
+    &::before,
+    &::after {
+      background: rgb(167 234 209 / 30%);
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+  }
+
+  &[data-direction="nw"] {
+    &::before { width: 5px; height: 20px; top: 0; left: 0; }
+    &::after  { width: 20px; height: 5px; top: 0; left: 0; }
+  }
+
+  &[data-direction="ne"] {
+    &::before { width: 5px; height: 20px; top: 0; right: 0; }
+    &::after  { width: 20px; height: 5px; top: 0; right: 0; }
+  }
+
+  &[data-direction="sw"] {
+    &::before { width: 5px; height: 20px; bottom: 0; left: 0; }
+    &::after  { width: 20px; height: 5px; bottom: 0; left: 0; }
+  }
+
+  &[data-direction="se"] {
+    &::before { width: 5px; height: 20px; bottom: 0; right: 0; }
+    &::after  { width: 20px; height: 5px; bottom: 0; right: 0; }
+  }
+}

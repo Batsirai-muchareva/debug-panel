@@ -1,0 +1,31 @@
+.path-crumb {
+  display: flex;
+  align-items: center;
+  border-bottom: $divider-border;
+  padding: $primary-inline-block-spacing;
+  justify-content: space-between;
+  gap: $primary-spacing;
+}
+
+
+
+.label {
+  font-size: 11px;
+  color: #2a5050;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.path {
+  flex: 1;
+}
+
+.clear {
+  padding: 3px;
+  background: #1a2e2d;
+  border: 1px solid #2a4a48;
+  border-radius: 6px;
+  color: #9dd4d1;
+  cursor: pointer;
+}

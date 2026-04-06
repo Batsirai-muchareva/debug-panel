@@ -1,0 +1,10 @@
+.overlay {
+  background: #00000080;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+
+  border-radius: $radius-lg;
+}

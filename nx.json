@@ -1,24 +1,84 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "targetDefaults": {
-    "dev": {
-      "outputs": [
-        "{projectRoot}/build"
-      ],
-      "cache": true
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "targetDefaults": {
+        "dev": {
+            "outputs": ["{projectRoot}/build"]
+        },
+        "build:production": {
+            "outputs": ["{projectRoot}/build"],
+            "cache": true
+        },
+        "build": {
+            "outputs": ["{projectRoot}/build"],
+            "cache": true
+        }
     },
-    "build:production": {
-      "outputs": [
-        "{projectRoot}/build"
-      ],
-      "cache": true
+    "packageManager": "pnpm",
+    "nxCloudId": "69bcfcc7992d544f8bf9adff",
+    "analytics": true,
+    "plugins": [
+        {
+            "plugin": "@nx/eslint/plugin",
+            "options": {
+                "targetName": "lint"
+            }
+        },
+        {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/playwright/plugin",
+            "options": {
+                "targetName": "e2e"
+            }
+        },
+        {
+            "plugin": "@nx/jest/plugin",
+            "options": {
+                "targetName": "jest:test"
+            }
+        },
+        {
+            "plugin": "@nx/rollup/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        }
+    ],
+    "generators": {
+        "@nx/react": {
+            "application": {
+                "babel": true,
+                "style": "scss",
+                "linter": "eslint",
+                "bundler": "vite"
+            },
+            "component": {
+                "style": "scss"
+            },
+            "library": {
+                "style": "scss",
+                "linter": "eslint",
+                "unitTestRunner": "none"
+            }
+        }
     },
-    "build": {
-      "outputs": [
-        "{projectRoot}/build"
-      ],
-      "cache": true
+    "release": {
+        "version": {
+            "preVersionCommand": "pnpm dlx nx run-many -t build"
+        }
     }
-  },
-  "nxCloudId": "69bcfcc7992d544f8bf9adff"
 }

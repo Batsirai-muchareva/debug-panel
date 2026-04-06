@@ -1,0 +1,41 @@
+.text-field {
+  background: #0f1e1e;
+  border: 1px solid #2a4545;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex: 1;
+
+  padding: $primary-inline-block-spacing;
+  border-radius: $radius-md;
+}
+
+.input {
+  background: none;
+  border: none;
+  outline: none;
+
+  color: $color-text-primary;
+  //color: #eee;
+  caret-color: #7ab8a8;
+  font-size: $font-size-sm;
+  padding: 0;
+
+  &::placeholder {
+    color: #2a5050;
+  }
+}
+
+.start-icon {
+  color: #3a6060;
+  width: 15px;
+  height: 15px;
+}
+
+.clear {
+  padding: 0px;
+  background: none;
+}

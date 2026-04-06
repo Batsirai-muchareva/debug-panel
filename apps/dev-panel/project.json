@@ -1,0 +1,30 @@
+{
+  "name": "dev-panel",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/dev-panel/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "dev": {
+      "executor": "@nx/vite:build",
+      "options": {
+        "watch": true,
+        "outputPath": "build"
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "buildTarget": "dev-panel:dev",
+        "port": 5173
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/dev-panel/jest.config.ts"
+      }
+    }
+  }
+}

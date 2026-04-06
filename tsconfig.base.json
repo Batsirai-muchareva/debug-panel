@@ -1,0 +1,37 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "ES2015",
+        "module": "commonjs",
+        "skipLibCheck": true,
+        "baseUrl": "./",
+        "paths": {
+            "@debug-panel/icons": ["libs/icons/src/index.ts"],
+            "@debug-panel/popover": ["libs/popover/src/index.ts"],
+            "@debug-panel/ui": ["libs/ui/src/index.ts"],
+            "@debug-panel/tabs": ["libs/tabs/src/index.ts"],
+            "@debug-panel/adapters": ["libs/adapters/src/index.ts"],
+            "@debug-panel/dev-panel-sdk": ["sdks/dev-panel-sdk/src/index.ts"],
+            "@debug-panel/events": ["libs/events/src/index.ts"],
+            "@bootstrap": ["bootstrap/index.ts"],
+            "@component/*": ["assets/js/app/components/*"],
+            "@app/*": ["assets/js/app/*"],
+            "@libs/*": ["assets/js/libs/*"],
+            "@debug-panel/providers": ["libs/providers/src/index.ts"],
+            "@debug-panel/monaco-editor": ["libs/monaco-editor/src/index.ts"],
+            "@debug-panel/toolbar": ["libs/toolbar/src/index.ts"],
+            "@debug-panel/storage": ["libs/storage/src/index.ts"],
+            "@debug-panel/notification": ["libs/notification/src/index.ts"],
+            "@debug-panel/search": ["libs/search/src/index.ts"],
+            "@debug-panel/path": ["libs/path/src/index.ts"],
+            "@debug-panel/variants": ["libs/variants/src/index.ts"],
+            "@debug-panel/pipeline": ["libs/pipeline/src/index.ts"],
+            "@debug-panel/truncate": ["libs/truncate/src/index.ts"],
+            "@debug-panel/constants": ["libs/constants/src/index.ts"],
+            "@debug-panel/source-locator": ["libs/source-locator/src/index.ts"],
+            "@debug-panel/json-delta": ["libs/json-delta/src/index.ts"]
+        }
+    },
+    "exclude": ["node_modules"]
+}

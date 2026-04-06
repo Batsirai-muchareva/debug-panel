@@ -1,0 +1,31 @@
+{
+  "name": "debug-panel",
+  "projectType": "application",
+  "sourceRoot": "assets/js/apps",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run build"
+      }
+    },
+    "build:production": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run build:production"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test"
+      }
+    }
+  }
+}

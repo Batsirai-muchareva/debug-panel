@@ -1,0 +1,160 @@
+.list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  background: #0c1c1c;
+  border-bottom: 1px solid #1e3535;
+  flex-shrink: 0;
+  //max-height: 0;
+  //overflow: hidden;
+  //transition: max-height .2s cubic-bezier(.4, 0, .2, 1);
+
+  display: flex;
+  flex-direction: column;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #1e3535;
+    border-radius: 2px;
+  }
+}
+
+.wrapper {
+  flex: 1;
+}
+
+.pinned {
+  position: sticky;
+  top: 8px;
+  z-index: 3;
+  color: #a8a8a8;
+  left: 100%;
+  width: 25px;
+  height: 25px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  border-radius: 25px;
+  cursor: pointer;
+  align-items: center;
+  padding: 0;
+
+  &:hover {
+    background: #484848;
+  }
+
+  &--active {
+    background: #37483a;
+    color: #ffd987;
+    //background: #37483a;
+    //color: #e5c379;
+  }
+  //position: absolute;
+  //right: 8px;
+  //z-index: 3;
+  //color: #a8a8a8;
+}
+
+.category {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px $primary-spacing;
+  position: sticky; top: 0;
+  background: #0c1c1c;
+  z-index: 1;
+  width: 100%;
+
+  p{
+    font-size: 10px;
+    color: #2a5050;
+    font-weight: 600;
+  }
+}
+
+
+.resizeHandle {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    opacity: 0.25;
+  }
+
+  &:hover::after {
+    opacity: 0.5;
+  }
+}
+
+
+.row-item {
+  display: flex;
+  justify-content: start;
+  //align-items: center;
+
+  width: 100%;
+  min-width: 0;
+  //overflow: hidden; // ← stops horizontal scroll
+
+  background: none;
+  border: none;
+  border-radius: 0;
+
+  //font-size: $font-size-sm;
+  padding: $primary-spacing;
+  gap: $primary-spacing;
+
+  position: relative;
+  transition: background 200ms ease;
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #2a7a52;
+    transform: scaleY(0);
+    transition: transform 150ms ease;
+    transform-origin: center;
+  }
+
+  &:hover {
+    background: rgba(60, 140, 100, 0.08);
+
+    // also change bg color of data dots nested child data-dots
+    &::before {
+      transform: scaleY(1);
+    }
+
+    [data-dots] {
+      background: #0d2421;
+    }
+  }
+}
+
+.noSuggestions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: stretch;
+
+  font-size: 13px;
+  font-weight: 500;
+  color: #9FE1CB;
+}

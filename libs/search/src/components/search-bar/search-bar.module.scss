@@ -1,0 +1,19 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: $primary-spacing;
+  border-bottom: $divider-border;
+  padding: $primary-inline-block-spacing;
+
+  &-back {
+    background: none;
+    border: none;
+    color: #4a7a6a;
+    padding: 6px;
+
+    &:hover {
+      background: #1e3535;
+      color: #ccc;
+    }
+  }
+}

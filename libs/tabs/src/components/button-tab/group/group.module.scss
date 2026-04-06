@@ -1,0 +1,30 @@
+.group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: $tabs-track-bg;
+  border-radius: $radius-lg;
+
+  padding: $spacing-xs;
+  gap: 2px;
+  width: 100%;
+
+  border: 1px solid #ffffff36;
+  background: #163636;
+  box-shadow: inset 0 0 4px color(srgb .24 .37 .37 / .61);
+}
+
+
+
+
+//border: 1px solid #ffffff36;
+
+
+/* backdrop-filter: blur(20px); */
+//background: hsla(0, 0%, 100%, .13);
+//background: #163636;
+//border: 1px solid #ffffff36;
+//border-radius: 12px;
+///* box-shadow: inset 0 0 4px color(srgb .24 .37 .37 / .61); */
+//display: flex;
+/* padding-inline: 3px; */

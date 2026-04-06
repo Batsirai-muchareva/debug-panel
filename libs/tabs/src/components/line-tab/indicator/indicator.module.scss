@@ -1,0 +1,13 @@
+.indicator {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 3px;
+  border-radius: 2px 2px 0 0;
+  background: #e9b226;
+  //background: $color-border-default;
+  transition:
+          transform $transition-slide,
+          width $transition-slide;
+  pointer-events: none;
+}

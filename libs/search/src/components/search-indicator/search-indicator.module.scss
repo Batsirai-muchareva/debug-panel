@@ -1,0 +1,11 @@
+.indicator {
+  --size: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: $radius-circle;
+  background: #e5a820;
+  border: 1.5px solid #0d1a1a;
+}
