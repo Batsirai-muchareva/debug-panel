@@ -5,12 +5,12 @@ import { useEffect } from '@wordpress/element';
 import { pathIndex, usePath } from '@debug-panel/path';
 import { createPipeline } from '@debug-panel/pipeline';
 import { sourceLocator } from '@debug-panel/source-locator';
+import { useToolbar } from '@debug-panel/toolbar';
 
 import { useProvider } from '../hooks/use-provider';
 import { filterDataByBrowsePath } from '../pipelines/filter-data-by-browse-path';
 import { filterDataByPath } from '../pipelines/filter-data-by-path';
 import { useBrowsePath } from './browse-context';
-import { useToolbar } from '@debug-panel/toolbar';
 
 type ContextValue = { data: unknown; rawData: unknown } | undefined;
 

@@ -19,6 +19,7 @@ import { SolidDownChevron } from './solid-down-chevron';
 import type { IconProps } from './types';
 import { UpChevron } from './up-chevron';
 import { Warning } from './warning';
+import { ServerIcon } from './server';
 
 const iconRegistry = {
     bug: BugIcon,
@@ -38,6 +39,7 @@ const iconRegistry = {
     info: Info,
     'up-chevron': UpChevron,
     'solid-down-chevron': SolidDownChevron,
+    server: ServerIcon
 } as const;
 
 export type IconName = keyof typeof iconRegistry;
@@ -69,5 +71,6 @@ export {
     Warning,
     Info,
     UpChevron,
-    SolidDownChevron
+    SolidDownChevron,
+    ServerIcon
 }

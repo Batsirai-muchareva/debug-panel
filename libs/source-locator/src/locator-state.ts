@@ -6,16 +6,36 @@ const createLocatorState = (): LocatorState => ( {
     openStack: [],
 } );
 
+// const enterObjectKey = (
+//     state: LocatorState,
+//     key: string,
+//     depth: number
+// ): string => {
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//
+//     state.pathStack.push( key );
+//
+//     return state.pathStack.join( "." );
+// };
+
 const enterObjectKey = (
     state: LocatorState,
     key: string,
     depth: number
 ): string => {
-    state.pathStack.length = Math.max( 0, depth - 1 );
+    // Find the closest parent scope from openStack
+    const parentScope = [ ...state.openStack ]
+        .reverse()
+        .find( ( entry ) => entry.indent < depth * 2 );
 
-    state.pathStack.push( key );
+    const parentPath = parentScope?.path ?? '';
 
-    return state.pathStack.join( "." );
+    const path = parentPath ? `${ parentPath }.${ key }` : key;
+
+    // Keep pathStack in sync
+    state.pathStack = parentPath ? [ ...parentPath.split( '.' ), key ] : [ key ];
+
+    return path;
 };
 
 const enterArrayItem = (
@@ -23,13 +43,32 @@ const enterArrayItem = (
     depth: number
 ): string => {
     const idx = state.arrayStack.length - 1;
-    state.arrayStack[idx]++;
+    state.arrayStack[ idx ]++;
 
-    state.pathStack.length = Math.max( 0, depth - 1 );
-    state.pathStack.push( state.arrayStack[idx] );
+    const parentScope = [ ...state.openStack ]
+        .reverse()
+        .find( ( entry ) => entry.indent < depth * 2 );
 
-    return state.pathStack.join( "." );
+    const parentPath = parentScope?.path ?? '';
+    const index = state.arrayStack[ idx ];
+    const path = parentPath ? `${ parentPath }.${ index }` : String( index );
+
+    state.pathStack = path.split( '.' );
+
+    return path;
 };
+// const enterArrayItem = (
+//     state: LocatorState,
+//     depth: number
+// ): string => {
+//     const idx = state.arrayStack.length - 1;
+//     state.arrayStack[idx]++;
+//
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//     state.pathStack.push( state.arrayStack[idx] );
+//
+//     return state.pathStack.join( "." );
+// };
 
 
 const exitArrayItem = ( state: LocatorState ) => {

@@ -1,0 +1,24 @@
+.btn {
+  border-radius: $radius-circle;
+  padding: $spacing-xs;
+  transition: background $transition-base, color $transition-base;
+  background: transparent;
+  color: $color-text-secondary;
+  cursor: pointer;
+  position: absolute;
+  left: 6rem;
+
+  &:hover {
+    background: rgba(86, 93, 100, .659);
+    color: $color-text-primary;
+  }
+}
+
+.active {
+  color: rgba(34, 211, 238, 0.9);
+  background: rgba(34, 211, 238, 0.12);
+
+  &:hover {
+    background: rgba(34, 211, 238, 0.2);
+  }
+}

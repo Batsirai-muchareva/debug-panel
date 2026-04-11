@@ -18,11 +18,13 @@ export const Path = () => {
     const handleSegmentClick = ( segment: Segment ) => {
         const index = segments.findIndex( s => s.id === segment.id );
 
+        const isLastElement = segments[ segments.length - 1 ].id === segment.id;
+
         if ( index === -1 ) {
             throw Error( 'Path segment not found' );
         }
 
-        setPath( segments.slice( 0, index + 1 ).map( s => s.label ).join( '.' ) );
+        setPath( segments.slice( 0, isLastElement ? index : index + 1 ).map( s => s.label ).join( '.' ) );
     };
 
     return (

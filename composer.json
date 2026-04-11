@@ -3,11 +3,11 @@
   "description": "Simplify debugging by accessing snapshot of the database and the editor schema",
   "license": "proprietary",
   "autoload": {
-    "psr-4": {
-      "DevDebugTool\\": "src/"
-    }
-  },
-  "require": {
-    "spatie/ray": "^1.45"
+      "psr-4": {
+          "DevDebugTool\\": "src/"
+      },
+      "files": [
+          "src/php-debug/helpers.php"
+      ]
   }
 }

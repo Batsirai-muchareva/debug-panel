@@ -66,3 +66,16 @@ The plugin uses Elementor's JavaScript API to:
 
 ** MOTO elegant
 ** SWEET 
+
+
+How to handle dynamic properties that changes when you select an item 
+( tell the system that it has to be wildcard to accept any value )
+( Indicate the wildcard in path crump )
+( Special way to handle arrays to be able to switch indexes )
+A lot people inspired me to build this thing 
+Ishay Inspired me to create it after he ran a command on console of selected-element.get('styles')
+Elena made me to to build the php debug 
+mike gave me the idea of highlighting after a fail and disregarded
+Eya gave me the energy to continue wen he mentioned me
+idea born of pain points of during building you have to go to console to see the model
+we where able to discover some hidden bugs ( behaviour of repeaters, hi ) thru this idea, clearly see the structure 

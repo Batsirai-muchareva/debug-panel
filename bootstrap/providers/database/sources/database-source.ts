@@ -52,9 +52,3 @@ export const databaseSource = ( { metaKey, postId }: { metaKey: string; postId: 
         };
     } )
 }
-
-// export const databaseSource = createSource<DatabaseData>( ( { notify } ) => {
-//
-//     const { metaKey, postId } = config;
-//
-// });

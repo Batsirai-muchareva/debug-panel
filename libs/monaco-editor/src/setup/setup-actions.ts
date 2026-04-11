@@ -2,11 +2,12 @@ import type { editor } from 'monaco-editor';
 
 import { buildPath } from '@debug-panel/json-delta';
 import { sourceLocator } from '@debug-panel/source-locator';
+import type { RefObject } from 'react';
 
 export function setupActions(
     editor: editor.IStandaloneCodeEditor,
     setPath: ( path: string ) => void,
-    path: string,
+    pathRef: RefObject<string>,
 ) {
     editor.addAction( {
         id: 'expand-key-at-cursor',
@@ -45,7 +46,7 @@ export function setupActions(
                 return;
             }
 
-            const built = buildPath( path, lookUpPath );
+            const built = buildPath( pathRef.current as string, lookUpPath );
 
             setPath( built );
         },

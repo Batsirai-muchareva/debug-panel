@@ -16,6 +16,7 @@ export const ToggleButton = () => {
             </Button>
         );
     }
+
     return (
         <Button
             onClick={ open }

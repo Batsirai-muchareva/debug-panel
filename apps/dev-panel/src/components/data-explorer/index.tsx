@@ -3,10 +3,10 @@ import { useState } from '@wordpress/element';
 import { SearchIcon } from '@debug-panel/icons';
 import { Box, Button, Text,TextField } from '@debug-panel/ui';
 
+import { useBrowsePath } from '../../context/browse-context';
 import { useData } from '../../context/data-context';
 
 import styles from './data-explorer.module.scss';
-import { useBrowsePath } from '../../context/browse-context';
 
 export const DataExplorer = () => {
     const { rawData } = useData();

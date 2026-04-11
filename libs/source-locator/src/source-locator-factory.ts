@@ -26,24 +26,69 @@ export function createSourceLocator() {
     /* =======================
      Reverse Lookup
      ======================= */
+    // const locatePathAtLine = ( line: number ): string | undefined => {
+    //     let bestMatch: { path: string; range: SourceRange } | undefined;
+    //     const smallestRange = Infinity;
+    //
+    //     // Step 1: find the most specific path
+    //     for ( const [ path, range ] of Object.entries( sourceMap ) ) {
+    //         if ( range.start === line ) {
+    //             bestMatch = { path, range };
+    //             break; // exact match found
+    //         }
+    //     }
+    //
+    //     if ( ! bestMatch ) {
+    //         return undefined;
+    //     }
+    //
+    //     return bestMatch.path;
+    // }
     const locatePathAtLine = ( line: number ): string | undefined => {
         let bestMatch: { path: string; range: SourceRange } | undefined;
-        const smallestRange = Infinity;
+        let smallestSize = Infinity;
 
-        // Step 1: find the most specific path
         for ( const [ path, range ] of Object.entries( sourceMap ) ) {
-            if ( range.start === line ) {
+            const { start, end } = range;
+
+            if ( line < start || line > end ) {
+                continue;
+            }
+
+            const size = end - start;
+
+            // choose the most specific (smallest enclosing range)
+            if ( size < smallestSize ) {
+                smallestSize = size;
                 bestMatch = { path, range };
-                break; // exact match found
             }
         }
 
-        if ( ! bestMatch ) {
-            return undefined;
-        }
-
-        return bestMatch.path;
-    }
+        return bestMatch?.path;
+    };
+    // const locatePathAtLine = ( line: number ): string | undefined => {
+    //     let bestMatch: { path: string; range: SourceRange } | undefined;
+    //     let smallestSize = Infinity;
+    //
+    //     for ( const [ path, range ] of Object.entries( sourceMap ) ) {
+    //         const { start, end } = range;
+    //
+    //         // Line must be within the range
+    //         if ( line < start || line > end ) {
+    //             continue;
+    //         }
+    //
+    //         const size = end - start;
+    //
+    //         // Pick the smallest range that contains the line
+    //         if ( size < smallestSize ) {
+    //             smallestSize = size;
+    //             bestMatch = { path, range };
+    //         }
+    //     }
+    //
+    //     return bestMatch?.path;
+    // };
 
     const getSourceMap = () => {
         return sourceMap;

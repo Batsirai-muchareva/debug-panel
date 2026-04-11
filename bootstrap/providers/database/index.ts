@@ -1,6 +1,7 @@
-import { registerProvider } from '@debug-panel/dev-panel-sdk';
-import { databaseSource } from './sources/database-source';
 import { elementorAdapter } from '@debug-panel/adapters';
+import { registerProvider } from '@debug-panel/dev-panel-sdk';
+
+import { databaseSource } from './sources/database-source';
 
 export const registerDatabaseProvider = () => {
     const { metaKeys, kitId } = elementorAdapter.settings;

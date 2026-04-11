@@ -28,19 +28,19 @@ export const createSource = <T>(
     let notify: Notify<T> | null = null;
     let effects: SourceEffects | null = null;
 
-    // tracks cleanup fns from `on` handlers — inner subscriptions
+    /** tracks cleanup fns from `on` handlers — inner subscriptions **/
     const cleanups = new Map<string, Unsubscribe | void>();
 
-    // tracks all event unsubscribes from the event bus
+    /** tracks all event unsubscribes from the event bus **/
     const eventUnsubscribe: Unsubscribe[] = [];
 
-    // tracks all interval ids
+    /** tracks all interval ids **/
     const intervalIds: ReturnType<typeof setInterval>[] = [];
 
     const context: SourceContext = {
         on( event, handler ) {
             const unsub = eventBus.on( event, () => {
-                // cleanup previous inner subscription for this event before re-running
+                /** cleanup previous inner subscription for this event before re-running **/
                 cleanups.get( event )?.();
                 cleanups.set( event, handler() );
             } );
@@ -54,15 +54,15 @@ export const createSource = <T>(
     };
 
     const teardownContext = () => {
-        // cleanup all inner subscriptions
+        /** cleanup all inner subscriptions **/
         cleanups.forEach( ( cleanup ) => cleanup?.() );
         cleanups.clear();
 
-        // unsubscribe all event bus listeners
+        /** unsubscribe all event bus listeners **/
         eventUnsubscribe.forEach( ( unsub ) => unsub() );
         eventUnsubscribe.length = 0;
 
-        // clear all intervals
+        /** clear all intervals **/
         intervalIds.forEach( ( id ) => clearInterval( id ) );
         intervalIds.length = 0;
     };

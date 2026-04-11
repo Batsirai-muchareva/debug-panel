@@ -10,7 +10,6 @@ const add = <TData>( provider: Provider<TData> ) => {
         throw new Error( `[DevPanel] Provider ${ provider.id } is already registered` );
     }
 
-    // guard against duplicate variant ids across providers
     for ( const variant of provider.variants ) {
          if ( findVariant( variant.id ) ) {
              throw new Error( `[DevPanel] Variant "${ variant.id }" is already registered` );
