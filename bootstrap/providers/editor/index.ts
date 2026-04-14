@@ -20,7 +20,7 @@ export const registerEditorProvider = () => {
                 id: 'lobal-classes',
                 label: 'Classes',
                 order: 2,
-                source: globalClassesSource as any,
+                source: globalClassesSource,
                 emptyMessage: 'No Global classes assigned to this element',
             }
         ]

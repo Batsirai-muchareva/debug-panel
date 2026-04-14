@@ -50,15 +50,3 @@ export const MonacoEditor = ( { data }: { data: unknown } ) => {
         />
     );
 }
-
-
-
-
-// useEventBus( 'json:fold:all', () => {
-//     editorRef.current?.getAction( 'editor.foldAll' )?.run();
-//     editorRef.current?.getAction( 'editor.unfold' )?.run();
-// } );
-//
-// useEventBus( 'json:expand:all', () => {
-//     editorRef.current?.getAction( 'editor.unfoldAll' )?.run();
-// } );

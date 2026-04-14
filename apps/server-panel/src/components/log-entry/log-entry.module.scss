@@ -1,0 +1,47 @@
+.card {
+    //background: #091f1d; // #071e1c
+    background: #001920;
+    //background: #13152e;
+    //border: 1px solid #133a36;
+    border: 1px solid #1e2140;
+    border-radius: 10px;
+    //overflow: hidden;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+
+    &:hover { border-color: #2a2d5a; }
+}
+
+/* ── Meta bar ─────────────────────────────────────── */
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    //border-bottom: 1px solid #1e2140;
+}
+
+.index {
+    font-size: 12px;
+    color: #4a4d6e;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.payloadType {
+    font-size: 10px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    letter-spacing: 0.06em;
+    color: #4a4d6e;
+    background: #0d0f1a;
+    border: 1px solid #1e2140;
+    border-radius: 4px;
+    padding: 2px 7px;
+}
+
+/* ── Body (PayloadTabs owns its own padding) ──────── */
+
+.body {
+    border-bottom: 1px solid #1e2140;
+    padding: 20px 8px;
+}

@@ -1,11 +1,12 @@
+// TODO fix this dependency cycle with toolbar
+import { useToolbar } from '@debug-panel/toolbar';
 import { Box } from '@debug-panel/ui';
 
 import { useSearch } from '../../context/search-context';
+import { useSuggestions } from '../../context/suggestions-context';
 import type { ListContentProps } from '../../types';
 import { HighlightMatch } from './highlight-match';
 import { SuggestionMeta } from './suggestion-meta';
-import { useToolbar } from '@debug-panel/toolbar';
-import { useSuggestions } from '../../context/suggestions-context';
 
 export const Content = ( { path }: ListContentProps ) => {
     const { query } = useSearch();
@@ -20,7 +21,7 @@ export const Content = ( { path }: ListContentProps ) => {
         if ( ! isValueSearchActive ) {
             return dfvdfv
         }
-// !== "object" || current === null typeof current !== 'boolean'
+
         return path.split( '.' ).reduce( ( current, key ) => {
             if ( current !== "object" && current === null ) {
                 return null;

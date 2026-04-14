@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a832694f90964af5767128b31b0176c",
+    "content-hash": "5297fcb1097345222d4554ffdf0cc308",
     "packages": [
         {
             "name": "brick/math",
-            "version": "0.14.3",
+            "version": "0.14.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "6af96b11de3f7d99730c118c200418c48274edb4"
+                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/6af96b11de3f7d99730c118c200418c48274edb4",
-                "reference": "6af96b11de3f7d99730c118c200418c48274edb4",
+                "url": "https://api.github.com/repos/brick/math/zipball/63422359a44b7f06cae63c3b429b59e8efcc0629",
+                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.3"
+                "source": "https://github.com/brick/math/tree/0.14.8"
             },
             "funding": [
                 {
@@ -64,7 +64,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-01T15:18:05+00:00"
+            "time": "2026-02-10T14:33:43+00:00"
         },
         {
             "name": "psr/container",
@@ -275,16 +275,16 @@
         },
         {
             "name": "spatie/backtrace",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/backtrace.git",
-                "reference": "8c0f16a59ae35ec8c62d85c3c17585158f430110"
+                "reference": "8ffe78be5ed355b5009e3dd989d183433e9a5adc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/backtrace/zipball/8c0f16a59ae35ec8c62d85c3c17585158f430110",
-                "reference": "8c0f16a59ae35ec8c62d85c3c17585158f430110",
+                "url": "https://api.github.com/repos/spatie/backtrace/zipball/8ffe78be5ed355b5009e3dd989d183433e9a5adc",
+                "reference": "8ffe78be5ed355b5009e3dd989d183433e9a5adc",
                 "shasum": ""
             },
             "require": {
@@ -295,7 +295,7 @@
                 "laravel/serializable-closure": "^1.3 || ^2.0",
                 "phpunit/phpunit": "^9.3 || ^11.4.3",
                 "spatie/phpunit-snapshot-assertions": "^4.2 || ^5.1.6",
-                "symfony/var-dumper": "^5.1 || ^6.0 || ^7.0"
+                "symfony/var-dumper": "^5.1|^6.0|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -323,7 +323,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/backtrace/issues",
-                "source": "https://github.com/spatie/backtrace/tree/1.8.1"
+                "source": "https://github.com/spatie/backtrace/tree/1.8.2"
             },
             "funding": [
                 {
@@ -335,7 +335,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2025-08-26T08:22:30+00:00"
+            "time": "2026-03-11T13:48:28+00:00"
         },
         {
             "name": "spatie/macroable",
@@ -389,16 +389,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.45.0",
+            "version": "1.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "68920c418d10fe103722d366faa575533d26434f"
+                "reference": "974ac9c6e315033ab8ace883d60e094522f88ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/68920c418d10fe103722d366faa575533d26434f",
-                "reference": "68920c418d10fe103722d366faa575533d26434f",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/974ac9c6e315033ab8ace883d60e094522f88ede",
+                "reference": "974ac9c6e315033ab8ace883d60e094522f88ede",
                 "shasum": ""
             },
             "require": {
@@ -412,7 +412,7 @@
                 "symfony/var-dumper": "^4.2|^5.1|^6.0|^7.0.3|^8.0"
             },
             "require-dev": {
-                "illuminate/support": "^7.20|^8.18|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^7.20|^8.18|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "nesbot/carbon": "^2.63|^3.8.4",
                 "pestphp/pest": "^1.22",
                 "phpstan/phpstan": "^1.10.57|^2.0.3",
@@ -458,7 +458,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.45.0"
+                "source": "https://github.com/spatie/ray/tree/1.48.0"
             },
             "funding": [
                 {
@@ -470,7 +470,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-01-26T18:45:30+00:00"
+            "time": "2026-03-31T12:44:31+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -541,16 +541,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6a21eb99c6973357967f6ce3708cd55a6bec6315",
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +602,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -622,7 +622,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-23T08:48:59+00:00"
+            "time": "2026-04-10T17:25:58+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -713,16 +713,16 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v7.4.0",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
-                "reference": "8a24af0a2e8a872fb745047180649b8418303084"
+                "reference": "70a852d72fec4d51efb1f48dcd968efcaf5ccb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/8a24af0a2e8a872fb745047180649b8418303084",
-                "reference": "8a24af0a2e8a872fb745047180649b8418303084",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/70a852d72fec4d51efb1f48dcd968efcaf5ccb89",
+                "reference": "70a852d72fec4d51efb1f48dcd968efcaf5ccb89",
                 "shasum": ""
             },
             "require": {
@@ -755,7 +755,7 @@
             "description": "Provides a way to profile code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/stopwatch/tree/v7.4.0"
+                "source": "https://github.com/symfony/stopwatch/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -775,20 +775,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-04T07:05:15+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.4.4",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282"
+                "reference": "9510c3966f749a1d1ff0059e1eabef6cc621e7fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0e4769b46a0c3c62390d124635ce59f66874b282",
-                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9510c3966f749a1d1ff0059e1eabef6cc621e7fd",
+                "reference": "9510c3966f749a1d1ff0059e1eabef6cc621e7fd",
                 "shasum": ""
             },
             "require": {
@@ -842,7 +842,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.4.4"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -862,7 +862,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-01T22:13:48+00:00"
+            "time": "2026-03-30T13:44:50+00:00"
         }
     ],
     "packages-dev": [],

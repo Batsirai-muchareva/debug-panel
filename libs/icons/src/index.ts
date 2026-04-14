@@ -20,6 +20,7 @@ import type { IconProps } from './types';
 import { UpChevron } from './up-chevron';
 import { Warning } from './warning';
 import { ServerIcon } from './server';
+import { ListIcon } from './list';
 
 const iconRegistry = {
     bug: BugIcon,
@@ -39,7 +40,8 @@ const iconRegistry = {
     info: Info,
     'up-chevron': UpChevron,
     'solid-down-chevron': SolidDownChevron,
-    server: ServerIcon
+    server: ServerIcon,
+    list: ListIcon,
 } as const;
 
 export type IconName = keyof typeof iconRegistry;
@@ -72,5 +74,6 @@ export {
     Info,
     UpChevron,
     SolidDownChevron,
-    ServerIcon
+    ServerIcon,
+    ListIcon
 }

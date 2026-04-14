@@ -33,13 +33,19 @@ export const filterByValue = ( data: unknown, query: string ): string[] => {
     return paths;
 };
 
-//  || typeof value === 'boolean'
 const matchesValue = ( value: unknown, needle: string ): boolean => {
-    // console.log( value,'--------', needle );
-    //
-    if ( value === null || value === undefined ) return false;
-    if ( typeof value === 'string' ) return value.toLowerCase().includes( needle );
-    if ( typeof value === 'number' ) return String( value ).includes( needle );
+    if ( value === null || value === undefined ) {
+        return false;
+    }
+
+    if ( typeof value === 'string' ) {
+        return value.toLowerCase().includes( needle );
+    }
+
+    if ( typeof value === 'number' ) {
+        return String( value ).includes( needle );
+    }
+
     return false;
 };
 

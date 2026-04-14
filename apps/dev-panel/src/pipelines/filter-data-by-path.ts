@@ -8,16 +8,6 @@ export const filterDataByPath = ( data: unknown, path?: string ) => {
     return resolvePath( data, path );
 }
 
-/**
- * Resolves a dot/bracket-notation `path` against `data`.
- * Returns `null` when any segment along the path does not exist.
- *
- * @example
- * resolvePath({ a: { b: 1 } }, "a.b")   // 1
- * resolvePath({ a: [1, 2] },   "a[0]")  // 1
- * resolvePath({ a: 1 },        "a.b.c") // null
- */
-
 const resolvePath = ( data: unknown, path: string ): unknown => {
     if ( !isObject( data ) ) return null;
 

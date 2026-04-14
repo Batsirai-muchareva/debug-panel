@@ -1,0 +1,360 @@
+//
+//
+//
+//
+///* ── Footer ───────────────────────────────────────── */
+//
+//.footer {
+//    display: flex;
+//    align-items: center;
+//    justify-content: space-between;
+//    padding: 8px;
+//}
+//
+//.location {
+//    display: flex;
+//    align-items: center;
+//    gap: 6px;
+//    font-size: 11px;
+//    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+//    overflow: hidden;
+//}
+//
+//.file { color: #7c7fdd; white-space: nowrap; }
+//.sep  { color: #5a5d84; flex-shrink: 0; }
+//.fn   { color: #5a5d84; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+//.line { color: #4a4d6e; white-space: nowrap; }
+//.time { font-size: 12px; color: #4a4d6e; white-space: nowrap; flex-shrink: 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////
+////
+////
+////.container {
+////    display: flex;
+////    flex-direction: column;
+////    gap: 2px;
+////    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+////    font-size: 12px;
+////}
+////
+////.empty {
+////    margin: 0;
+////    color: #4a4d6e;
+////    font-size: 13px;
+////    font-style: italic;
+////}
+////
+////.frame {
+////    display: flex;
+////    align-items: flex-start;
+////    gap: 12px;
+////    padding: 8px 12px;
+////    border-radius: 6px;
+////    background: #0d0f1a;
+////    border: 1px solid #1e2140;
+////    transition: border-color 0.15s;
+////
+////    &:hover { border-color: #2a2d5a; }
+////}
+////
+////.origin {
+////    border-color: #2a4545;
+////    background: #0a1e1e;
+////
+////    &:hover { border-color: #3a6e6a; }
+////
+////    .path { color: #4ecdc4; }
+////}
+////
+////.frameIndex {
+////    min-width: 22px;
+////    height: 22px;
+////    border-radius: 50%;
+////    background: #1a1d40;
+////    border: 1px solid #2a2d5a;
+////    display: flex;
+////    align-items: center;
+////    justify-content: center;
+////    font-size: 10px;
+////    color: #4a4d6e;
+////    flex-shrink: 0;
+////    line-height: 1;
+////}
+////
+////.badge {
+////    font-size: 10px;
+////    font-family: system-ui, sans-serif;
+////    letter-spacing: 0.06em;
+////    text-transform: uppercase;
+////    color: #4ecdc4;
+////    background: rgba(78, 205, 196, 0.1);
+////    border: 1px solid rgba(78, 205, 196, 0.3);
+////    border-radius: 4px;
+////    padding: 2px 7px;
+////    flex-shrink: 0;
+////    align-self: center;
+////}
+////
+////.frameBody {
+////    display: flex;
+////    flex-direction: column;
+////    gap: 2px;
+////    min-width: 0;
+////    overflow: hidden;
+////}
+////
+////.fn {
+////    color: #9da0dd;
+////    font-weight: 500;
+////}
+////
+//////.location {
+//////    display: flex;
+//////    align-items: baseline;
+//////    gap: 0;
+//////    overflow: hidden;
+//////}
+////
+////.path {
+////    color: #6b9e99;
+////    white-space: nowrap;
+////    overflow: hidden;
+////    text-overflow: ellipsis;
+////    font-size: 11px;
+////}
+////
+////.lineTag {
+////    color: #4a4d6e;
+////    white-space: nowrap;
+////    font-size: 11px;
+////}
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.locationWrap {
+    position: relative;
+}
+
+.location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    overflow: hidden;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover .file { color: #9b9ef0; }
+}
+
+.file { color: #7c7fdd; white-space: nowrap; }
+.sep  { color: #5a5d84; flex-shrink: 0; }
+.fn   { color: #5a5d84; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.line { color: #4a4d6e; white-space: nowrap; }
+.time { font-size: 12px; color: #4a4d6e; white-space: nowrap; flex-shrink: 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+
+// Popover
+.popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 100;
+    width: 420px;
+    background: #1e1f2e;
+    border: 0.5px solid rgba(124, 127, 221, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.popoverHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+
+    span {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: #5a5d84;
+        text-transform: uppercase;
+    }
+}
+
+.openEditor {
+    font-size: 11px;
+    color: #7c7fdd;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: inherit;
+
+    &:hover { background: rgba(124, 127, 221, 0.12); }
+}
+
+.filePath {
+    padding: 8px 14px;
+    font-size: 10px;
+    color: #4a4d6e;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    strong { color: #7c7fdd; }
+}
+
+.frames {
+    max-height: 280px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+}
+
+.frame {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.1s;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: rgba(124, 127, 221, 0.06); }
+    &.active { background: rgba(124, 127, 221, 0.1); }
+}
+
+.frameIdx {
+    font-size: 10px;
+    color: #4a4d6e;
+    min-width: 14px;
+    padding-top: 1px;
+}
+
+.frameBody {
+    flex: 1;
+    min-width: 0;
+}
+
+.frameFn {
+    font-size: 12px;
+    color: #7c7fdd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .active & { color: #9b9ef0; }
+}
+
+.frameLoc {
+    font-size: 10px;
+    color: #4a4d6e;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.frameLine {
+    font-size: 10px;
+    color: #5a5d84;
+    padding-top: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    .active & { color: #7c7fdd; }
+}
+
+.popoverFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.07);
+    font-size: 11px;
+    color: #5a5d84;
+
+    strong { color: #7c7fdd; }
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: #5a5d84;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: inherit;
+
+        &:hover { background: rgba(255, 255, 255, 0.05); color: #7c7fdd; }
+    }
+}

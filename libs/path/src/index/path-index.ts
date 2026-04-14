@@ -1,6 +1,5 @@
 import { traverseData, type TraverseOptions } from './collect-paths/traverse-data';
 import { createTrie } from './path-trie';
-// import { useToolbar } from '@debug-panel/toolbar';
 
 type PathIndexState = {
     paths: string[];

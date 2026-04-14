@@ -49,7 +49,7 @@ export const Indicator = ( { tabCount, padding = 3, activeIndex, trackRef }: Pro
 
   const style: React.CSSProperties = {
     width,
-    transform: `translateX(${activeIndex * width + padding}px)`, /** padding offset so indicator aligns inside the track padding **/
+    transform: `translateX(${activeIndex * width + padding}px)`,
     opacity: width === 0 ? 0 : 1, /** hide the flash on first render before width is measured **/
   };
 

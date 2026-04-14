@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 
-import { usePath } from '@debug-panel/path';
-
 import { SEGMENTS_QUERY_SELECTOR } from '../constants';
 import type { Segment, SharedArgs } from '../types';
 import { findSegmentById } from '../utils/find-segment-by-id';
@@ -9,8 +7,8 @@ import { findSegmentById } from '../utils/find-segment-by-id';
 const ELLIPSIS_WIDTH = 40;
 
 export const useTruncateMiddle = ( { ref, items, setHiddenSegments, hiddenSegments }: SharedArgs ) => {
-    // const { path } = usePath();
-// effect 1 — measure overflow and collect which segments to hide
+
+    // effect 1 — measure overflow and collect which segments to hide
     // triggers re-render with new hiddenSegments
     useEffect( () => {
         const el = ref.current;
@@ -50,83 +48,6 @@ export const useTruncateMiddle = ( { ref, items, setHiddenSegments, hiddenSegmen
             setHidden( child, isHidden as boolean );
         } );
     }, [ hiddenSegments ] );
-
-    // useEffect( () => {
-    //     const el = ref.current;
-    //
-    //     if ( ! el ) {
-    //         return;
-    //     }
-    //
-    //     const update = () => {
-    //         requestAnimationFrame( () => {
-    //
-    //             const children = Array.from( el.querySelectorAll<HTMLElement>( SEGMENTS_QUERY_SELECTOR ) );
-    //         // console.log( 'children count:', children.length );
-    //         // console.log( 'children:', children.map( c => c.querySelector( 'button' )?.textContent ) );
-    //     // ...
-    //     //     console.log( children );
-    //         showAll( children );
-    //
-    //         if ( ! isOverflowing( el, children ) ) {
-    //             setHiddenSegments( [] );
-    //             return;
-    //         }
-    //
-    //         hideMiddle( children );
-    //         revealFromEdgesWhileSpaceAllows( el, children );
-    //
-    //         setHiddenSegments( collectHidden( children, items ) );
-    //
-    //         } );
-    //
-    //     };
-    //
-    //     update();
-    //
-    //     const resizeObserver = new ResizeObserver( update );
-    //     resizeObserver.observe( el );
-    //     return () => resizeObserver.disconnect();
-    // }, [ items, path ] );
-
-    // effect 1 — just collect hidden segments, trigger re-render
-    // useEffect( () => {
-    //     const el = ref.current;
-    //     if ( ! el ) return;
-    //
-    //     const measure = () => {
-    //         const children = Array.from( el.querySelectorAll<HTMLElement>( SEGMENTS_QUERY_SELECTOR ) );
-    //         showAll( children );
-    //
-    //         if ( ! isOverflowing( el, children ) ) {
-    //             setHiddenSegments( [] );
-    //             return;
-    //         }
-    //
-    //         hideMiddle( children );
-    //         revealFromEdgesWhileSpaceAllows( el, children );
-    //         setHiddenSegments( collectHidden( children, items ) );
-    //     };
-    //
-    //     measure();
-    //     const ro = new ResizeObserver( measure );
-    //     ro.observe( el );
-    //     return () => ro.disconnect();
-    // }, [ items, path ] );
-
-// effect 2 — apply styles AFTER React has rendered with new hiddenSegments
-//     useEffect( () => {
-//         const el = ref.current;
-//         if ( ! el ) return;
-//
-//         const children = Array.from( el.querySelectorAll<HTMLElement>( SEGMENTS_QUERY_SELECTOR ) );
-//
-//         children.forEach( child => {
-//             const id = child.querySelector( 'button' )?.dataset.id;
-//             const isHidden = hiddenSegments.some( s => s.id === id );
-//             setHidden( child, isHidden );
-//         } );
-//     }, [ hiddenSegments ] );
 }
 
 const getChildren = ( el: HTMLElement ) =>

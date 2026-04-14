@@ -6,11 +6,8 @@ import type { VariantConfig } from '../../../hooks/use-tabs-configs';
 export const VariantTabs = () => {
     const { tabs, id, setId: setVariantTab } = useTabs<VariantConfig>();
 
-    // We need a synchonous effect
+    //TODO We need a synchonous effect
     store.scope( id )
-    // useEffect( () => {
-    //
-    // }, [ id ] );
 
     return (
         <LineTab.Group onChange={ setVariantTab } defaultActive={id}>

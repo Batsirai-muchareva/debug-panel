@@ -3,7 +3,7 @@ import { adapter } from './adapter';
 export type StorageSchema = Record<string, unknown>;
 
 const store = <T extends StorageSchema>( namespace: string, scopeKey?: string ) => {
-    const { read, write } = adapter( namespace, scopeKey );
+    const { read, write, drop } = adapter( namespace, scopeKey );
 
     const get = <K extends keyof T>( key: K ): T[K] | null => {
         return ( read()[ key as string ] as T[K] ) ?? null;
@@ -23,9 +23,9 @@ const store = <T extends StorageSchema>( namespace: string, scopeKey?: string ) 
         return read() as Partial<T>;
     };
 
-    // const clear  = (): void => drop();
+    const clear  = (): void => drop();
 
-    return { get, set, remove, all };
+    return { get, set, remove, all, clear };
 };
 
 export { store };

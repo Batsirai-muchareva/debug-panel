@@ -1,19 +1,8 @@
-import {
-    CSSProperties,
-    forwardRef,
-    HTMLAttributes,
-    PropsWithChildren,
-} from 'react';
+import { forwardRef, type HTMLAttributes, type PropsWithChildren } from 'react';
 
 import { cx } from '../utils/cx';
-import styles from './box.module.scss'
 
-// type Props = PropsWithChildren<{
-//   className?: string;
-//   style?: CSSProperties;  & {
-//     style?: CSSProperties;
-// }
-// }>;
+import styles from './box.module.scss'
 
 type Props = PropsWithChildren< HTMLAttributes<HTMLDivElement> >;
 

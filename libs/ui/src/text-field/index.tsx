@@ -1,9 +1,4 @@
-import {
-    type ChangeEvent,
-    type ComponentType,
-    forwardRef,
-    type KeyboardEvent, useRef,
-} from 'react';
+import { type ChangeEvent, type ComponentType, type KeyboardEvent, useRef } from 'react';
 
 import { CloseIcon } from '@debug-panel/icons';
 

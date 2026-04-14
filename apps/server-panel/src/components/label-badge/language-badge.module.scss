@@ -1,0 +1,37 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #1a1d40;
+    border: 1px solid #2a2d5a;
+    border-radius: 20px;
+    padding: 0 10px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    background: #e2a955;
+}
+
+.label {
+    font-size: 10px;
+    color: #e2c87a;
+}
+
+//.php {
+//    .dot   { background: #7c7fdd; }
+//    .label { color: #9da0dd; }
+//}
+
+//.js {
+//    .dot   { background: #e2a955; }
+//    .label { color: #e2c87a; }
+//}
+//
+//.dot   {  }
+//.label {  }
+

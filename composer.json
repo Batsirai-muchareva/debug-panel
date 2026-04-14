@@ -7,7 +7,11 @@
           "DevDebugTool\\": "src/"
       },
       "files": [
-          "src/php-debug/helpers.php"
+          "src/debug-logger/helpers.php"
       ]
+  },
+  "require": {
+    "spatie/ray": "^1.48",
+    "symfony/var-dumper": "^7.4"
   }
 }

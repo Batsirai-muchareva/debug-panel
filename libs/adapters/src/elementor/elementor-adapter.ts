@@ -65,11 +65,6 @@ const createElementorAdapter = () => {
         elementSubscriber: createElementEventSubscriber(),
         elementDataExtractor: elementDataExtractor,
         globalClasses,
-        toolbarHeight: () => {
-            const toolbar = document.getElementById( 'elementor-editor-wrapper-v2' );
-
-            return toolbar?.offsetHeight ?? null
-        },
         schemaTypes: {
             style: getAtomicStyleSchema,
             interaction: getInteractionsSchema,

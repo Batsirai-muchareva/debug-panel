@@ -1,5 +1,4 @@
 import { PathCrumb } from './components/path-crumb';
-// import { RecentSearch } from './components/recent-search';
 import { SearchBar } from './components/search-bar';
 import { Suggestions } from './components/suggestions';
 import { SearchProvider } from './context/search-context';
@@ -16,9 +15,3 @@ export const Search = ( { onClose, data }: { onClose: () => void; data: unknown 
         </SearchProvider>
     )
 }
-
-// initial = query ( pending ( **match ) ) && path ( null ) ==== data ( full )
-// initial = query ( match ) && path ( query ) ==== data ( path = data ( partial ) )
-// query && path ( string )
-
-// map all senarios

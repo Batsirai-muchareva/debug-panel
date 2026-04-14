@@ -3,21 +3,16 @@
   z-index: 1;
 
 
-  display: inline-flex;           // match line-tab
-  align-items: center;            // match line-tab
-  gap: $spacing-xs;               // match line-tab
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
   padding: $tab-item-padding-y $tab-item-padding-x;
-  font-size: $tab-font-size;      // ← shared token
-  font-weight: $tab-font-weight;  // ← shared token
+  font-size: $tab-font-size;
+  font-weight: $tab-font-weight;
   border-radius: $radius-lg;
-
 
   flex: 1;
 
-
-  //padding: $spacing-xs;
-  //font-weight: 500;
-  //border-radius: $radius-lg;
   border: none;
   background: transparent;
   color: #9faeb0;
@@ -26,7 +21,6 @@
   white-space: nowrap;
 
   &-active {
-    //color: #111;
     color: #ffffff;
   }
 }

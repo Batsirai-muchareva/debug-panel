@@ -20,7 +20,6 @@ import { Content } from './content';
 
 import styles from './panel.module.scss';
 
-
 export const Panel = () => {
     const providers = useTabsConfigs();
 
@@ -71,8 +70,3 @@ const TabContent = () => {
 
     return <Content />
 }
-
-// Sidebar pin
-// AI
-// Timeline
-// record interactive & play

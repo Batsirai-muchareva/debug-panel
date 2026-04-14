@@ -1,20 +1,21 @@
-import { createContext, type PropsWithChildren, RefObject, useMemo, useRef } from 'react';
+import { createContext, type PropsWithChildren, type RefObject, useMemo, useRef } from 'react';
 
 import { useContext, useState } from '@wordpress/element';
 
 import { usePath } from '@debug-panel/path';
 import { createPipeline } from '@debug-panel/pipeline';
+// TODO fix this dependency cycle with toolbar
+import { useToolbar } from '@debug-panel/toolbar';
 
 import { useRecentSearches } from '../hooks/use-recent-searches';
 import { appendRecentSearches } from '../pipelines/append-recent-searches';
 import { filterByPath } from '../pipelines/filter-by-path';
 import { filterByQuery } from '../pipelines/filter-by-query';
+import { filterByValue } from '../pipelines/filter-by-value';
 import { groupSuggestions } from '../pipelines/group-suggestions';
 import { limitCategories } from '../pipelines/limit-records';
 import { getAllPaths } from '../utils/get-all-paths';
 import { useSearch } from './search-context';
-import { useToolbar } from '@debug-panel/toolbar';
-import { filterByValue } from '../pipelines/filter-by-value';
 
 type ContextValue = {
     isOpen: boolean;
@@ -61,21 +62,6 @@ export const SuggestionsProvider = ( { children, data }: PropsWithChildren<{ dat
         return runSearch( getAllPaths() );
 
     }, [ path, query, isOpen, isValueSearchActive, data ] );
-
-    // const suggestions = useMemo( () => {
-    //     const runSearch = createPipeline<string[]>()
-    //         .pipe( data => {
-    //             return filterByPath( data, path );
-    //         } )
-    //         .pipe( data => filterByQuery( data, query ) )
-    //         .pipe( data => groupSuggestions( data, path ) )
-    //         .pipe( data => limitCategories( data ) )
-    //         .pipe( data => appendRecentSearches( data, recentSearches, query ) )
-    //         .build();
-    //
-    //     return runSearch( getAllPaths() );
-    //
-    // }, [ path, query, isOpen ] );
 
     return (
         <SuggestionsContext.Provider

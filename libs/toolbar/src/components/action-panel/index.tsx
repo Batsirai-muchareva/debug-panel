@@ -1,9 +1,8 @@
 import { findAction } from '../../actions-registry';
-import { useActionPanel, useToolbar } from '../../context/toolbar-context';
+import { useActionPanel } from '../../context/toolbar-context';
 
 export const ActionPanel =  ( { data }: { data: unknown } ) => {
     const { activePanelId, setActivePanelId } = useActionPanel();
-    // const { states, setState, setData } = useToolbar(  );
 
     if ( ! activePanelId ) {
         return null;

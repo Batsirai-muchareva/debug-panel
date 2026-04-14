@@ -11,6 +11,11 @@
         "build": {
             "outputs": ["{projectRoot}/build"],
             "cache": true
+        },
+        "@nx/esbuild:esbuild": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
         }
     },
     "packageManager": "pnpm",
@@ -47,7 +52,8 @@
             "plugin": "@nx/jest/plugin",
             "options": {
                 "targetName": "jest:test"
-            }
+            },
+            "exclude": ["apps/ws-server-e2e/**/*"]
         },
         {
             "plugin": "@nx/rollup/plugin",

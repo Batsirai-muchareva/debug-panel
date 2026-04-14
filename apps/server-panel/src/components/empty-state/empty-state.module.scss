@@ -1,0 +1,126 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(78, 205, 196, 0.12) 0%, rgba(78, 205, 196, 0.04) 40%, transparent 70%);
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #0f3330;
+    border: 1.5px solid #1a4a45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.heading {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #e8f5f3;
+}
+
+.subheading {
+    margin: 0;
+    font-size: 13px;
+    color: #6b9e99;
+    line-height: 1.6;
+}
+
+.snippet {
+    width: 100%;
+    max-width: 300px;
+    background: #0a2220;
+    border: 1px solid #1a4a45;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.snippetHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid #1a4a45;
+}
+
+.snippetLabel {
+    font-size: 11px;
+    color: #3a6e6a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.trafficLights {
+    display: flex;
+    gap: 5px;
+}
+
+.red, .yellow, .green {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.red    { background: #e25555; }
+.yellow { background: #e2a955; }
+.green  { background: #55e275; }
+
+.snippetBody {
+    padding: 14px 16px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.codeLine {
+    display: flex;
+    gap: 16px;
+}
+
+.lineNum {
+    color: #3a6e6a;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.codeText      { color: #8abfbb; }
+.codeHighlight { color: #4ecdc4; font-weight: 500; }
+
+/* Inline <code> in subheading */
+.code {
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 12px;
+    color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.08);
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-radius: 4px;
+    padding: 1px 6px;
+}

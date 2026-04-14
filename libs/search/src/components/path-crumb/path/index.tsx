@@ -1,4 +1,4 @@
-import { RightChevron, CloseIcon } from '@debug-panel/icons';
+import { CloseIcon,RightChevron } from '@debug-panel/icons';
 import { generateUniquePathSegments, usePath } from '@debug-panel/path';
 import { Truncate } from '@debug-panel/truncate';
 import { Box, Button, cx } from '@debug-panel/ui';
@@ -61,4 +61,3 @@ export const Path = () => {
         </Truncate>
     )
 }
-//  className={ styles.chevron }

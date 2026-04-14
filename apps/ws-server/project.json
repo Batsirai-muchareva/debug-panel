@@ -11,9 +11,9 @@
             "defaultConfiguration": "production",
             "options": {
                 "platform": "node",
-                "outputPath": "dist/apps/ws-server",
+                "outputPath": "build/ws-server",
                 "format": ["cjs"],
-                "bundle": false,
+                "bundle": true,
                 "main": "apps/ws-server/src/main.ts",
                 "tsConfig": "apps/ws-server/tsconfig.app.json",
                 "assets": ["apps/ws-server/src/assets"],

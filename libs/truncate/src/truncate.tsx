@@ -1,15 +1,15 @@
 import { type PropsWithChildren, useState } from 'react';
 
+import { TOOLBAR_CONTENT_PORTAL_ID } from '@debug-panel/constants';
 import { Popup, Portal } from '@debug-panel/ui';
 
+import { Overlay } from './components/overlay';
 import { SegmentList } from './components/segment-list';
 import { TruncateEnd } from './components/truncate-end';
 import { TruncateMiddle } from './components/truncate-middle';
 import { usePopup } from './hooks/use-popup';
 import type { Segment, TruncateMode } from './types';
 import { getPortalElement } from './utils/get-portal-element';
-import { Overlay } from './components/overlay';
-import { TOOLBAR_CONTENT_PORTAL_ID } from '@debug-panel/constants';
 
 type TruncateProps = PropsWithChildren<{
     mode?: TruncateMode;
@@ -42,21 +42,21 @@ export const Truncate = ( { mode = 'end', ...props }: TruncateProps ) => {
             { isOpen && (
                 <Portal container={ getPortalElement( TOOLBAR_CONTENT_PORTAL_ID ) }>
                      <Overlay>
-                    <Popup
-                        triggerRect={ getTriggerRect() }
-                        onClose={ close }
-                        title="Hidden Segments"
-                    >
-                        <SegmentList
-                            showCount
-                            onSelect={ ( item ) => {
-                                props.onSelect?.( item );
-                                close();
-                            } }
-                            items={ hiddenSegments }
-                            activeItem={ getActiveItem( hiddenSegments, mode ) }
-                        />
-                    </Popup>
+                         <Popup
+                             triggerRect={ getTriggerRect() }
+                             onClose={ close }
+                             title="Hidden Segments"
+                         >
+                             <SegmentList
+                                 showCount
+                                 onSelect={ ( item ) => {
+                                     props.onSelect?.( item );
+                                     close();
+                                 } }
+                                 items={ hiddenSegments }
+                                 activeItem={ getActiveItem( hiddenSegments, mode ) }
+                             />
+                         </Popup>
                      </Overlay>
                 </Portal>
             ) }

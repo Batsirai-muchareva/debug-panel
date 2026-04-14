@@ -1,18 +1,6 @@
-.container {
+.app {
   display: flex;
   flex-direction: column;
-  height: stretch;
+  height: 100vh;
   background: #0d3330;
-}
-
-.wrapper {
-  flex: 1;
-  margin: 15px;
-  background: #0d0f1a;
-  border-radius: 12px;
-}
-
-.maxWidth {
-  max-width: 800px;
-  margin: auto;
 }

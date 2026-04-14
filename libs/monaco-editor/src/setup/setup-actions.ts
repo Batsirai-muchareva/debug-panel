@@ -1,8 +1,8 @@
 import type { editor } from 'monaco-editor';
+import type { RefObject } from 'react';
 
 import { buildPath } from '@debug-panel/json-delta';
 import { sourceLocator } from '@debug-panel/source-locator';
-import type { RefObject } from 'react';
 
 export function setupActions(
     editor: editor.IStandaloneCodeEditor,

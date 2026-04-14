@@ -4,12 +4,9 @@
   align-items: center;
   gap: $spacing-xs;
   flex: 1;
-  //padding: $spacing-sm $spacing-md;
   padding: $tab-item-padding-y $tab-item-padding-x;
   font-size: $tab-font-size;
   font-weight: $tab-font-weight;
-  //font-size: $font-size-md;
-  //font-weight: $font-weight-medium;
   border: none;
   background: transparent;
   color: $color-text-secondary;
@@ -38,18 +35,3 @@
   color: $color-text-primary;
 
 }
-
-//&::after {
-//  background: #e9b226;
-//  //background: $color-border-default;
-//  transform: scaleX(1);
-//}
-
-//&:hover {
-//  color: $color-text-primary;
-//
-//  &::after {
-//    background: $color-border-subtle;
-//    transform: scaleX(0.6);
-//  }
-//}

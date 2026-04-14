@@ -5,107 +5,49 @@ $border-color: rgba(34, 211, 238, 0.4);
 $tabs-track-bg: rgba(0, 0, 0, 0.05);
 
 // ─── Color — Base ────────────────────────────────────────────────────────────
-$color-bg-base:         rgb(26, 65, 67);       // was: $primary-color (too vague)
-$color-bg-surface:      rgba(0, 0, 0, 0.05);   // was: $tabs-track-bg (too specific)
-$color-bg-overlay:      rgba(0, 0, 0, 0.45);   // missing — needed for modals/popovers
+$color-bg-base:         rgb(26, 65, 67);
+$color-bg-surface:      rgba(0, 0, 0, 0.05);
+$color-bg-overlay:      rgba(0, 0, 0, 0.45);
 
-$color-text-primary:    #ffffff;               // was: $text-color (too vague)
-$color-text-secondary:  rgba(255, 255, 255, 0.55); // missing — muted text
-$color-text-disabled:   rgba(255, 255, 255, 0.3);  // missing — disabled states
+$color-text-primary:    #ffffff;
+$color-text-secondary:  rgba(255, 255, 255, 0.55);
+$color-text-disabled:   rgba(255, 255, 255, 0.3);
 
-$color-border-default:  rgba(34, 211, 238, 0.4);   // was: $border-color (too vague)
-$color-border-subtle:   rgba(34, 211, 238, 0.15);  // missing — softer dividers
-$color-border-strong:   rgba(34, 211, 238, 0.7);   // missing — focus/active rings
+$color-border-default:  rgba(34, 211, 238, 0.4);
+$color-border-subtle:   rgba(34, 211, 238, 0.15);
+$color-border-strong:   rgba(34, 211, 238, 0.7);
 
 
 // Shadows
 $shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
 $shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
 
-// Semantic colors
-$color-danger: #d63638;
 
-// z-index
-$z-index-popover: 2000;
+// ─── Color — Semantic ────────────────────────────────────────────────────────
+$color-danger:          #d63638;
+$color-danger-subtle:   rgba(214, 54, 56, 0.15);
+$color-success:         #00a32a;
+$color-warning:         #dba617;
+
+// ─── Color — Interactive ─────────────────────────────────────────────────────
+$color-focus-ring:      rgba(34, 211, 238, 0.5);
+
+
+// ─── Z-index ─────────────────────────────────────────────────────────────────
+$z-index-base:          1;
+$z-index-dropdown:      1000;
+$z-index-popover:       2000;
+$z-index-modal:         3000;
+$z-index-toast:         4000;
 
 
 $divider-border: 1px solid #1e3535;
 
-// border-radius
-//$border-radius-sm: 4px;
-//$border-radius-md: 8px;
-//$border-radius-lg: 12px;
-//$border-radius-circle: 50%;
+// ─── Shadows ─────────────────────────────────────────────────────────────────
+$shadow-sm:             0 4px 12px rgba(0, 0, 0, 0.15);
+$shadow-md:             0 8px 32px rgba(0, 0, 0, 0.12);
+$shadow-inset:          inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 
-// shadows
-$shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
-$shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
-
-
-// ─── Spacing ─────────────────────────────────────────────────────────────────
-$spacing-xs:            4px;
-$spacing-sm:            8px; // TODO primary should be named primary spacing
-$spacing-md:            12px;
-$spacing-lg:            16px;
-$spacing-xl:            24px;
-$spacing-2xl:           32px;                  // missing — section gaps
-
-$primary-spacing: $spacing-sm;
-$primary-inline-block-spacing: 6px $primary-spacing;
-
-// ─── Border Radius ───────────────────────────────────────────────────────────
-$radius-sm:             4px;                   // was: $border-radius-sm (verbose prefix)
-$radius-md:             8px;                   // was: $border-radius-md
-$radius-lg:             12px;                  // was: $border-radius-lg
-$radius-pill:           999px;                 // was: missing — you need this for ButtonTab
-$radius-circle:         50%;                   // was: $border-radius-circle
-
-
-// ─── Transition ──────────────────────────────────────────────────────────────
-$transition-fast:       0.15s ease;            // missing — hover states
-$transition-base:       0.2s ease;             // missing — most transitions
-$transition-slide:      0.28s cubic-bezier(0.2, 0.8, 0.3, 1); // missing — your pill uses this
-
-
-// ─── Typography ──────────────────────────────────────────────────────────────
-$font-size-xs:          11px;                  // missing — labels, badges
-$font-size-sm:          12px;                  // missing — secondary text
-$font-size-md:          13px;                  // missing — body/tabs
-$font-size-lg:          15px;                  // missing — headings
-
-$font-weight-regular:   400;                   // missing
-$font-weight-medium:    500;                   // missing
-
-
-// ─── Shared Tab sizing ──────────────────────────────────────────────────────────────
-$tab-height: 36px;              // single source of truth
-$tab-item-padding-y: $spacing-xs;
-$tab-item-padding-x: $spacing-md;
-$tab-font-size: $font-size-md;
-$tab-font-weight: $font-weight-medium;
-
-/**
-// ─── Color — Base ────────────────────────────────────────────────────────────
-$color-bg-base:         rgb(26, 65, 67);       // was: $primary-color (too vague)
-$color-bg-surface:      rgba(0, 0, 0, 0.05);   // was: $tabs-track-bg (too specific)
-$color-bg-overlay:      rgba(0, 0, 0, 0.45);   // missing — needed for modals/popovers
-
-$color-text-primary:    #ffffff;               // was: $text-color (too vague)
-$color-text-secondary:  rgba(255, 255, 255, 0.55); // missing — muted text
-$color-text-disabled:   rgba(255, 255, 255, 0.3);  // missing — disabled states
-
-$color-border-default:  rgba(34, 211, 238, 0.4);   // was: $border-color (too vague)
-$color-border-subtle:   rgba(34, 211, 238, 0.15);  // missing — softer dividers
-$color-border-strong:   rgba(34, 211, 238, 0.7);   // missing — focus/active rings
-
-// ─── Color — Semantic ────────────────────────────────────────────────────────
-$color-danger:          #d63638;               // ok
-$color-danger-subtle:   rgba(214, 54, 56, 0.15); // missing — danger backgrounds
-$color-success:         #00a32a;               // missing
-$color-warning:         #dba617;               // missing
-
-// ─── Color — Interactive ─────────────────────────────────────────────────────
-$color-focus-ring:      rgba(34, 211, 238, 0.5); // missing — keyboard focus outline
 
 // ─── Spacing ─────────────────────────────────────────────────────────────────
 $spacing-xs:            4px;
@@ -113,38 +55,38 @@ $spacing-sm:            8px;
 $spacing-md:            12px;
 $spacing-lg:            16px;
 $spacing-xl:            24px;
-$spacing-2xl:           32px;                  // missing — section gaps
+$spacing-2xl:           32px;
+
+$primary-spacing: $spacing-sm;
+$primary-inline-block-spacing: 6px $primary-spacing;
 
 // ─── Border Radius ───────────────────────────────────────────────────────────
-$radius-sm:             4px;                   // was: $border-radius-sm (verbose prefix)
-$radius-md:             8px;                   // was: $border-radius-md
-$radius-lg:             12px;                  // was: $border-radius-lg
-$radius-pill:           999px;                 // was: missing — you need this for ButtonTab
-$radius-circle:         50%;                   // was: $border-radius-circle
+$radius-sm:             4px;
+$radius-md:             8px;
+$radius-lg:             12px;
+$radius-pill:           999px;
+$radius-circle:         50%;
 
-// ─── Shadows ─────────────────────────────────────────────────────────────────
-$shadow-sm:             0 4px 12px rgba(0, 0, 0, 0.15);
-$shadow-md:             0 8px 32px rgba(0, 0, 0, 0.12);
-$shadow-inset:          inset 0 0 0 1px rgba(255, 255, 255, 0.15); // missing — your pill uses this
-
-// ─── Z-index ─────────────────────────────────────────────────────────────────
-$z-index-base:          1;                     // missing — for stacking context
-$z-index-dropdown:      1000;                  // missing
-$z-index-popover:       2000;
-$z-index-modal:         3000;                  // missing
-$z-index-toast:         4000;                  // missing
-
-// ─── Typography ──────────────────────────────────────────────────────────────
-$font-size-xs:          11px;                  // missing — labels, badges
-$font-size-sm:          12px;                  // missing — secondary text
-$font-size-md:          13px;                  // missing — body/tabs
-$font-size-lg:          15px;                  // missing — headings
-
-$font-weight-regular:   400;                   // missing
-$font-weight-medium:    500;                   // missing
 
 // ─── Transition ──────────────────────────────────────────────────────────────
-$transition-fast:       0.15s ease;            // missing — hover states
-$transition-base:       0.2s ease;             // missing — most transitions
-$transition-slide:      0.28s cubic-bezier(0.2, 0.8, 0.3, 1); // missing — your pill uses this
- */
+$transition-fast:       0.15s ease;
+$transition-base:       0.2s ease;
+$transition-slide:      0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+
+
+// ─── Typography ──────────────────────────────────────────────────────────────
+$font-size-xs:          11px;
+$font-size-sm:          12px;
+$font-size-md:          13px;
+$font-size-lg:          15px;
+
+$font-weight-regular:   400;
+$font-weight-medium:    500;
+
+
+// ─── Shared Tab sizing ──────────────────────────────────────────────────────────────
+$tab-height: 36px;
+$tab-item-padding-y: $spacing-xs;
+$tab-item-padding-x: $spacing-md;
+$tab-font-size: $font-size-md;
+$tab-font-weight: $font-weight-medium;
