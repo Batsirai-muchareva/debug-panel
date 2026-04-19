@@ -149,18 +149,5 @@ Each log entry shows the label, index, full variable dump, and a footer with the
 1. Copy the plugin folder to `wp-content/plugins/debug-panel/`
 2. Activate **Debug Panel** in wp-admin → Plugins
 3. Open a page in the Elementor editor — the panel icon appears in the bottom-right corner
-4. For PHP dumps, open `http://localhost:9001` in a separate tab
 
 ---
-
-## Changelog
-
-### 1.0.3
-- Call stack popover with multi-editor support (PhpStorm / Cursor / VS Code)
-- Popover no longer clips when scrolling — renders above all panel boundaries
-- `diff` view mode for spotting repeated `dp()` calls
-- Timeline timestamp corrected to local timezone
-- Dev panel toolbar expanded with Export and Value Search
-
-### 1.0.0
-- Initial release
