@@ -9,7 +9,7 @@ use DevDebugTool\Database_Ajax;
 class Dev_Panel_Assets {
 		private const VITE_PORT = 5173;
 		private const SLOT_ID = 'debug-panel-slot';
-		private const ASSETS_URL = DEV_DEBUG_TOOL_URL . '/build/dev-panel/';
+		private const ASSETS_URL = DEBUG_PANEL_URL . '/build/dev-panel/';
 		private const ENQUEUE_HANDLER = 'dev-panel';
 
 		private Vite $vite;
@@ -39,7 +39,7 @@ class Dev_Panel_Assets {
 						self::ENQUEUE_HANDLER,
 						self::ASSETS_URL . 'debug-panel.iife.js',
 						[],
-						DEV_DEBUG_TOOL_VERSION,
+						DEBUG_PANEL_VERSION,
 						true
 				);
 		}
@@ -50,7 +50,7 @@ class Dev_Panel_Assets {
 								self::ENQUEUE_HANDLER,
 								self::ASSETS_URL . 'debug-panel.css',
 								[],
-								DEV_DEBUG_TOOL_VERSION
+								DEBUG_PANEL_VERSION
 						);
 				}
 

@@ -15,7 +15,7 @@ spl_autoload_register( function ( string $class ): void {
 		) );
 
 
-		$file = DEV_DEBUG_TOOL_PATH . 'src/' . $path . '.php';
+		$file = DEBUG_PANEL_PATH . 'src/' . $path . '.php';
 
 		if ( file_exists( $file ) ) {
 				require $file;

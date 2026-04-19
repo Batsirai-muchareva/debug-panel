@@ -3,26 +3,13 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         clean: {
-            zip: 'zip-builds',
+            // zip: 'zip-builds',
             dest: 'dest'
         },
-
-        shell: {
-            npm_install: {
-                command: 'npm install'
-            },
-            npm_build: {
-                command: 'npm run build:production'
-            },
-            npm_production: {
-                command: 'npm ci --omit=dev'
-            }
-        },
-
         compress: {
             zip: {
                 options: {
-                    archive: 'zip-builds/dev-debug-tool.zip',
+                    archive: 'zip-builds/dev-debug-tool-<%= pkg.version %>.zip',
                 },
                 files: [
                     {
@@ -38,29 +25,33 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 src: [
-                    '**',
-                    '!assets/**',
-                    '!deleted/**',
-                    '!docs/**',
-                    '!node_modules/**',
-                    '!vendor/**',
-                    '!zip-builds/**',
-                    '!dest/**',
+                    'src/**',
+                    'build/**',
+                    'debug-panel.php',
+                    'vendor/**',
+                    // '**',
+                    // '!assets/**',
+                    // '!deleted/**',
+                    // '!docs/**',
+                    // '!node_modules/**',
+                    // '!vendor/**',
+                    // '!zip-builds/**',
+                    // '!dest/**',
 
                     // ⛔ exclude generated files
-                    '!build/styles.js',
-                    '!build/styles.asset.php',
-                    '!build/styles-rtl.css',
+                    // '!build/styles.js',
+                    // '!build/styles.asset.php',
+                    // '!build/styles-rtl.css',
 
-                    '!.gitignore',
-                    '!composer.json',
-                    '!composer.lock',
-                    '!Gruntfile.js',
-                    '!package-lock.json',
-                    '!package.json',
-                    '!README.md',
-                    '!tsconfig.json',
-                    '!webpack.config.js',
+                    // '!.gitignore',
+                    // '!composer.json',
+                    // '!composer.lock',
+                    // '!Gruntfile.js',
+                    // '!package-lock.json',
+                    // '!package.json',
+                    // '!README.md',
+                    // '!tsconfig.json',
+                    // '!webpack.config.js',
                 ],
                 expand: true,
                 dest: 'dest/'
@@ -75,14 +66,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask( 'zip', [ 'compress:zip' ]);
 
-    grunt.registerTask( 'build', [
-        'shell:npm_install',
-        'shell:npm_build',
-        'shell:npm_production',
+    grunt.registerTask( 'production', [
         'clean',
         'copy',
         'zip',
         'clean:dest',
-        'shell:npm_install',
     ] );
 };

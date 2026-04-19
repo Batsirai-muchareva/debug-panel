@@ -22,3 +22,5 @@ zip-builds/
 docs/
 tmp/
 dist/
+AGENTS.md
+CLAUDE.md

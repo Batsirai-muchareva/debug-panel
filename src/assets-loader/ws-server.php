@@ -21,14 +21,14 @@ class WS_Server {
 		private string $log_file;
 
 		public function __construct() {
-				$prod_script = DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH_PROD;
+				$prod_script = DEBUG_PANEL_PATH . self::SCRIPT_PATH_PROD;
 
 				$this->script = file_exists( $prod_script )
 						? $prod_script
-						: DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH_DEV;
+						: DEBUG_PANEL_PATH . self::SCRIPT_PATH_DEV;
 
-				$this->pid_file = DEV_DEBUG_TOOL_PATH . self::PID_FILE;
-				$this->log_file = DEV_DEBUG_TOOL_PATH . self::LOG_FILE;
+				$this->pid_file = DEBUG_PANEL_PATH . self::PID_FILE;
+				$this->log_file = DEBUG_PANEL_PATH . self::LOG_FILE;
 		}
 //		public function __construct() {
 //				$is_dev = file_exists( DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH_DEV );

@@ -119,7 +119,7 @@ class Server_Panel_Assets {
 		}
 
 		private function get_path_for( string $relative_path ) {
-				return DEV_DEBUG_TOOL_PATH . self::BUILD_FOLDER . $relative_path;
+				return DEBUG_PANEL_PATH . self::BUILD_FOLDER . $relative_path;
 		}
 
 //		private function render_production_build(): void {
@@ -157,7 +157,7 @@ class Server_Panel_Assets {
 						return;
 				}
 
-				$base_url = DEV_DEBUG_TOOL_URL . self::BUILD_FOLDER;
+				$base_url = DEBUG_PANEL_URL . self::BUILD_FOLDER;
 				$html     = file_get_contents( $index ); // phpcs:ignore
 
 				$html = str_replace( 'src="/assets/',              'src="' . $base_url . 'assets/',              $html );

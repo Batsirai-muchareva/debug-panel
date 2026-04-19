@@ -20,7 +20,7 @@ define( 'DEBUG_PANEL_FILE', __FILE__);
 define( 'DEBUG_PANEL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DEBUG_PANEL_URL', plugin_dir_url( __FILE__ ) );
 
-const DEBUG_ACTIVE_TRANSIENT_KEY = 'dev_debug_tool_activated';
+const DEBUG_PANEL_ACTIVE_TRANSIENT_KEY = 'debug_panel_activated';
 
 require_once DEBUG_PANEL_PATH . 'src/autoload.php';
 require_once DEBUG_PANEL_PATH . 'vendor/autoload.php';
@@ -32,15 +32,15 @@ register_activation_hook( DEBUG_PANEL_FILE, function() {
 				deactivate_plugins( plugin_basename( DEBUG_PANEL_FILE ) );
 
 				wp_die(
-						__( 'Dev Debug Tool requires Elementor to be installed and activated.', 'dev-debug-tool' )
+						__( 'Debug Panel Tool requires Elementor to be installed and activated.', 'dev-debug-tool' )
 				);
 		}
 
-		set_transient( DEBUG_ACTIVE_TRANSIENT_KEY, true, 30 );
+		set_transient( DEBUG_PANEL_ACTIVE_TRANSIENT_KEY, true, 30 );
 } );
 
 register_deactivation_hook( DEBUG_PANEL_FILE, function (): void {
-		delete_transient( DEBUG_ACTIVE_TRANSIENT_KEY );
+		delete_transient( DEBUG_PANEL_ACTIVE_TRANSIENT_KEY );
 } );
 
 add_action( 'plugins_loaded', function (): void {

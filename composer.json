@@ -1,5 +1,5 @@
 {
-  "name": "dev-debug/dev-debug-tool",
+  "name": "debug-panel/debug-panel-tool",
   "description": "Simplify debugging by accessing snapshot of the database and the editor schema",
   "license": "proprietary",
   "autoload": {
@@ -11,7 +11,6 @@
       ]
   },
   "require": {
-    "spatie/ray": "^1.48",
     "symfony/var-dumper": "^7.4"
   }
 }
