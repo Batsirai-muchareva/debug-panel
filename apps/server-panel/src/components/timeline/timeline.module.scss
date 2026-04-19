@@ -1,0 +1,45 @@
+.timeline {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 20px;
+    //border-bottom: 1px solid #1e2140;
+    overflow-x: auto;
+    flex-shrink: 0;
+    border-bottom: 1px solid #1a4a457a;
+
+    &::-webkit-scrollbar { height: 3px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: #1e2140; border-radius: 2px; }
+}
+
+.label,
+.timeLabel {
+    font-size: 10px;
+    color: #2d4a46;
+    white-space: nowrap;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.label { margin-right: 6px; }
+.timeLabel { margin-left: 6px; }
+
+.blip {
+    width: 8px;
+    height: 22px;
+    border-radius: 2px;
+    background: #1e3530;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+
+    &:hover { background: #2a6e68; }
+}
+
+.blipLatest {
+    background: #6b3020;
+}
+
+.blipActive {
+    background: #4ecdc4 !important;
+}

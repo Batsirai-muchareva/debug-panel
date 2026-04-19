@@ -29,29 +29,6 @@ module.exports = function (grunt) {
                     'build/**',
                     'debug-panel.php',
                     'vendor/**',
-                    // '**',
-                    // '!assets/**',
-                    // '!deleted/**',
-                    // '!docs/**',
-                    // '!node_modules/**',
-                    // '!vendor/**',
-                    // '!zip-builds/**',
-                    // '!dest/**',
-
-                    // ⛔ exclude generated files
-                    // '!build/styles.js',
-                    // '!build/styles.asset.php',
-                    // '!build/styles-rtl.css',
-
-                    // '!.gitignore',
-                    // '!composer.json',
-                    // '!composer.lock',
-                    // '!Gruntfile.js',
-                    // '!package-lock.json',
-                    // '!package.json',
-                    // '!README.md',
-                    // '!tsconfig.json',
-                    // '!webpack.config.js',
                 ],
                 expand: true,
                 dest: 'dest/'
@@ -59,12 +36,27 @@ module.exports = function (grunt) {
         }
     } );
 
+    grunt.registerTask( 'resolve-zip-name', function () {
+        const version = grunt.config( 'pkg.version' );
+        const base    = `zip-builds/dev-debug-tool-${ version }`;
+
+        let archive = `${ base }.zip`;
+        let i = 1;
+        while ( grunt.file.exists( archive ) ) {
+            archive = `${ base }-${ i }.zip`;
+            i++;
+        }
+
+        grunt.config( 'compress.zip.options.archive', archive );
+        grunt.log.writeln( `Archive: ${ archive }` );
+    } );
+
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask( 'zip', [ 'compress:zip' ]);
+    grunt.registerTask( 'zip', [ 'resolve-zip-name', 'compress:zip' ] );
 
     grunt.registerTask( 'production', [
         'clean',

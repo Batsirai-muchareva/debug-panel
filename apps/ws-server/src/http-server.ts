@@ -31,11 +31,31 @@ export function createHttpServer( port: number, registry: ClientRegistry, onShut
         }
     }
 
+    const CORS_HEADERS = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
     function handleRequest( req: http.IncomingMessage, res: http.ServerResponse ): void {
+        // CORS pre-flight
+        if ( req.method === 'OPTIONS' ) {
+            res.writeHead( 204, CORS_HEADERS );
+            res.end();
+            return;
+        }
+
         if ( req.method === 'POST' && req.url === '/shutdown' ) {
-            res.writeHead( 200 );
+            res.writeHead( 200, CORS_HEADERS );
             res.end();
             onShutdown();
+            return;
+        }
+
+        // Status endpoint — returns connected client count
+        if ( req.method === 'GET' && req.url === '/status' ) {
+            res.writeHead( 200, { 'Content-Type': 'application/json', ...CORS_HEADERS } );
+            res.end( JSON.stringify( { clients: registry.size() } ) );
             return;
         }
 

@@ -1,4 +1,4 @@
-import React, { type ComponentType, Fragment } from 'react';
+import React, { type ComponentType, Fragment, useEffect } from 'react';
 
 import { PinIcon } from '@debug-panel/icons';
 import { usePath } from '@debug-panel/path';
@@ -26,12 +26,18 @@ const icons: Record<string, ComponentType> = {
 };
 
 export const Suggestions = () => {
-    const { suggestions, isOpen, togglePin, pin: pinSuggestions } = useSuggestions();
+    const { suggestions, isOpen, togglePin, pin: pinSuggestions, close } = useSuggestions();
     const { height, onMouseDown } = useSuggestionResizable();
     const { setPath } = usePath();
     const { query, setQuery } = useSearch();
     const { addRecentSearches } = useRecentSearches()
     const { isValueSearchActive } = useToolbar();
+
+    useEffect( () => {
+        document.querySelector( 'monaco-editor' )?.addEventListener( 'click', () => {
+            close();
+        } )
+    }, [] )
 
     if ( ! isOpen ) {
         return null;

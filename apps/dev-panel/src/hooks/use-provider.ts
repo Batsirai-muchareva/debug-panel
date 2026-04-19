@@ -1,4 +1,4 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState } from 'react';
 
 import { providerRegistry, type Variant } from '@debug-panel/providers';
 import { useTabs } from '@debug-panel/tabs';

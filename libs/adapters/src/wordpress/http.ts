@@ -13,7 +13,7 @@ export const http = () => {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: params
-            });
+            } );
 
             if ( ! response.ok ) {
                 throw {

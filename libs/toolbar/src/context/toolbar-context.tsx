@@ -1,6 +1,5 @@
 import React from "react"
-import { useCallback } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "@wordpress/element";
+import { useCallback, createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { store } from "@debug-panel/storage";
 import { ActionConfig } from '../define-action';

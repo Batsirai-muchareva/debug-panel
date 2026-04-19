@@ -21,4 +21,6 @@ export type EventMap = {
 
     'browse:key:clear': void;
     'actions:clip:hide': string[];
+
+    'text-field:focus': { id: string }
 }

@@ -17,7 +17,7 @@ export const registerEditorProvider = () => {
                 source: localSource
             },
             {
-                id: 'lobal-classes',
+                id: 'classes',
                 label: 'Classes',
                 order: 2,
                 source: globalClassesSource,

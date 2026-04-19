@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState } from 'react';
 
 import { SearchIcon } from '@debug-panel/icons';
 import { Box, Button, Text,TextField } from '@debug-panel/ui';

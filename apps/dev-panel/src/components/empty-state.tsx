@@ -1,4 +1,3 @@
-
 export const EmptyState = () => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', gap: '12px' }}>
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none">

@@ -6,24 +6,11 @@ const createLocatorState = (): LocatorState => ( {
     openStack: [],
 } );
 
-// const enterObjectKey = (
-//     state: LocatorState,
-//     key: string,
-//     depth: number
-// ): string => {
-//     state.pathStack.length = Math.max( 0, depth - 1 );
-//
-//     state.pathStack.push( key );
-//
-//     return state.pathStack.join( "." );
-// };
-
 const enterObjectKey = (
     state: LocatorState,
     key: string,
     depth: number
 ): string => {
-    // Find the closest parent scope from openStack
     const parentScope = [ ...state.openStack ]
         .reverse()
         .find( ( entry ) => entry.indent < depth * 2 );
@@ -32,7 +19,6 @@ const enterObjectKey = (
 
     const path = parentPath ? `${ parentPath }.${ key }` : key;
 
-    // Keep pathStack in sync
     state.pathStack = parentPath ? [ ...parentPath.split( '.' ), key ] : [ key ];
 
     return path;
@@ -57,19 +43,6 @@ const enterArrayItem = (
 
     return path;
 };
-// const enterArrayItem = (
-//     state: LocatorState,
-//     depth: number
-// ): string => {
-//     const idx = state.arrayStack.length - 1;
-//     state.arrayStack[idx]++;
-//
-//     state.pathStack.length = Math.max( 0, depth - 1 );
-//     state.pathStack.push( state.arrayStack[idx] );
-//
-//     return state.pathStack.join( "." );
-// };
-
 
 const exitArrayItem = ( state: LocatorState ) => {
     if ( typeof state.pathStack[state.pathStack.length - 1] === "number" ) {
@@ -132,3 +105,30 @@ export {
     openScope,
     closeScope
 }
+
+
+// const enterArrayItem = (
+//     state: LocatorState,
+//     depth: number
+// ): string => {
+//     const idx = state.arrayStack.length - 1;
+//     state.arrayStack[idx]++;
+//
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//     state.pathStack.push( state.arrayStack[idx] );
+//
+//     return state.pathStack.join( "." );
+// };
+
+
+// const enterObjectKey = (
+//     state: LocatorState,
+//     key: string,
+//     depth: number
+// ): string => {
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//
+//     state.pathStack.push( key );
+//
+//     return state.pathStack.join( "." );
+// };

@@ -1,7 +1,15 @@
-import { createContext, type PropsWithChildren, useContext, useState } from "react";
+import {
+    createContext,
+    type PropsWithChildren,
+    useContext,
+    useRef,
+    useState,
+} from 'react';
 
 import { store } from '@debug-panel/storage';
 import { useVariantId } from '@debug-panel/variants';
+
+import { dynamicSegments } from '../dynamic-segments';
 
 type NestedPaths = {
     [key: string]: string;
@@ -16,6 +24,10 @@ const PathContext = createContext<ContextValue | null >( null );
 
 export const PathProvider = ( { children }: PropsWithChildren ) => {
     const id = useVariantId();
+    const idRef = useRef( id );
+
+    idRef.current = id;
+
     const [ paths, setPaths ] = useState<NestedPaths>( () => {
         const storedPath = store.getPath()
 
@@ -27,9 +39,13 @@ export const PathProvider = ( { children }: PropsWithChildren ) => {
     } );
 
     const setPath = ( newPath: string ) => {
-        setPaths( prev => ( { ...prev, [ id ]: newPath } ) );
+        const currentId    = idRef.current  // always the latest id
 
-        store.setPath( newPath )
+        const templatePath = dynamicSegments.build( newPath );
+
+        setPaths( prev => ( { ...prev, [ currentId ]: templatePath } ) );
+
+        store.setPath( templatePath )
     };
 
     return (

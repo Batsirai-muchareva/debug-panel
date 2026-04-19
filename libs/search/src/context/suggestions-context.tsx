@@ -1,6 +1,5 @@
 import { createContext, type PropsWithChildren, type RefObject, useMemo, useRef } from 'react';
-
-import { useContext, useState } from '@wordpress/element';
+import { useContext, useState } from 'react';
 
 import { usePath } from '@debug-panel/path';
 import { createPipeline } from '@debug-panel/pipeline';
@@ -28,6 +27,7 @@ type ContextValue = {
 }
 
 const SuggestionsContext = createContext<ContextValue | null>( null );
+
 
 export const SuggestionsProvider = ( { children, data }: PropsWithChildren<{ data: unknown }> ) => {
     const [ isOpen, setIsOpen ] = useState( false );

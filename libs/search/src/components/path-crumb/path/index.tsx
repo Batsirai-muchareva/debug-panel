@@ -1,5 +1,9 @@
 import { CloseIcon,RightChevron } from '@debug-panel/icons';
-import { generateUniquePathSegments, usePath } from '@debug-panel/path';
+import {
+    dynamicSegments,
+    generateUniquePathSegments,
+    usePath,
+} from '@debug-panel/path';
 import { Truncate } from '@debug-panel/truncate';
 import { Box, Button, cx } from '@debug-panel/ui';
 
@@ -27,12 +31,20 @@ export const Path = () => {
         setPath( segments.slice( 0, isLastElement ? index : index + 1 ).map( s => s.label ).join( '.' ) );
     };
 
+    const segmentsIds = segments.map( seg => seg.label );
+
     return (
         <Truncate mode="middle" items={ segments } onSelect={ handleSegmentClick } className={ styles.path }>
             {
                 segments.map( ( segment, index ) => {
                     const isLastSegment = ( segments.length - 1 ) === index;
-
+                    const isDynamic = dynamicSegments.isDynamic( segment.label, segmentsIds , index );
+                    // const label = isDynamic
+                    //     ? dynamicSegments.getLiveSegmentValue( segmentsIds, index ) ?? segment.label
+                    //     : segment.label;
+                    const label = isDynamic
+                        ? dynamicSegments.getLiveSegmentValue( path, index ) ?? segment.label
+                        : segment.label;
                     /**
                      * data-id is have a coupling with truncate where it queries the id
                      * So be careful to remove it because it will break the truncate
@@ -41,16 +53,22 @@ export const Path = () => {
                         <Box data-segment className={ styles.segment } key={ segment.id }>
                             <Button
                                 data-id={ segment.id }
-                                className={ cx( styles.segmentBtn, { [styles.active]: isLastSegment } ) }
+                                className={ cx(
+                                    styles.segmentBtn,
+                                    { [styles.active]: isLastSegment },
+                                    { [styles.dynamicSegment]: isDynamic }
+                                ) }
                                 onClick={ () => handleSegmentClick( segment ) }
                             >
-                                { segment.label }
+                                { label }
                             </Button>
 
                             { ! isLastSegment && <RightChevron className={ styles.chevron }/> }
 
                             { isLastSegment && (
-                                <Button onClick={ () => handleSegmentClick( segment ) } className={ styles.lastItem}>
+                                <Button
+                                    onClick={ () => handleSegmentClick( segment ) }
+                                    className={ styles.lastItem }>
                                     <CloseIcon size={ 8 } />
                                 </Button>
                             ) }

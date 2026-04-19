@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState } from 'react';
 
 import { eventBus, useEventBus } from '@debug-panel/events';
 import { ArrowIcon, type IconName, renderIcon } from '@debug-panel/icons';

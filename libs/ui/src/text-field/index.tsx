@@ -1,4 +1,11 @@
-import { type ChangeEvent, type ComponentType, type KeyboardEvent, useRef } from 'react';
+import {
+    type ChangeEvent,
+    type ComponentType,
+    forwardRef,
+    type KeyboardEvent,
+    useCallback,
+    useRef,
+} from 'react';
 
 import { CloseIcon } from '@debug-panel/icons';
 
@@ -18,7 +25,7 @@ type Props< T extends string > = {
     onKeyDown?: ( event: KeyboardEvent<HTMLInputElement> ) => void;
 }
 
-export const TextField = (
+export const TextField = forwardRef<HTMLInputElement, Props<string>>( (
     {
         value,
         onChange,
@@ -28,8 +35,18 @@ export const TextField = (
         placeholder,
         onKeyDown,
         startIcon,
-    }: Props<string> ) => {
+    }, ref ) => {
     const inputRef = useRef<HTMLInputElement| null>( null );
+
+    const mergedRef = useCallback( ( node: HTMLInputElement | null ) => {
+        inputRef.current = node;
+
+        if ( typeof ref === 'function' ) {
+            ref( node );
+        } else if ( ref ) {
+            ref.current = node;
+        }
+    }, [ref] );
 
     const handleChange = ( event: ChangeEvent< HTMLInputElement > ) => {
         onChange( event.target.value )
@@ -51,7 +68,7 @@ export const TextField = (
                  autoComplete="off"
                  value={ value }
                  onChange={ handleChange }
-                 ref={ inputRef }
+                 ref={ mergedRef }
                  onFocus={ onFocus }
                  onBlur={ onBlur }
                  onKeyDown={ onKeyDown }
@@ -66,4 +83,4 @@ export const TextField = (
             ) }
         </Box>
     )
-};
+} );

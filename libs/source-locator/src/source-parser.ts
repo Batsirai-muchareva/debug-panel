@@ -33,6 +33,15 @@ export function parseSourceLine( line: string, state: LocatorState ) {
         };
     }
 
+    // ─── Root / bare array opener ────────────────────────────────────────────
+    if ( trimmed === '[' ) {
+        return {
+            apply() {
+                openScope( state, '', indent, true )
+            },
+        }
+    }
+
     // ─── Array close ────────────────────────────
     if ( trimmed === "]" || trimmed === "]," ) {
         return {

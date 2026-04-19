@@ -13,9 +13,8 @@ type BrowseContextValue = {
 
 const BrowseContext = createContext<BrowseContextValue | null>( null );
 
-// TODO make it package later
 export const BrowseProvider = ( { children }: PropsWithChildren ) => {
-    const [ _, setBrowsePath ] = useState<BrowseContextValue[ 'browsePath' ]>();
+    const [ , setBrowsePath ] = useState<BrowseContextValue[ 'browsePath' ]>();
     const { setPath } = usePath();
 
     useEventBus( 'browse:key:clear', () => {

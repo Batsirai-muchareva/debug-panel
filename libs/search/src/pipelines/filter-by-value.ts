@@ -1,5 +1,5 @@
 export const filterByValue = ( data: unknown, query: string ): string[] => {
-    if ( !query || !isObject( data ) ) {
+    if ( ! query || ! isObject( data ) ) {
         return [];
     }
 
@@ -50,4 +50,4 @@ const matchesValue = ( value: unknown, needle: string ): boolean => {
 };
 
 const isObject = ( value: unknown ): value is Record<string, unknown> =>
-    typeof value === 'object' && value !== null && !Array.isArray( value );
+    typeof value === 'object' && value !== null;
