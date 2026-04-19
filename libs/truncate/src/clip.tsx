@@ -6,17 +6,8 @@ import {
     useState,
 } from 'react';
 
-import { Box, Popup, Portal } from '@debug-panel/ui';
-
-export const Clip = ( { children }: PropsWithChildren ) => {
-    return (
-        <Box>
-            { children }
-        </Box>
-    )
-}
-
 import { generateUniquePathSegments } from '@debug-panel/path';
+import { Box, Popup, Portal } from '@debug-panel/ui';
 
 import { SegmentList } from './components/segment-list';
 import { getPortalElement } from './utils/get-portal-element';

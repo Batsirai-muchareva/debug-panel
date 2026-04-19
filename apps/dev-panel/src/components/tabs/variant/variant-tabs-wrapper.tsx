@@ -11,7 +11,7 @@ export const VariantTabsWrapper = ( { children }: PropsWithChildren ) => {
 
     const variants = useMemo(
         () => providerRegistry.find( activeProviderId )?.variants ?? [],
-        [activeProviderId]
+        [ activeProviderId ]
     );
 
     return (

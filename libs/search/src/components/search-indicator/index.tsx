@@ -14,4 +14,3 @@ export const SearchIndicator = ( { state }: { state: boolean } ) => {
         <Box className={ styles.indicator } />
     )
 }
-// https://www.facebook.com/share/v/1GVAeHYNr3/?mibextid=wwXIfr

@@ -69,20 +69,16 @@
     color: #4a7a6a;
     padding: 6px;
     background: #1e3535;
-    // #eeff23
     &:hover {
-      //color: #ccc;
       background: #37483a;
       color: #ffd987;
     }
   }
 
   &-txt {
-    //color: #ffc023;
     color: #f5c557;
   }
 }
-//border-bottom: 1.5px solid $color-border-subtle;
 
 .overflow {
   display: flex;

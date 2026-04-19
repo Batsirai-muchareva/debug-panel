@@ -1,13 +1,8 @@
-import { Box, Button, cx, Text } from '@debug-panel/ui';
+import { Box, Text } from '@debug-panel/ui';
 import { usePopup } from './hooks/use-popup';
 
 import styles from './popup.module.scss';
 import { PropsWithChildren } from 'react';
-
-type Item = {
-    label: string;
-    id: string;
-};
 
 type Props= PropsWithChildren<{
     triggerRect?: DOMRect;

@@ -1,0 +1,149 @@
+.card {
+    background: #001920;
+    border: 1px solid #1e2140;
+    border-radius: 10px;
+    //overflow: hidden;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+
+    &:hover { border-color: #2a4a44; }
+}
+
+.highlighted {
+    border-color: #2a6e68;
+    background: #001e1a;
+}
+
+/* ── Diff banner ──────────────────────────────────── */
+
+.diffBanner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    padding: 4px 12px;
+    background: #1a1200;
+    color: #e2a955;
+    border-bottom: 1px solid #2a2000;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.diffDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #e2a955;
+    flex-shrink: 0;
+}
+
+/* ── Card head ────────────────────────────────────── */
+
+.cardHead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-bottom: 1px solid #1e2140;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.12s;
+
+    &:hover { background: rgba(78, 205, 196, 0.03); }
+}
+
+.index {
+    font-size: 11px;
+    color: #2d4a46;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    min-width: 24px;
+    flex-shrink: 0;
+}
+
+.fn {
+    font-size: 11px;
+    color: #2d4a46;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Card actions ─────────────────────────────────── */
+
+.cardActions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.latestTag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(227, 90, 60, 0.12);
+    color: #e2533a;
+    border: 1px solid rgba(227, 90, 60, 0.25);
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.pinnedTag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(78, 205, 196, 0.1);
+    color: #4ecdc4;
+    border: 1px solid rgba(78, 205, 196, 0.25);
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #1e3530;
+    font-size: 14px;
+    padding: 3px 5px;
+    border-radius: 4px;
+    font-family: monospace;
+    transition: color 0.15s, background 0.15s;
+    line-height: 1;
+
+    &:hover {
+        color: #4ecdc4;
+        background: rgba(78, 205, 196, 0.08);
+    }
+}
+
+.iconBtnPinned {
+    color: #e2a955;
+
+    &:hover { color: #e2a955; background: rgba(226, 169, 85, 0.1); }
+}
+
+.iconBtnCopy {
+    color: #27cd41;
+
+    &:hover { color: #27cd41; background: rgba(39, 205, 65, 0.08); }
+}
+
+/* ── Body ─────────────────────────────────────────── */
+
+.body {
+    border-bottom: 1px solid #1e2140;
+    padding: 20px 8px;
+}
+
+/* ── Kept for compat ──────────────────────────────── */
+.meta          { display: flex; align-items: center; gap: 8px; padding: 8px; }
+.payloadType   {
+    font-size: 10px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    color: #2d4a46;
+    background: #0d0f1a;
+    border: 1px solid #1e2140;
+    border-radius: 4px;
+    padding: 2px 7px;
+}

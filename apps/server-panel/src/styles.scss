@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  display: unset;
+  max-width: unset;
+  margin: unset;
+  padding: unset;
+
+  pre.sf-dump {
+    background: transparent;
+  }
+
+  pre.sf-dump, pre.sf-dump .sf-dump-default {
+    z-index: 1;
+  }
+}
+

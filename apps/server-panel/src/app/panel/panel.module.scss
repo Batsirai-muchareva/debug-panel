@@ -1,0 +1,11 @@
+.panel {
+  flex: 1;
+  margin: 15px;
+  //background: #0d0f1a;
+  background: #0a1515;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}

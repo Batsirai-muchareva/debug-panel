@@ -15,16 +15,16 @@ export const adapter = ( namespace: string, scopeKey?: string ) => {
                 persist( namespace, data );
             }
         },
-        // drop: (): void => {
-        //     if ( scopeKey ) {
-        //         const raw = parse( namespace );
-        //
-        //         delete raw[scopeKey];
-        //
-        //         persist( namespace, raw );
-        //     } else {
-        //         localStorage.removeItem( namespace );
-        //     }
-        // },
+        drop: (): void => {
+            if ( scopeKey ) {
+                const raw = deserialize( namespace );
+
+                delete raw[scopeKey];
+
+                persist( namespace, raw );
+            } else {
+                localStorage.removeItem( namespace );
+            }
+        },
     }
 };

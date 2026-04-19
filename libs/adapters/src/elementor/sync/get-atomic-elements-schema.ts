@@ -12,7 +12,7 @@ export const getAtomicElementsSchema = () => {
 
     return Object.fromEntries(
         Object.entries( extendedWindow.elementor.widgetsCache )
-            .filter( ( [_, { atomic } ]) => atomic )
+            .filter( ( [, { atomic } ] ) => atomic )
             .map( ( [ key, { atomic_props_schema } ] ) =>
                 [ key, { ...atomic_props_schema } ]
             )

@@ -1,5 +1,5 @@
 import { MonacoEditor } from '@debug-panel/monaco-editor'
-import { Toolbar, ToolbarProvider } from '@debug-panel/toolbar';
+import { Toolbar } from '@debug-panel/toolbar';
 
 import { useData } from '../../context/data-context';
 
@@ -14,5 +14,3 @@ export const Content = () => {
 
     )
 }
-// <ToolbarProvider>
-// </ToolbarProvider>

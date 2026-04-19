@@ -46,15 +46,6 @@ export const createDomainStore = () => {
             scopedStore.set( 'recent-searches', paths );
         },
 
-        //     // setRecentSearches( prev => {
-//     //     const next = [ path, ...prev.filter( p => p !== path ) ].slice( 0, 5 );
-//
-//         // TODO expose fxns atleast than the strings
-//         debugStorage.set( `recent-searches:${ variantId }`, next );
-//
-//         return next;
-//     // } );
-
         getToolbarState: ( key: string ): boolean | null => {
             return storage.unscoped.get( `toolbar:${ key }` );
         },

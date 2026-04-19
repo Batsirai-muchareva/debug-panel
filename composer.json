@@ -1,13 +1,16 @@
 {
-  "name": "dev-debug/dev-debug-tool",
+  "name": "debug-panel/debug-panel-tool",
   "description": "Simplify debugging by accessing snapshot of the database and the editor schema",
   "license": "proprietary",
   "autoload": {
-    "psr-4": {
-      "DevDebugTool\\": "src/"
-    }
+      "psr-4": {
+          "DevDebugTool\\": "src/"
+      },
+      "files": [
+          "src/debug-logger/helpers.php"
+      ]
   },
   "require": {
-    "spatie/ray": "^1.45"
+    "symfony/var-dumper": "^7.4"
   }
 }

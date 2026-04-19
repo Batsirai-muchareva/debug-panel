@@ -1,54 +1,30 @@
-import { elementorAdapter, type GlobalClasses } from '@debug-panel/adapters';
-import { createSource } from '@debug-panel/dev-panel-sdk';
+import { elementorAdapter } from '@debug-panel/adapters';
 
-const POLL_INTERVAL = 1000;
+import { createElementSource } from './create-element-source';
 
-const INACTIVITY_LIMIT = 2 * 60 * 1000;
+export const globalClassesSource = createElementSource<any>( {
+    onSelect: ( element, notify ) => {
+        notify( elementorAdapter.globalClasses.get() );
 
-export const globalClassesSource = createSource<GlobalClasses>( ( { notify } ) => {
-    let intervalId: number | null = null;
-    let lastSnapshot: any | null = null;
-    let lastActivity = 0;
+        const unsubscribeClasses = elementorAdapter.globalClasses.subscribe( notify );
 
-    const poll = () => {
-        const current = elementorAdapter.getUsedGlobalClassesSnapshot();
+        let prevClasses = elementorAdapter.elementDataExtractor( element ).settings?.classes?.value;
 
-        if (JSON.stringify(current) !== JSON.stringify(lastSnapshot)) {
-            lastSnapshot = current;
-            lastActivity = Date.now();
-            notify?.(current);
-        }
+        const unsubscribeElement = elementorAdapter.elementSubscriber.subscribe(
+            element,
+            ( el ) => {
+                const nextClasses = elementorAdapter.elementDataExtractor( el ).settings?.classes?.value;
 
-        if (Date.now() - lastActivity > INACTIVITY_LIMIT) {
-            stop();
+                if ( prevClasses !== nextClasses ) {
+                    prevClasses = nextClasses;
+                    notify( elementorAdapter.globalClasses.get() );
+                }
+            },
+        );
 
-            // if (config?.onIdle) { GlobalClasses
-            //     config?.onIdle();
-            // }
-        }
-    };
-
-    return {
-        setup: () => {
-            if (intervalId !== null) {
-                return;
-            }
-
-            lastSnapshot = elementorAdapter.getUsedGlobalClassesSnapshot();
-            lastActivity = Date.now();
-
-            notify?.(lastSnapshot);
-
-            intervalId = window.setInterval(poll, POLL_INTERVAL);
-        },
-        teardown: () => {
-            if (intervalId === null) {
-                return;
-            }
-
-            clearInterval(intervalId);
-            intervalId = null;
-            lastSnapshot = null;
-        },
-    };
-});
+        return () => {
+            unsubscribeClasses?.();
+            unsubscribeElement?.();
+        };
+    },
+} );

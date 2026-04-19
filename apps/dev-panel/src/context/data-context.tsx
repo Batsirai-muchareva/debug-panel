@@ -1,16 +1,16 @@
 import { createContext, type PropsWithChildren, useContext } from 'react';
-
-import { useEffect } from '@wordpress/element';
+import { useEffect } from 'react';
 
 import { pathIndex, usePath } from '@debug-panel/path';
 import { createPipeline } from '@debug-panel/pipeline';
 import { sourceLocator } from '@debug-panel/source-locator';
+import { useToolbar } from '@debug-panel/toolbar';
 
+import { useActiveProvider } from '../hooks/use-active-provider';
 import { useProvider } from '../hooks/use-provider';
 import { filterDataByBrowsePath } from '../pipelines/filter-data-by-browse-path';
 import { filterDataByPath } from '../pipelines/filter-data-by-path';
 import { useBrowsePath } from './browse-context';
-import { useToolbar } from '@debug-panel/toolbar';
 
 type ContextValue = { data: unknown; rawData: unknown } | undefined;
 
@@ -21,6 +21,7 @@ export const DataProvider = ( { children }: PropsWithChildren ) => {
     const { path } = usePath();
     const { browsePath } = useBrowsePath();
     const { isValueSearchActive } = useToolbar();
+    const { browsable = false } = useActiveProvider();
 
     useEffect( () => {
         pathIndex.build( filterDataByBrowsePath( rawData, browsePath ), { includePrimitivesPath: isValueSearchActive } );
@@ -33,7 +34,9 @@ export const DataProvider = ( { children }: PropsWithChildren ) => {
 
     const data = runSearch( rawData );
 
-    sourceLocator.indexSource( data );
+    if ( ! browsable || browsePath ) {
+        sourceLocator.indexSource( data );
+    }
 
     return (
         <DataContext.Provider value={ { data, rawData } }>

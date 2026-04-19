@@ -1,0 +1,25 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(78, 205, 196, 0.07);
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-radius: 20px;
+    padding: 2px 9px;
+    flex-shrink: 0;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    background: #4ecdc4;
+}
+
+.label {
+    font-size: 10px;
+    color: #4ecdc4;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}

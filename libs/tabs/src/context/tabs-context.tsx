@@ -22,17 +22,6 @@ const TabsContext = createContext< ContextValue | null >( null );
 export const TabsProvider = <T extends TabItem>( { tabs, children }: Props<T> ) => {
     const [ id, setId ] = useState<string>( tabs[ 0 ].id );
 
-    // const prevTabsRef = useRef(tabs);
-    //
-    // if (prevTabsRef.current !== tabs) {
-    //     prevTabsRef.current = tabs;
-    //     setId(tabs[0].id);
-    // }
-
-    // useEffect( () => { tabs[ 0 ].id
-    //     setId( tabs[ 0 ].id )
-    //     // tabs  tabs[ 0 ].id
-    // }, [ tabs ] )
     return (
         <TabsContext.Provider value={ { id, setId, tabs } }>
             { children }

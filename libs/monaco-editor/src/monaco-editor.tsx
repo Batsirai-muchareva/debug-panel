@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Editor, type Monaco } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
@@ -21,6 +21,11 @@ export const MonacoEditor = ( { data }: { data: unknown } ) => {
     const { setSearchActive, isHighlightActive } = useToolbar();
     const { path, setPath } = usePath();
 
+    const pathRef = useRef( path );
+    useEffect( () => {
+        pathRef.current = path;
+    }, [ path ] );
+
     // We might want to use ref to avoid stale data of path
     useEditorValue( editorRef, data );
     useEditorHighlight( { editorRef, data, isHighlightActive } );
@@ -32,7 +37,7 @@ export const MonacoEditor = ( { data }: { data: unknown } ) => {
         setupInitialValue( editor, data );
         applyInitialFold( editor );
         setupCommands( editor, monaco, setSearchActive );
-        setupActions( editor, setPath, path );
+        setupActions( editor, setPath, pathRef );
         registerTheme( monaco )
     }
 
@@ -45,15 +50,3 @@ export const MonacoEditor = ( { data }: { data: unknown } ) => {
         />
     );
 }
-
-
-
-
-// useEventBus( 'json:fold:all', () => {
-//     editorRef.current?.getAction( 'editor.foldAll' )?.run();
-//     editorRef.current?.getAction( 'editor.unfold' )?.run();
-// } );
-//
-// useEventBus( 'json:expand:all', () => {
-//     editorRef.current?.getAction( 'editor.unfoldAll' )?.run();
-// } );

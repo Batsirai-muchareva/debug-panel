@@ -1,13 +1,19 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.scss';
-import NxWelcome from './nx-welcome';
+import { Box } from '@debug-panel/ui';
 
-export function App() {
-  return (
-    <div>
-      <NxWelcome title="server-panel" />
-    </div>
-  );
+import { DebugLogsProvider } from '../context/debug-logs-context';
+import { useShutdownOnUnload } from '../hooks/use-shutdown-on-unload';
+import { Panel } from './panel';
+
+import styles from './app.module.scss';
+
+export default function App() {
+    useShutdownOnUnload();
+
+    return (
+        <DebugLogsProvider>
+            <Box className={ styles.app }>
+                <Panel />
+            </Box>
+        </DebugLogsProvider>
+    );
 }
-
-export default App;

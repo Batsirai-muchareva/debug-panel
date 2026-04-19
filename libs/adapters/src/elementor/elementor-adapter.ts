@@ -1,9 +1,9 @@
 import { eventBus } from "@debug-panel/events";
 
 import { windowAdapter } from '../window/window-adapter';
-import { getUsedGlobalClassesSnapshot } from "./get-used-global-classes-snapshot";
+import { globalClasses } from './global-classes';
 import { createElementEventSubscriber } from "./marionette-element/create-element-event-subscriber";
-import { dataExtractor } from "./marionette-element/data-extractor";
+import { elementDataExtractor } from "./marionette-element/element-data-extractor";
 import { getAtomicElementsSchema } from "./sync/get-atomic-elements-schema";
 import { getAtomicStyleSchema } from "./sync/get-atomic-style-schema";
 import { getElementorCommands } from "./sync/get-elementor-commands";
@@ -63,13 +63,8 @@ const createElementorAdapter = () => {
         getSelectedElement,
         postId: getPostId(),
         elementSubscriber: createElementEventSubscriber(),
-        elementDataExtractor: dataExtractor,
-        getUsedGlobalClassesSnapshot: getUsedGlobalClassesSnapshot,
-        toolbarHeight: () => {
-            const toolbar = document.getElementById( 'elementor-editor-wrapper-v2' );
-
-            return toolbar?.offsetHeight ?? null
-        },
+        elementDataExtractor: elementDataExtractor,
+        globalClasses,
         schemaTypes: {
             style: getAtomicStyleSchema,
             interaction: getInteractionsSchema,

@@ -14,10 +14,6 @@
             "@debug-panel/adapters": ["libs/adapters/src/index.ts"],
             "@debug-panel/dev-panel-sdk": ["sdks/dev-panel-sdk/src/index.ts"],
             "@debug-panel/events": ["libs/events/src/index.ts"],
-            "@bootstrap": ["bootstrap/index.ts"],
-            "@component/*": ["assets/js/app/components/*"],
-            "@app/*": ["assets/js/app/*"],
-            "@libs/*": ["assets/js/libs/*"],
             "@debug-panel/providers": ["libs/providers/src/index.ts"],
             "@debug-panel/monaco-editor": ["libs/monaco-editor/src/index.ts"],
             "@debug-panel/toolbar": ["libs/toolbar/src/index.ts"],
@@ -30,7 +26,11 @@
             "@debug-panel/truncate": ["libs/truncate/src/index.ts"],
             "@debug-panel/constants": ["libs/constants/src/index.ts"],
             "@debug-panel/source-locator": ["libs/source-locator/src/index.ts"],
-            "@debug-panel/json-delta": ["libs/json-delta/src/index.ts"]
+            "@debug-panel/json-delta": ["libs/json-delta/src/index.ts"],
+            "@bootstrap": ["bootstrap/index.ts"],
+            "@component/*": ["assets/js/app/components/*"],
+            "@app/*": ["assets/js/app/*"],
+            "@libs/*": ["assets/js/libs/*"]
         }
     },
     "exclude": ["node_modules"]

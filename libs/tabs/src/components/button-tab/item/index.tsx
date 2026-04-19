@@ -9,7 +9,7 @@ interface ItemProps {
   children: ReactNode;
 }
 
-/** internal — what Group injects via cloneElement **/
+/** internal — Props Group injects via cloneElement **/
 export interface InjectedProps extends ItemProps {
   isActive?: boolean;
   onClick?: () => void;

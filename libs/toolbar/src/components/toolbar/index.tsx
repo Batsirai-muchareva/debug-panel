@@ -1,17 +1,18 @@
+import { useState } from 'react';
+
 import { eventBus, useEventBus } from '@debug-panel/events';
 import { ArrowIcon, type IconName, renderIcon } from '@debug-panel/icons';
 import { store } from '@debug-panel/storage';
 import { useTabs } from '@debug-panel/tabs';
+import { ActionsClip, bindActionsClip } from '@debug-panel/truncate';
 import { Box, Button, cx, Text } from '@debug-panel/ui';
 
 import { getActions } from '../../actions-registry';
 import { useToolbar } from '../../context/toolbar-context';
+import type { ActionConfig } from '../../define-action';
 import { ActionPanel } from '../action-panel';
 
 import styles from './toolbar.module.scss';
-import { ActionsClip, bindActionsClip } from '@debug-panel/truncate';
-import { useState } from '@wordpress/element';
-import { ActionConfig } from '../../define-action';
 
 export const Toolbar = ( { data }: { data: unknown } ) => {
     const actions = getActions();
@@ -22,7 +23,7 @@ export const Toolbar = ( { data }: { data: unknown } ) => {
     const [ shoulShowOverflow, setshoulShowOverflow ] = useState( false );
 
     useEventBus( 'actions:clip:hide', ( ids ) => {
-            setHiddenActions( ids );
+        setHiddenActions( ids );
     } );
 
     const renderAction = ( action: ActionConfig ) => {
@@ -50,43 +51,10 @@ export const Toolbar = ( { data }: { data: unknown } ) => {
         );
     };
 
-    const visibleActions = actions.filter( ( a ) => !hiddenActions.includes( a.id ) );
     const overflowActions = actions.filter( ( a ) => hiddenActions.includes( a.id ) );
 
     return (
         <Box className={ styles.toolbar }>
-            {/*<ActionsClip className={ styles.toolbarActions }>*/}
-            {/*    {*/}
-            {/*        actions.map( ( action ) => {*/}
-            {/*            const state = states[action.id];*/}
-            {/*            const Indicator = action.indicator*/}
-
-            {/*            if ( hiddenActions.includes( action.id ) ) {*/}
-            {/*                return null*/}
-            {/*            }*/}
-
-            {/*            return (*/}
-            {/*                <Button*/}
-            {/*                    { ...bindActionsClip }*/}
-            {/*                    key={ action.id }*/}
-            {/*                    id={ action.id }*/}
-            {/*                    className={ cx( styles.action, {*/}
-            {/*                        [styles.actionActive]: state*/}
-            {/*                    } ) }*/}
-            {/*                    onClick={ () => action?.onExecute?.( {*/}
-            {/*                        bind: id,*/}
-            {/*                        data,*/}
-            {/*                        onSetState: () => setState( action, ! state )*/}
-            {/*                    } ) }*/}
-            {/*                >*/}
-            {/*                    { renderIcon( action.icon as IconName ) }*/}
-            {/*                    { action.title }*/}
-
-            {/*                    { Indicator && <Indicator state={ Boolean( state ) }/> }*/}
-            {/*                </Button>*/}
-            {/*            ) } )*/}
-            {/*    }*/}
-            {/*</ActionsClip>*/}
             <ActionsClip moreActive={ shoulShowOverflow } toggleMore={ setshoulShowOverflow } className={ styles.toolbarActions }>
                 { actions.map( renderAction ) }
             </ActionsClip>

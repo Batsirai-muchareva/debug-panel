@@ -17,3 +17,10 @@ build/
 vite.config.*.timestamp*!/zip-builds/events/
 
 vite.config.*.timestamp*!/assets/
+htmls/
+zip-builds/
+docs/
+tmp/
+dist/
+AGENTS.md
+CLAUDE.md

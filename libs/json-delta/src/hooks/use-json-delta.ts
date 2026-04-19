@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useState } from "react";
 
 import { jsonDelta } from "../state/json-delta";
 import type { CommitResult, JsonObject } from "../types";

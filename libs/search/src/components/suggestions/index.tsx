@@ -1,16 +1,16 @@
-import React, { type ComponentType, Fragment } from 'react';
+import React, { type ComponentType, Fragment, useEffect } from 'react';
 
 import { PinIcon } from '@debug-panel/icons';
 import { usePath } from '@debug-panel/path';
+// TODO fix this dependency cycle with toolbar
+import { useToolbar } from '@debug-panel/toolbar';
 import { ClipRow } from '@debug-panel/truncate';
 import { Box, Button, cx, Text } from '@debug-panel/ui';
 
 import { useSearch } from '../../context/search-context';
 import { useSuggestions } from '../../context/suggestions-context';
-import {
-    MIN_HEIGHT,
-    useSuggestionResizable,
-} from '../../hooks/use-suggestions-resizable';
+import { useRecentSearches } from "../../hooks/use-recent-searches";
+import { useSuggestionResizable } from '../../hooks/use-suggestions-resizable';
 import { Content } from './content';
 import { EmptyState } from './empty-state';
 import { KeyIcon } from './icons/key-icon';
@@ -18,8 +18,6 @@ import { PathIcon } from './icons/path-icon';
 import { RecentIcon } from './icons/recent-icon';
 
 import styles from './suggestions.module.scss';
-import { useRecentSearches } from "../../hooks/use-recent-searches";
-import { useToolbar } from '@debug-panel/toolbar';
 
 const icons: Record<string, ComponentType> = {
     path: PathIcon,
@@ -28,12 +26,18 @@ const icons: Record<string, ComponentType> = {
 };
 
 export const Suggestions = () => {
-    const { suggestions, isOpen, togglePin, pin: pinSuggestions } = useSuggestions();
+    const { suggestions, isOpen, togglePin, pin: pinSuggestions, close } = useSuggestions();
     const { height, onMouseDown } = useSuggestionResizable();
     const { setPath } = usePath();
     const { query, setQuery } = useSearch();
     const { addRecentSearches } = useRecentSearches()
     const { isValueSearchActive } = useToolbar();
+
+    useEffect( () => {
+        document.querySelector( 'monaco-editor' )?.addEventListener( 'click', () => {
+            close();
+        } )
+    }, [] )
 
     if ( ! isOpen ) {
         return null;
@@ -70,20 +74,6 @@ export const Suggestions = () => {
                                     <Box className={ styles.category }>
                                         <Text>{ category.label }</Text>
                                     </Box>
-
-                                    {/*<List*/}
-                                    {/*    items={ category.items }*/}
-                                    {/*    type={ category.type }*/}
-                                    {/*    content={ ( item ) => (*/}
-                                    {/*        <Button className={ styles.rowItem } onMouseDown={ () => handleSetPath( item ) }>*/}
-                                    {/*            <Icon />*/}
-                                    {/*            <ClipRow path={ item }>*/}
-                                    {/*                <Content path={ item } />*/}
-                                    {/*            </ClipRow>*/}
-                                    {/*        </Button>*/}
-                                    {/*    ) }*/}
-                                    {/*/>*/}
-
                                     { category.items.map( ( path, i ) => (
                                         <Button key={ path + 'cat' + i } className={ styles.rowItem } onMouseDown={ () => handleSetPath( path ) }>
                                             <Icon />

@@ -11,11 +11,17 @@ const enterObjectKey = (
     key: string,
     depth: number
 ): string => {
-    state.pathStack.length = Math.max( 0, depth - 1 );
+    const parentScope = [ ...state.openStack ]
+        .reverse()
+        .find( ( entry ) => entry.indent < depth * 2 );
 
-    state.pathStack.push( key );
+    const parentPath = parentScope?.path ?? '';
 
-    return state.pathStack.join( "." );
+    const path = parentPath ? `${ parentPath }.${ key }` : key;
+
+    state.pathStack = parentPath ? [ ...parentPath.split( '.' ), key ] : [ key ];
+
+    return path;
 };
 
 const enterArrayItem = (
@@ -23,14 +29,20 @@ const enterArrayItem = (
     depth: number
 ): string => {
     const idx = state.arrayStack.length - 1;
-    state.arrayStack[idx]++;
+    state.arrayStack[ idx ]++;
 
-    state.pathStack.length = Math.max( 0, depth - 1 );
-    state.pathStack.push( state.arrayStack[idx] );
+    const parentScope = [ ...state.openStack ]
+        .reverse()
+        .find( ( entry ) => entry.indent < depth * 2 );
 
-    return state.pathStack.join( "." );
+    const parentPath = parentScope?.path ?? '';
+    const index = state.arrayStack[ idx ];
+    const path = parentPath ? `${ parentPath }.${ index }` : String( index );
+
+    state.pathStack = path.split( '.' );
+
+    return path;
 };
-
 
 const exitArrayItem = ( state: LocatorState ) => {
     if ( typeof state.pathStack[state.pathStack.length - 1] === "number" ) {
@@ -93,3 +105,30 @@ export {
     openScope,
     closeScope
 }
+
+
+// const enterArrayItem = (
+//     state: LocatorState,
+//     depth: number
+// ): string => {
+//     const idx = state.arrayStack.length - 1;
+//     state.arrayStack[idx]++;
+//
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//     state.pathStack.push( state.arrayStack[idx] );
+//
+//     return state.pathStack.join( "." );
+// };
+
+
+// const enterObjectKey = (
+//     state: LocatorState,
+//     key: string,
+//     depth: number
+// ): string => {
+//     state.pathStack.length = Math.max( 0, depth - 1 );
+//
+//     state.pathStack.push( key );
+//
+//     return state.pathStack.join( "." );
+// };

@@ -97,28 +97,3 @@ const calculateVertical = (
 
     return { height, y: undefined }; // no vertical resize
 };
-
-//The key insight spelled out:
-//
-// East/South resize — you're dragging the far edge outward, so the panel's top-left origin doesn't move, only size changes
-// West/North resize — you're dragging the near edge, so the panel's origin must move to follow your cursor otherwise the panel would resize from the wrong side
-//     let newWidth = width;
-//     let newHeight = height;
-//     let newX: number | undefined;
-//     let newY: number | undefined;
-//
-//     if ( direction.includes( 'e' ) ) {
-//         newWidth = width + dx;
-//     } else if ( direction.includes( 'w' ) ) {
-//         newWidth = width - dx;
-//         newX = posX + dx;
-//     }
-//
-//     if ( direction.includes( 's' ) ) {
-//         newHeight = height + dy;
-//     } else if ( direction.includes( 'n' ) ) {
-//         newHeight = height - dy;
-//         newY = posY + dy;
-//     }
-//
-//     return { width: newWidth, height: newHeight, x: newX, y: newY };

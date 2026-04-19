@@ -3,26 +3,13 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         clean: {
-            zip: 'zip-builds',
+            // zip: 'zip-builds',
             dest: 'dest'
         },
-
-        shell: {
-            npm_install: {
-                command: 'npm install'
-            },
-            npm_build: {
-                command: 'npm run build:production'
-            },
-            npm_production: {
-                command: 'npm ci --omit=dev'
-            }
-        },
-
         compress: {
             zip: {
                 options: {
-                    archive: 'zip-builds/dev-debug-tool.zip',
+                    archive: 'zip-builds/dev-debug-tool-<%= pkg.version %>.zip',
                 },
                 files: [
                     {
@@ -38,29 +25,10 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 src: [
-                    '**',
-                    '!assets/**',
-                    '!deleted/**',
-                    '!docs/**',
-                    '!node_modules/**',
-                    '!vendor/**',
-                    '!zip-builds/**',
-                    '!dest/**',
-
-                    // ⛔ exclude generated files
-                    '!build/styles.js',
-                    '!build/styles.asset.php',
-                    '!build/styles-rtl.css',
-
-                    '!.gitignore',
-                    '!composer.json',
-                    '!composer.lock',
-                    '!Gruntfile.js',
-                    '!package-lock.json',
-                    '!package.json',
-                    '!README.md',
-                    '!tsconfig.json',
-                    '!webpack.config.js',
+                    'src/**',
+                    'build/**',
+                    'debug-panel.php',
+                    'vendor/**',
                 ],
                 expand: true,
                 dest: 'dest/'
@@ -68,21 +36,32 @@ module.exports = function (grunt) {
         }
     } );
 
+    grunt.registerTask( 'resolve-zip-name', function () {
+        const version = grunt.config( 'pkg.version' );
+        const base    = `zip-builds/dev-debug-tool-${ version }`;
+
+        let archive = `${ base }.zip`;
+        let i = 1;
+        while ( grunt.file.exists( archive ) ) {
+            archive = `${ base }-${ i }.zip`;
+            i++;
+        }
+
+        grunt.config( 'compress.zip.options.archive', archive );
+        grunt.log.writeln( `Archive: ${ archive }` );
+    } );
+
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask( 'zip', [ 'compress:zip' ]);
+    grunt.registerTask( 'zip', [ 'resolve-zip-name', 'compress:zip' ] );
 
-    grunt.registerTask( 'build', [
-        'shell:npm_install',
-        'shell:npm_build',
-        'shell:npm_production',
+    grunt.registerTask( 'production', [
         'clean',
         'copy',
         'zip',
         'clean:dest',
-        'shell:npm_install',
     ] );
 };

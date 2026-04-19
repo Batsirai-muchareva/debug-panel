@@ -14,10 +14,8 @@ export const applyConstraints = <T extends Dimensions['size'] & Dimensions['posi
     const constrainedWidth = clamp( width, minWidth, maxWidth );
     const constrainedHeight = clamp( height, minHeight, maxHeight );
 
-    // if width hit a constraint, discard x so position doesn't shift
     const constrainedX = constrainedWidth !== width ? undefined : x;
 
-    // if height hit a constraint, discard y so position doesn't shift
     const constrainedY = constrainedHeight !== height ? undefined : y;
 
     return {

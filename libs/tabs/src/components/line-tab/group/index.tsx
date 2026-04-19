@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Indicator } from '../indicator';
 import type { InjectedProps } from '../item';
+
 import styles from './group.module.scss';
 
 interface GroupProps {
@@ -24,16 +25,17 @@ export const Group = ( { defaultActive, children, onChange }: GroupProps ) => {
   }
 
   return (
-    <div className={styles.group}>
-      <Indicator count={items.length} index={activeIndex} />
+    <div className={ styles.group }>
+      <Indicator count={ items.length } index={ activeIndex } />
 
-      {items.map( ( child ) => {
+      { items.map( ( child ) => {
         const item = child as React.ReactElement<InjectedProps>;
+
         return React.cloneElement( item, {
           isActive: item.props.id === active,
           onClick: () => activate( item.props.id ),
         } );
-      } )}
+      } ) }
     </div>
   );
 };

@@ -1,0 +1,82 @@
+.bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 20px;
+    //border-bottom: 1px solid #1e2140;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    min-height: 38px;
+    border-bottom: 1px solid #1a4a457a;
+}
+
+.sectionLabel {
+    font-size: 10px;
+    color: #2d4a46;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.divider {
+    width: 1px;
+    height: 12px;
+    background: #1e2140;
+    margin: 0 4px;
+    flex-shrink: 0;
+}
+
+/* ── Base chip ────────────────────────────────────── */
+
+.chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid #1e3530;
+    color: #2d4a46;
+    cursor: pointer;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    background: transparent;
+    flex-shrink: 0;
+
+    &:hover { border-color: #2a5a54; color: #4ecdc4; }
+}
+
+/* ── Label type chips (teal) ──────────────────────── */
+
+.chipOn {
+    background: rgba(78, 205, 196, 0.1);
+    border-color: #2a6e68;
+    color: #4ecdc4;
+}
+
+/* ── Time range chips (periwinkle) ────────────────── */
+
+.chipTime {
+    &:hover { border-color: #3a4a8a; color: #7c9ef0; }
+}
+
+.chipTimeOn {
+    background: rgba(124, 158, 240, 0.1);
+    border-color: #3a4a8a;
+    color: #7c9ef0;
+}
+
+/* ── Limit chip (amber, cycles on click) ──────────── */
+
+.chipLimit {
+    border-color: #3a3010;
+    color: #7a6020;
+
+    &:hover { border-color: #6a5010; color: #e2a955; }
+}
+
+/* ── Visible count ────────────────────────────────── */
+
+.count {
+    margin-left: auto;
+    font-size: 10px;
+    color: #2d4a46;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}

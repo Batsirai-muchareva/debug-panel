@@ -28,7 +28,7 @@ export const usePopover = (): PopoverState => {
     const context = useContext( PopoverContext );
 
     if ( ! context ) {
-        throw new Error('usePopover must be used within a PopoverProvider');
+        throw new Error( 'usePopover must be used within a PopoverProvider' );
     }
 
     const { isOpen, setIsOpen } = context;

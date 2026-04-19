@@ -6,11 +6,6 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "types": ["vite/client", "node"],
-//    "baseUrl": ".",
-//    "paths": {
-//      "@component/*": ["src/components/*"],
-//      "@app/*": ["src/app/*"]
-//    }
   },
   "files": [],
   "include": [],

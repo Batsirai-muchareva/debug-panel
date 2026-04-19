@@ -8,20 +8,6 @@
 }
 
 .dots {
-  //flex-shrink: 0;
-  //color: #4a8a6a;
-  //cursor: default;
-  //padding: 0 2px;
-  //
-  //position: absolute;
-  //z-index: 10000;
-  //font-size: 16px;
-  //right: 0;
-  //background: yellow;
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
-
   flex-shrink: 0;
   color: #ffffff;
   cursor: default;
@@ -31,12 +17,9 @@
   font-size: 16px;
   right: 0;
   background: #0b1c1c;
-  //background: #0d1a1a;
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
 
 .tooltip {

@@ -3,6 +3,7 @@ type ExtendedWindow = {
     slot_id?: string;
   };
 };
+
 // this should not be here dynamically injected or part of adapter
 export const getSlotId = () => {
   const extendedWindow = window as ExtendedWindow;
