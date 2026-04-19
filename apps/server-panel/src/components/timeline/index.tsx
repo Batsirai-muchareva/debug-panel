@@ -1,4 +1,5 @@
 import { useDebugLogs } from '../../context/debug-logs-context';
+import { formatTime } from '../../utils/format-time';
 
 import styles from './timeline.module.scss';
 
@@ -20,11 +21,11 @@ export function Timeline() {
                         log.id === highlightedId ? styles.blipActive : '',
                         i === logs.length - 1 ? styles.blipLatest : '',
                     ].join( ' ' ) }
-                    title={ `#${ log.index } ${ log.time }` }
+                    title={ `#${ log.index } ${ formatTime( log.time ) }` }
                     onClick={ () => setHighlightedId( log.id ) }
                 />
             ) ) }
-            <span className={ styles.timeLabel }>{ lastLog.time }</span>
+            <span className={ styles.timeLabel }>{ formatTime( lastLog.time ) }</span>
         </div>
     );
 }

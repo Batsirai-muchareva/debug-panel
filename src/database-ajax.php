@@ -2,10 +2,6 @@
 
 namespace DevDebugTool;
 
-//use function Dev_Debug_Tool;
-
-use Symfony\Component\VarDumper\VarDumper;
-
 class Database_Ajax {
 		const AJAX_DEV_DEBUG_KEY = 'dev_debug_tool_get_database_schema';
 		const NONCE_DEV_DEBUG_KEY = 'dev_debug_tool_nonce';
@@ -15,16 +11,6 @@ class Database_Ajax {
 		const GLOBAL_CLASSES_META_KEY = '_elementor_global_classes';
 
 		public function register_hooks(): void {
-//				VarDumper::dump(json_decode( get_post_meta( 15, '_elementor_global_variables', true ), true ));
-
-				dp(
-						[
-								'tz: ' . wp_timezone_string(),
-								'time: ' . ( new \DateTime( 'now', wp_timezone() ) )->format( 'H:i:s' ),
-								'local: ' . date('H:i:s'),
-								'server: ' . gmdate('H:i:s')
-						]
-				);
 				add_action('wp_ajax_' .self::AJAX_DEV_DEBUG_KEY , [ $this, 'get_database_schema' ]);
 		}
 

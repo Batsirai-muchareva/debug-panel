@@ -5,6 +5,7 @@ import { ListIcon } from '@debug-panel/icons';
 import { Box } from '@debug-panel/ui';
 
 import type { LogItem } from '../../context/debug-logs-context';
+import { formatTime } from '../../utils/format-time';
 
 import styles from './backtrace-view.module.scss';
 
@@ -51,12 +52,6 @@ type Props = {
     time: string;
 };
 
-function formatTime( utcTime: string ): string {
-    const [ h, m, s ] = utcTime.split( ':' ).map( Number );
-    const date = new Date();
-    date.setUTCHours( h, m, s );
-    return date.toLocaleTimeString( undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' } );
-}
 
 type PopoverPos = { top: number; left: number; openUpward: boolean };
 

@@ -89,15 +89,6 @@ interface DebugLogsContextValue {
     clear: () => void;
     togglePin: ( id: string ) => void;
 
-    // Search
-    searchOpen: boolean;
-    setSearchOpen: ( v: boolean ) => void;
-    searchQuery: string;
-    setSearchQuery: ( q: string ) => void;
-    useRegex: boolean;
-    setUseRegex: ( v: boolean ) => void;
-    regexError: string | null;
-
     // View mode
     viewMode: ViewMode;
     setViewMode: ( mode: ViewMode ) => void;
@@ -131,10 +122,6 @@ const DebugLogsContext = createContext<DebugLogsContextValue | null>( null );
 export const DebugLogsProvider = ( { children }: PropsWithChildren ) => {
     const [ rawLogs, setRawLogs ] = useState<RawLog[]>( [] );
     const [ pinnedIds, setPinnedIds ] = useState<Set<string>>( new Set() );
-
-    const [ searchOpen, setSearchOpen ] = useState( false );
-    const [ searchQuery, setSearchQuery ] = useState( '' );
-    const [ useRegex, setUseRegex ] = useState( false );
 
     const [ viewMode, setViewMode ] = useState<ViewMode>( 'all' );
     const [ disabledLabels, setDisabledLabels ] = useState<Set<string>>( new Set() );
@@ -253,14 +240,6 @@ export const DebugLogsProvider = ( { children }: PropsWithChildren ) => {
         [ logs ]
     );
 
-    // Regex validation
-    const regexError = useMemo( () => {
-        if ( !useRegex || !searchQuery ) return null;
-        try { new RegExp( searchQuery ); return null; } catch ( e ) {
-            return ( e as Error ).message;
-        }
-    }, [ useRegex, searchQuery ] );
-
     const filteredLogs = useMemo( () => {
         const now    = Date.now();
         const cutoff = timeRange === 'all' ? 0 : now - TIME_RANGE_MS[ timeRange ];
@@ -270,25 +249,9 @@ export const DebugLogsProvider = ( { children }: PropsWithChildren ) => {
             if ( viewMode === 'pinned' && !log.pinned ) return false;
             if ( viewMode === 'diff'   && !log.isDuplicate ) return false;
             if ( timeRange !== 'all'  && log.receivedAt < cutoff ) return false;
-
-            if ( searchQuery ) {
-                if ( useRegex ) {
-                    if ( regexError ) return false; // invalid regex — hide all
-                    const re = new RegExp( searchQuery, 'i' );
-                    if ( !re.test( log.label ) &&
-                         !re.test( log.backtrace?.sourceName ?? '' ) &&
-                         !re.test( log.backtrace?.callerFunction ?? '' ) ) return false;
-                } else {
-                    const q = searchQuery.toLowerCase();
-                    if ( !log.label.toLowerCase().includes( q ) &&
-                         !( log.backtrace?.sourceName?.toLowerCase().includes( q ) ?? false ) &&
-                         !( log.backtrace?.callerFunction?.toLowerCase().includes( q ) ?? false ) ) return false;
-                }
-            }
-
             return true;
         } );
-    }, [ logs, disabledLabels, viewMode, timeRange, searchQuery, useRegex, regexError ] );
+    }, [ logs, disabledLabels, viewMode, timeRange ] );
 
     const stats = useMemo<Stats>( () => ( {
         total: logs.length,
@@ -304,9 +267,6 @@ export const DebugLogsProvider = ( { children }: PropsWithChildren ) => {
             logs, filteredLogs, stats, uniqueLabels,
             connected,
             clear, togglePin,
-            searchOpen, setSearchOpen,
-            searchQuery, setSearchQuery,
-            useRegex, setUseRegex, regexError,
             viewMode, setViewMode,
             disabledLabels, toggleLabel,
             timeRange, setTimeRange,

@@ -5,17 +5,12 @@ import { useDebugLogs } from '../context/debug-logs-context';
 /**
  * Global keyboard shortcuts for the server panel.
  *
- * Cmd/Ctrl+K  — open / close search
- * Esc         — close search (clears query)
- * P           — pause / resume (not in input)
- * C           — clear logs   (not in input, not combined with meta)
- * ↑ / ↓       — navigate highlighted log entry
+ * P   — pause / resume (not in input)
+ * C   — clear logs   (not in input, not combined with meta)
+ * ↑/↓ — navigate highlighted log entry
  */
 export function useKeyboardShortcuts() {
     const {
-        searchOpen,
-        setSearchOpen,
-        setSearchQuery,
         togglePause,
         clear,
         filteredLogs,
@@ -28,24 +23,6 @@ export function useKeyboardShortcuts() {
             const tag     = ( e.target as HTMLElement ).tagName;
             const inInput = tag === 'INPUT' || tag === 'TEXTAREA' || ( e.target as HTMLElement ).isContentEditable;
 
-            // ── Works anywhere ────────────────────────────────────────────
-
-            // Cmd/Ctrl+K — toggle search
-            if ( ( e.metaKey || e.ctrlKey ) && e.key === 'k' ) {
-                e.preventDefault();
-                setSearchOpen( !searchOpen );
-                return;
-            }
-
-            // Esc — close search
-            if ( e.key === 'Escape' && searchOpen ) {
-                e.preventDefault();
-                setSearchOpen( false );
-                setSearchQuery( '' );
-                return;
-            }
-
-            // ── Blocked inside inputs ─────────────────────────────────────
             if ( inInput ) return;
 
             switch ( e.key ) {
@@ -84,6 +61,5 @@ export function useKeyboardShortcuts() {
 
         document.addEventListener( 'keydown', handler );
         return () => document.removeEventListener( 'keydown', handler );
-    }, [ searchOpen, filteredLogs, highlightedId,
-         setSearchOpen, setSearchQuery, togglePause, clear, setHighlightedId ] );
+    }, [ filteredLogs, highlightedId, togglePause, clear, setHighlightedId ] );
 }

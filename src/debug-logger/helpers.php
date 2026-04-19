@@ -5,10 +5,6 @@ use DevDebugTool\Debug_Logger\Descriptors\Json_Descriptor;
 use DevDebugTool\Debug_Logger\Descriptors\Label_Descriptor;
 use DevDebugTool\Debug_Logger\Payloads\Json_Payload;
 
-
-//		    VarDumper::dump( $values );
-// Capture the backtrace immediately — before any branching — so that
-// frame[1] is always and provably the dp() call-site in user code.
 /**
  * dp() — send any PHP value to the server-panel debug UI.
  *
@@ -26,17 +22,6 @@ use DevDebugTool\Debug_Logger\Payloads\Json_Payload;
 if ( ! function_exists( 'dp' ) ) {
     function dp( ...$args ): void {
 		    Debug::send( ...$args );
-				// $trace
-//        $trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
-
-
-//        foreach ( $values as $value ) {
-//            $payload = $value instanceof Json_Descriptor
-//                ? new JsonPayload( $value->value )
-//                : new Php_Payload( $value );
-//
-//            Debug::send( $payload, $trace );
-//        }
     }
 }
 

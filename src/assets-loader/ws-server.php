@@ -9,8 +9,6 @@ namespace DevDebugTool\Assets_Loader;
  * stops it cleanly on plugin deactivation or explicit request.
  */
 class WS_Server {
-
-//		private const SCRIPT_PATH = 'apps/ws-server/dist/main.js';
 		private const SCRIPT_PATH_DEV  = 'apps/ws-server/src/main.ts';
 		private const SCRIPT_PATH_PROD = 'build/ws-server/main.js';
 		private const PID_FILE    = 'tmp/ws-server.pid';
@@ -30,18 +28,6 @@ class WS_Server {
 				$this->pid_file = DEBUG_PANEL_PATH . self::PID_FILE;
 				$this->log_file = DEBUG_PANEL_PATH . self::LOG_FILE;
 		}
-//		public function __construct() {
-//				$is_dev = file_exists( DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH_DEV );
-//
-//				var_dump(  );
-//				$this->script = DEV_DEBUG_TOOL_PATH . ( $is_dev ? self::SCRIPT_PATH_DEV : self::SCRIPT_PATH_PROD );
-//				$this->pid_file = DEV_DEBUG_TOOL_PATH . self::PID_FILE;
-//				$this->log_file = DEV_DEBUG_TOOL_PATH . self::LOG_FILE;
-//
-////				$this->script = DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH;
-////				$this->pid_file = DEV_DEBUG_TOOL_PATH . self::PID_FILE;
-////				$this->log_file = DEV_DEBUG_TOOL_PATH . self::LOG_FILE;
-//		}
 
 		/**
 		 * Starts the ws-server if it is not already running.
@@ -106,59 +92,6 @@ class WS_Server {
 				return $alive;
 		}
 
-		// -------------------------------------------------------------------------
-		// Private helpers
-		// -------------------------------------------------------------------------
-
-		/**
-		 * Spawns the ws-server as a detached background process and records its PID.
-		 */
-//		private function start(): void {
-//				$this->ensure_tmp_dir();
-//
-//				$cmd = sprintf(
-//						'node %s >> %s 2>&1 & echo $!',
-//						escapeshellarg( $this->script ),
-//						escapeshellarg( $this->log_file )
-//				);
-//
-//				$pid = (int) exec( $cmd );
-//
-//				if ( $pid > 0 ) {
-//						file_put_contents( $this->pid_file, $pid );
-//						$this->log( 'ws-server started with PID ' . $pid );
-//				} else {
-//						$this->log( 'ws-server failed to start.' );
-//				}
-//		}
-
-//		private function start(): void {
-//				$this->ensure_tmp_dir();
-//
-////				$is_ts  = str_ends_with( $this->script, '.ts' );
-//				$is_ts = substr( $this->script, -3 ) === '.ts';
-//
-//				$runner = $is_ts ? 'npx tsx' : 'node';
-//
-//				$cmd = sprintf(
-//						'%s %s >> %s 2>&1 & echo $!',
-//						$runner,
-//						escapeshellarg( $this->script ),
-//						escapeshellarg( $this->log_file )
-//				);
-//
-//
-//				$pid = (int) exec( $cmd );
-//
-//				var_dump( $pid );
-//
-//				if ( $pid > 0 ) {
-//						file_put_contents( $this->pid_file, $pid );
-//						$this->log( 'ws-server started with PID ' . $pid );
-//				} else {
-//						$this->log( 'ws-server failed to start.' );
-//				}
-//		}
 		private function start(): void {
 				$this->ensure_tmp_dir();
 
@@ -261,39 +194,3 @@ class WS_Server {
 				file_put_contents( $this->log_file, $line, FILE_APPEND | LOCK_EX );
 		}
 }
-
-/**
- * private const SCRIPT_PATH_DEV  = 'apps/ws-server/src/main.ts';
- * private const SCRIPT_PATH_PROD = 'apps/ws-server/dist/main.js';
- *
- * public function __construct() {
- * $is_dev = file_exists( DEV_DEBUG_TOOL_PATH . self::SCRIPT_PATH_DEV );
- *
- * $this->script   = DEV_DEBUG_TOOL_PATH . ( $is_dev ? self::SCRIPT_PATH_DEV : self::SCRIPT_PATH_PROD );
- * $this->pid_file = DEV_DEBUG_TOOL_PATH . self::PID_FILE;
- * $this->log_file = DEV_DEBUG_TOOL_PATH . self::LOG_FILE;
- * }
- *
- * private function start(): void {
- * $this->ensure_tmp_dir();
- *
- * $is_ts  = str_ends_with( $this->script, '.ts' );
- * $runner = $is_ts ? 'npx tsx' : 'node';
- *
- * $cmd = sprintf(
- * '%s %s >> %s 2>&1 & echo $!',
- * $runner,
- * escapeshellarg( $this->script ),
- * escapeshellarg( $this->log_file )
- * );
- *
- * $pid = (int) exec( $cmd );
- *
- * if ( $pid > 0 ) {
- * file_put_contents( $this->pid_file, $pid );
- * $this->log( 'ws-server started with PID ' . $pid );
- * } else {
- * $this->log( 'ws-server failed to start.' );
- * }
- * }
- */

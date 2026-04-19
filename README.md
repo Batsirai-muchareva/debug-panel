@@ -1,81 +1,166 @@
-# Elementor Debug Tool
+# Debug Panel
 
-A WordPress plugin that provides real-time database and editor schema viewing within the Elementor editor interface.
+A WordPress plugin for Elementor developers. Inspect live element state, database records, and style schemas directly inside the editor — plus a companion real-time dump panel for server-side PHP debugging.
 
-## Features
+---
 
-- **Real-time Schema Viewing**: View both database and editor schemas in real-time as you edit
-- **Popover Interface**: Clean, minimal interface that appears in the bottom-right corner of the Elementor editor
-- **Two-Tab Layout**: 
-  - **Database Schema**: Shows the saved WordPress database data for the current page
-  - **Editor Schema**: Shows the live JSON representation of the current Elementor editor state
-- **Copy to Clipboard**: Easy copying of schema data
-- **Export JSON**: Download schema data as JSON files
-- **Real-time Updates**: Automatically updates as you make changes to the page
+## Contents
+
+- [Dev Panel — In-editor Inspector](#dev-panel--in-editor-inspector)
+  - [Editor tab](#editor-tab)
+  - [Database tab](#database-tab)
+  - [Schema tab](#schema-tab)
+- [Debug Panel — Real-time PHP Dumps](#debug-panel--real-time-php-dumps)
+  - [Sending data with dp()](#sending-data-with-dp)
+  - [Reading the panel](#reading-the-panel)
+  - [Keyboard shortcuts](#keyboard-shortcuts)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Changelog](#changelog)
+
+---
+
+## Dev Panel — In-editor Inspector
+
+A panel inside the Elementor editor for browsing element data, database records, and schema definitions in real time. Open any page in the Elementor editor and click the **Debug Panel** icon in the bottom-right corner. Select any element on the canvas to start inspecting it.
+
+### Editor tab
+
+Shows the live JSON state of the currently selected element — updates instantly as you make changes on the canvas.
+
+- **Local** — the element's own model data: id, type, settings, styles, and interactions
+- **Classes** — global classes attached to the element
+
+<img src="docs/screenshots/dev-panel-editor.png" width="420" alt="Dev Panel — Editor tab" />
+
+<img src="docs/screenshots/dev-panel-editor-expanded.png" width="420" alt="Dev Panel — Editor tab expanded" />
+
+The toolbar gives you full control over the JSON view:
+
+| Action | Description |
+|---|---|
+| **Highlight** | When active, any property that changes as you interact with the Elementor editor is visually highlighted — instantly see which part of the JSON your edits affect |
+| **Fold / Expand** | Collapse or open all nodes at once |
+| **Search** (`⌘F`) | Find keys or values inside the tree |
+| **Copy** | Copy the full JSON to clipboard |
+| **Export** | Download as a `.json` file |
+| **Value Search** | Search by value across the entire tree |
+
+Right-clicking any node in the JSON tree opens a context menu with:
+
+- **Expand** — expand that node and all its children
+- **Pin to search** — locks that node's path into the search so it stays in view as the data updates around it
+
+<img src="docs/screenshots/dev-panel-pin-to-search.png" width="420" alt="Dev Panel — Pin to search context menu" />
+
+### Database tab
+
+Shows what is actually saved in WordPress for the current page and kit — the source of truth vs. what the editor holds in memory.
+
+- **Post** — the raw `_elementor_data` for the current page (the saved document tree)
+- **Variables** — kit-level CSS variables
+- **Classes** — global classes defined at the kit level
+
+### Schema tab
+
+A searchable reference for all registered Elementor properties and element types — useful for understanding what controls exist and what values they accept.
+
+- **Style** — every registered style property in order (width, height, padding, typography, …)
+- **Elements** — all registered element types and their configuration
+
+<img src="docs/screenshots/dev-panel-schema.png" width="420" alt="Dev Panel — Schema tab" />
+
+---
+
+## Debug Panel — Real-time PHP Dumps
+
+A companion browser window that receives `dp()` calls from your PHP code instantly. No page reloads, no `var_dump` cluttering the front end — structured output with full call stacks.
+
+<img src="docs/screenshots/server-panel-full.png" width="700" alt="Debug Panel — full view" />
+
+<img src="docs/screenshots/server-panel.png" width="700" alt="Debug Panel — log list" />
+
+### Sending data with `dp()`
+
+Call `dp()` anywhere in your PHP:
+
+```php
+$posts = get_posts();
+dp( $posts );
+```
+
+Pass multiple values — each becomes its own log entry:
+
+```php
+dp( $query, $results, $meta );
+```
+
+Add a label so entries are easy to identify:
+
+```php
+dp( with_label( 'Query args', $args ) );
+dp( with_label( 'Post meta', get_post_meta( $post_id ) ) );
+```
+
+Force JSON formatting:
+
+```php
+dp( as_json( $complex_array ) );
+```
+
+### Reading the panel
+
+Each log entry shows the label, index, full variable dump, and a footer with the source file, caller function, and line number.
+
+**Call Stack** — click the footer of any entry to open the backtrace popover. Select any frame to inspect it. Click **Open in editor** to jump to that exact line in PhpStorm, Cursor, or VS Code — your editor preference is saved per browser.
+
+**Stats bar** — total dumps, unique labels, repeated calls, and pinned count at a glance.
+
+**Timeline** — a bar across the top that maps every dump to a point in time. Click any blip to jump to that entry. Timestamps are shown in your local timezone.
+
+**View modes:**
+
+| Mode | Shows |
+|---|---|
+| **all** | Every dump received |
+| **pinned** | Pinned entries only |
+| **diff** | Only entries where the same `dp()` call fired more than once — useful for catching hooks running on every request |
+
+**Filters** — toggle individual labels on/off, filter by time range (last 1m / 5m / 30m), or cap the log limit.
+
+### Keyboard shortcuts
+
+| Key | Action |
+|---|---|
+| `P` | Pause / Resume incoming dumps |
+| `C` | Clear all logs |
+| `↑` / `↓` | Navigate between entries |
+
+---
+
+## Requirements
+
+- WordPress 6.2+
+- PHP 7.4+
+- Elementor (any recent version)
 
 ## Installation
 
-1. Upload the plugin files to `/wp-content/plugins/dev-debug-tool/` directory
-2. Activate the plugin through the 'Plugins' screen in WordPress
-3. The debug tool will automatically appear in the Elementor editor
+1. Copy the plugin folder to `wp-content/plugins/debug-panel/`
+2. Activate **Debug Panel** in wp-admin → Plugins
+3. Open a page in the Elementor editor — the panel icon appears in the bottom-right corner
+4. For PHP dumps, open `http://localhost:9001` in a separate tab
 
-## Usage
-
-1. Open any page/post in the Elementor editor
-2. Look for the debug tool button (bug icon) in the bottom-right corner
-3. Click the button to open the debug tool popover
-4. Switch between "Database Schema" and "Editor Schema" tabs
-5. Use the copy and export buttons to work with the schema data
-
-## Technical Details
-
-### Database Schema
-The database schema shows the raw Elementor data stored in the WordPress database (`_elementor_data` meta field). This represents the saved state of the page.
-
-### Editor Schema
-The editor schema shows the current live state of the Elementor selected element using ` elementor.selection.getElements()[0].model.toJSON()`.
-This updates in real-time as you make changes.
-
-### Real-time Updates
-The plugin listens for various Elementor events:
-- Element changes
-- Document save changes
-``
-
-## Development
-
-### JavaScript API
-The plugin uses Elementor's JavaScript API to:
-- Access the current document: `elementor.selection.getElements()[0]`
-- Listen for changes: `$e.commands.on( event, callback )`
-- Get editor state: `element.model.toJSON()`
-
-### PHP Hooks
-- `elementor/editor/after_enqueue_scripts`: Enqueue plugin scripts
-- `elementor/editor/after_enqueue_styles`: Enqueue plugin scripts
-- `wp_ajax_dev_debug_tool_get_database_schema`: AJAX handler for database schema
+---
 
 ## Changelog
 
+### 1.0.3
+- Call stack popover with multi-editor support (PhpStorm / Cursor / VS Code)
+- Popover no longer clips when scrolling — renders above all panel boundaries
+- `diff` view mode for spotting repeated `dp()` calls
+- Timeline timestamp corrected to local timezone
+- Dev panel toolbar expanded with Export and Value Search
+
 ### 1.0.0
 - Initial release
-- Real-time database and editor schema viewing
-- Copy to clipboard functionality
-- Export JSON functionality
-
-
-** MOTO elegant
-** SWEET 
-
-
-How to handle dynamic properties that changes when you select an item 
-( tell the system that it has to be wildcard to accept any value )
-( Indicate the wildcard in path crump )
-( Special way to handle arrays to be able to switch indexes )
-A lot people inspired me to build this thing 
-Ishay Inspired me to create it after he ran a command on console of selected-element.get('styles')
-Elena made me to to build the php debug 
-mike gave me the idea of highlighting after a fail and disregarded
-Eya gave me the energy to continue wen he mentioned me
-idea born of pain points of during building you have to go to console to see the model
-we where able to discover some hidden bugs ( behaviour of repeaters, hi ) thru this idea, clearly see the structure 

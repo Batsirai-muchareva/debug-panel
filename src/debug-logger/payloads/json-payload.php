@@ -2,31 +2,6 @@
 
 namespace DevDebugTool\Debug_Logger\Payloads;
 
-/**
- * JSON payload — renders in the server-panel as a syntax-highlighted
- * JSON viewer (no PHP dump tree, no Trace tab).
- *
- * Accepts any value that can be JSON-encoded, or a raw JSON string.
- *
- * Usage (via helper):
- *   dp()->json( $array );            // array / object → encoded then displayed
- *   dp()->json( '{"foo":"bar"}' );   // raw JSON string → validated then displayed
- *   dp()->json( $wp_post );          // any object works
- *
- * What gets sent to the React renderer:
- *
- *   {
- *     type:    "json",
- *     content: {
- *       raw:    '{"foo":"bar"}',   // the pretty-printed JSON string
- *       valid:  true,              // whether it parsed cleanly
- *     }
- *   }
- *
- * The React JsonView component receives `content.raw` and highlights it.
- * If `content.valid` is false the raw string is shown as-is with a
- * warning so the user can see what arrived.
- */
 final class Json_Payload extends payload {
 
     private string $raw;
