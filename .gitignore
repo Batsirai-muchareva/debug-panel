@@ -17,7 +17,6 @@ build/
 vite.config.*.timestamp*!/zip-builds/events/
 
 vite.config.*.timestamp*!/assets/
-docs/
 tmp/
 dist/
 AGENTS.md
