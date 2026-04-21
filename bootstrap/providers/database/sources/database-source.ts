@@ -9,7 +9,7 @@ export const databaseSource = ( { metaKey, postId }: { metaKey: string; postId: 
         let isFetching = false;
 
         const fetchData = async () => {
-            if (isFetching) {
+            if ( isFetching ) {
                 console.debug(
                     '[DatabaseSource] Fetch already in progress, skipping',
                 );
@@ -20,16 +20,16 @@ export const databaseSource = ( { metaKey, postId }: { metaKey: string; postId: 
             isFetching = true;
 
             try {
-                const result = await wordPressAdapter.fetch({
+                const result = await wordPressAdapter.fetch( {
                     meta_key: metaKey,
                     post_id: postId,
-                });
+                } );
 
-                if (result.success) {
-                    notify?.(result.data);
+                if ( result.success ) {
+                    notify?.( result.data );
                 }
-            } catch (e) {
-                notify?.(null);
+            } catch ( e ) {
+                notify?.( null );
             } finally {
                 isFetching = false;
             }

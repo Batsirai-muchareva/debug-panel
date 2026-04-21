@@ -21,7 +21,7 @@
             "@debug-panel/notification": ["libs/notification/src/index.ts"],
             "@debug-panel/search": ["libs/search/src/index.ts"],
             "@debug-panel/path": ["libs/path/src/index.ts"],
-            "@debug-panel/variants": ["libs/variants/src/index.ts"],
+            "@debug-panel/utils": ["libs/utils/src/index.ts"],
             "@debug-panel/pipeline": ["libs/pipeline/src/index.ts"],
             "@debug-panel/truncate": ["libs/truncate/src/index.ts"],
             "@debug-panel/constants": ["libs/constants/src/index.ts"],

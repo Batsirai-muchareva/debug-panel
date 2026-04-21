@@ -1,20 +1,21 @@
-import { ButtonTab, useTabs } from '@debug-panel/tabs';
+import {  useTabs } from '../../context/tabs-context';
+import { ButtonIndicator } from './pill/indicator';
+import { Group } from './shared/group';
+import { Tab } from './tab';
 
-import type { ProviderConfig } from '../../hooks/use-tabs-configs';
+import styles from './pill/pill-group.module.scss';
 
 
 export const ProviderTabs = () => {
-    const { tabs, id, setId } = useTabs<ProviderConfig>();
+    const { provider: { tabs, id, setId } } = useTabs();
 
     return (
-        <ButtonTab.Group onChange={ setId } defaultActive={id}>
+        <Group className={ styles.group } onActivate={ setId } activeId={ id } indicator={ ButtonIndicator } >
             {
-                tabs.map( ( { id, title } ) => (
-                    <ButtonTab.Item id={ id } key={ id }>
-                        { title }
-                    </ButtonTab.Item>
+                tabs.map( ( { id, label } ) => (
+                    <Tab id={ id } key={ id } label={ label } type="button" />
                 ) )
             }
-        </ButtonTab.Group>
+        </Group>
     );
 };

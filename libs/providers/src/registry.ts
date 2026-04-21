@@ -42,16 +42,6 @@ const find = ( providerId: string ) => {
     return provider;
 };
 
-const findVariantProvider = ( variantId: string ) => {
-    for ( const provider of providers.values() ) {
-        if ( provider.variants.some( ( { id } ) => id === variantId ) ) {
-            return provider;
-        }
-    }
-
-    throw Error( `Provider not found for ${ variantId } variant` )
-};
-
 const findVariant = ( variantId: string ) => {
     for ( const provider of providers.values() ) {
         const variant = provider.variants.find( ( { id } ) => id === variantId );
@@ -68,4 +58,4 @@ const seal = (): void => {
   sealed = true;
 };
 
-export const providerRegistry = { add, seal, getAll, find, findVariant, findVariantProvider };
+export const providerRegistry = { add, seal, getAll, find, findVariant };

@@ -15,7 +15,7 @@ export interface Variant<T> {
 
 export interface Provider<T = unknown> {
     id: string;
-    title: string;
+    label: string;
     order?: number;
     emptyMessage?: string;
     variants: Variant<T>[];

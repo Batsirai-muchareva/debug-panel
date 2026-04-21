@@ -1,7 +1,8 @@
 import { useRef } from "react";
 
 import { eventBus, useEventBus } from "@debug-panel/events";
-import { useLayoutBounds } from '@debug-panel/popover';
+
+import { useLayoutBounds } from '../context/layout-bounds-context';
 
 export function useDraggable() {
     const { position, setPosition } = useLayoutBounds();

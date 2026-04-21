@@ -1,6 +1,6 @@
 import { eventBus, useEventBus } from '@debug-panel/events';
-import { useLayoutBounds } from '@debug-panel/popover';
 
+import { useLayoutBounds } from '../context/layout-bounds-context';
 import { applyConstraints } from "../utils/apply-constraints";
 import { calculateDimensions } from '../utils/calculate-dimensions';
 import { type Direction, useResizeState } from './use-resize-state';

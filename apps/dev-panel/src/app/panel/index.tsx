@@ -1,54 +1,49 @@
 import { PathProvider } from '@debug-panel/path';
-import { Popover, PopoverContent, PopoverHeader } from '@debug-panel/popover';
-import { TabsProvider } from '@debug-panel/tabs';
 import { ToolbarProvider } from '@debug-panel/toolbar';
-import { Box, Text } from '@debug-panel/ui';
+import { Text } from '@debug-panel/ui';
 
 import { DataExplorer } from '../../components/data-explorer';
-import { Draggable } from '../../components/draggable';
 import { EmptyState } from '../../components/empty-state';
-import { Resizable } from '../../components/resizable';
-import { ServerButton } from '../../components/server-button';
+import { Popover } from '../../components/popover';
+import { PopoverContent } from '../../components/popover/popover-content';
+import { PopoverHeader } from '../../components/popover/popover-header';
+import { ServerLogsButton } from '../../components/server-button';
 import { ProviderTabs } from '../../components/tabs/provider-tabs';
-import { VariantTabsWrapper } from '../../components/tabs/variant/variant-tabs-wrapper';
+import { VariantTabs } from '../../components/tabs/variant-tabs';
 import { BrowseProvider, useBrowsePath } from '../../context/browse-context';
 import { DataProvider } from '../../context/data-context';
-import { useActiveProvider } from '../../hooks/use-active-provider';
+import { TabsProvider } from '../../context/tabs-context';
 import { useHasData } from '../../hooks/use-has-data';
-import { useTabsConfigs } from '../../hooks/use-tabs-configs';
+import { useProvider } from '../../hooks/use-provider';
 import { Content } from './content';
 
-import styles from './panel.module.scss';
-
 export const Panel = () => {
-    const providers = useTabsConfigs();
-
     return (
-        <Popover enhance={ Resizable }>
-            <PopoverHeader enhance={ Draggable }>
+        <Popover>
+            <PopoverHeader>
                 <Text>
                     Debug Panel
                 </Text>
-                <ServerButton />
+                <ServerLogsButton />
             </PopoverHeader>
 
             <PopoverContent>
-                <TabsProvider tabs={ providers }>
+                <TabsProvider>
                     <ProviderTabs />
+                    <VariantTabs />
 
-                    <VariantTabsWrapper>
-                        <PathProvider>
-                            <BrowseProvider>
-                                <ToolbarProvider>
-                                    <DataProvider>
-                                        <Box className={ styles.content }>
-                                            <TabContent />
-                                        </Box>
-                                    </DataProvider>
-                                </ToolbarProvider>
-                            </BrowseProvider>
-                        </PathProvider>
-                    </VariantTabsWrapper>
+                    <PathProvider>
+                        <BrowseProvider>
+                            <ToolbarProvider>
+                                <DataProvider>
+                                    <TabContent />
+
+                                    {/*<Box className={ styles.content }>*/}
+                                    {/*</Box>*/}
+                                </DataProvider>
+                            </ToolbarProvider>
+                        </BrowseProvider>
+                    </PathProvider>
                 </TabsProvider>
             </PopoverContent>
         </Popover>
@@ -57,16 +52,36 @@ export const Panel = () => {
 
 const TabContent = () => {
     const hasData = useHasData();
-    const { browsable = false } = useActiveProvider();
     const { browsePath } = useBrowsePath();
+    const { browsable = false } = useProvider();
 
     if ( browsable && ! browsePath ) {
         return <DataExplorer />
     }
 
-    if ( ! hasData ) {
-        return <EmptyState />;
-    }
+    // if ( ! hasData ) {
+    //     return <EmptyState />;
+    // }
 
     return <Content />
 }
+
+
+
+{/*<TabsProvider tabs={ providers }>*/}
+{/*    <ProviderTabs />*/}
+
+{/*    <VariantTabsWrapper>*/}
+{/*        <PathProvider>*/}
+{/*            <BrowseProvider>*/}
+{/*                <ToolbarProvider>*/}
+{/*                    <DataProvider>*/}
+{/*                        <Box className={ styles.content }>*/}
+{/*                            <TabContent />*/}
+{/*                        </Box>*/}
+{/*                    </DataProvider>*/}
+{/*                </ToolbarProvider>*/}
+{/*            </BrowseProvider>*/}
+{/*        </PathProvider>*/}
+{/*    </VariantTabsWrapper>*/}
+{/*</TabsProvider>*/}

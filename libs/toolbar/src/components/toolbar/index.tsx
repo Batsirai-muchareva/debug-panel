@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { eventBus, useEventBus } from '@debug-panel/events';
 import { ArrowIcon, type IconName, renderIcon } from '@debug-panel/icons';
 import { store } from '@debug-panel/storage';
-import { useTabs } from '@debug-panel/tabs';
 import { ActionsClip, bindActionsClip } from '@debug-panel/truncate';
 import { Box, Button, cx, Text } from '@debug-panel/ui';
 
@@ -14,11 +13,10 @@ import { ActionPanel } from '../action-panel';
 
 import styles from './toolbar.module.scss';
 
-export const Toolbar = ( { data }: { data: unknown } ) => {
+export const Toolbar = ( { data, variantId }: { data: unknown; variantId: string } ) => {
     const actions = getActions();
     const { states, setState } = useToolbar( actions );
     const key = store.getBrowseKey();
-    const { id } = useTabs();
     const [ hiddenActions, setHiddenActions ] = useState<string[]>( [] );
     const [ shoulShowOverflow, setshoulShowOverflow ] = useState( false );
 
@@ -39,7 +37,7 @@ export const Toolbar = ( { data }: { data: unknown } ) => {
                     [ styles.actionActive ]: state,
                 } ) }
                 onClick={ () => action?.onExecute?.( {
-                    bind: id,
+                    bind: variantId,
                     data,
                     onSetState: () => setState( action, !state ),
                 } ) }

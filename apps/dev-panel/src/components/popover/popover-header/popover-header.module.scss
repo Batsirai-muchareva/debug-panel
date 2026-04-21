@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: $spacing-sm;
+}
+
+.close-btn {
+  border-radius: $radius-circle;
+  padding: $spacing-xs;
+  position: absolute;
+  right: $spacing-sm;
+  transition: background .2s ease;
+  background: transparent;
+
+  &:hover {
+    background: rgba(86, 93, 100, .659);
+  }
+}

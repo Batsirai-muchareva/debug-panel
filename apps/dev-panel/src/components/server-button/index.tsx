@@ -3,7 +3,7 @@ import { Button } from '@debug-panel/ui';
 
 import styles from './server-view-btn.module.scss';
 
-export const ServerButton = () => {
+export const ServerLogsButton = () => {
     const handleInstall = () => {
         window.open( '/wp-admin/admin.php?page=debug-panel', '_blank' );
     }

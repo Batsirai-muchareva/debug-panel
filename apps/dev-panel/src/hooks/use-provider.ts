@@ -1,25 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { providerRegistry, type Variant } from '@debug-panel/providers';
-import { useTabs } from '@debug-panel/tabs';
+import { providerRegistry } from '@debug-panel/providers';
 
-export const useProvider = <T = unknown>() => {
-    const { id: variantId } = useTabs();
-    const [ data, setData ] = useState< Record< string, unknown > | undefined >( undefined );
+import { useTabs } from '../context/tabs-context';
 
-    useEffect( () => {
-        const variant = providerRegistry.findVariant( variantId );
+export const useProvider = () => {
+    const { provider } = useTabs();
 
-        if ( ! variant ) {
-            throw new Error( `[DevPanel] Variant "${ variantId }" not found` );
-        }
-
-        const source = variant.source as Variant<T>['source'];
-
-        source.subscribe( ( incoming ) => setData( incoming ?? undefined ) );
-
-        return () => source.unsubscribe();
-    }, [ variantId ] );
-
-    return data;
+    return useMemo( () => providerRegistry.find( provider.id ), [ provider.id ] )
 }

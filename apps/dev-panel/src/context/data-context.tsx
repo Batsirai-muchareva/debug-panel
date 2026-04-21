@@ -6,22 +6,22 @@ import { createPipeline } from '@debug-panel/pipeline';
 import { sourceLocator } from '@debug-panel/source-locator';
 import { useToolbar } from '@debug-panel/toolbar';
 
-import { useActiveProvider } from '../hooks/use-active-provider';
-import { useProvider } from '../hooks/use-provider';
+import { useProviderSource } from '../hooks/use-provider-source';
 import { filterDataByBrowsePath } from '../pipelines/filter-data-by-browse-path';
 import { filterDataByPath } from '../pipelines/filter-data-by-path';
 import { useBrowsePath } from './browse-context';
+import { useProvider } from '../hooks/use-provider';
 
 type ContextValue = { data: unknown; rawData: unknown } | undefined;
 
 const DataContext = createContext< ContextValue >( undefined );
 
 export const DataProvider = ( { children }: PropsWithChildren ) => {
-    const rawData = useProvider();
+    const rawData = useProviderSource();
     const { path } = usePath();
     const { browsePath } = useBrowsePath();
     const { isValueSearchActive } = useToolbar();
-    const { browsable = false } = useActiveProvider();
+    const { browsable = false } = useProvider();
 
     useEffect( () => {
         pathIndex.build( filterDataByBrowsePath( rawData, browsePath ), { includePrimitivesPath: isValueSearchActive } );

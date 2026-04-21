@@ -8,7 +8,7 @@ export const registerDatabaseProvider = () => {
 
     registerProvider( {
         id: 'database',
-        title: 'Database',
+        label: 'Database',
         order: 1,
         variants: [
             {

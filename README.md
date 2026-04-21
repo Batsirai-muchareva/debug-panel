@@ -55,7 +55,7 @@ Right-clicking any node in the JSON tree opens a context menu with:
 
 ### Database tab
 
-Shows what is actually saved in WordPress for the current page and kit — the source of truth vs. what the editor holds in memory.
+Shows what is actually saved in WordPress Database for the current page and kit
 
 - **Post** — the raw `_elementor_data` for the current page (the saved document tree)
 - **Variables** — kit-level CSS variables
@@ -63,7 +63,7 @@ Shows what is actually saved in WordPress for the current page and kit — the s
 
 ### Schema tab
 
-A searchable reference for all registered Elementor properties and element types — useful for understanding what controls exist and what values they accept.
+A searchable reference for all registered Elementor schema properties and element types — useful for understanding what controls exist and what values they accept.
 
 - **Style** — every registered style property in order (width, height, padding, typography, …)
 - **Elements** — all registered element types and their configuration

@@ -1,4 +1,4 @@
-import { POPOVER_CONTENT_PORTAL_ID } from '@debug-panel/popover';
+export const POPOVER_CONTENT_PORTAL_ID = 'popover-content-portal-id';
 
 export const getPortalElement = ( id: string = POPOVER_CONTENT_PORTAL_ID ) => {
     const portal = document.getElementById( id );

@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 import { CloseIcon } from '@debug-panel/icons';
-import { useLayoutBounds, usePopover } from '@debug-panel/popover';
 import { Button, cx } from '@debug-panel/ui';
 
 import logo from '../../assets/logo.png';
+import { useLayoutBounds } from '../../context/layout-bounds-context';
+import { usePopover } from '../../context/popover-context';
 
 import styles from './toggle.module.scss';
 

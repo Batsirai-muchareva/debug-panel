@@ -1,0 +1,74 @@
+
+.tab {
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  flex: 1;
+
+  padding: $tab-item-padding-y $tab-item-padding-x;
+  font-size: $tab-font-size;
+  font-weight: $tab-font-weight;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color $transition-fast;
+  white-space: nowrap;
+}
+
+.button {
+  border-radius: $radius-lg;
+  color: #9faeb0;
+
+  &-active {
+    color: #ffffff;
+  }
+}
+
+
+
+
+
+
+
+.line {
+  //position: relative;
+  //display: inline-flex;
+  //align-items: center;
+  //gap: $spacing-xs;
+  //flex: 1;
+  //padding: $tab-item-padding-y $tab-item-padding-x;
+  //font-size: $tab-font-size;
+  //font-weight: $tab-font-weight;
+  //border: none;
+  //background: transparent;
+  color: $color-text-secondary;
+  //cursor: pointer;
+  //transition: color $transition-fast;
+  //white-space: nowrap;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: transparent;
+    transform: scaleX(0.3);
+    transform-origin: left;
+    transition:
+            background $transition-base,
+            transform $transition-base;
+  }
+}
+
+.itemActive {
+  color: $color-text-primary;
+
+}
+

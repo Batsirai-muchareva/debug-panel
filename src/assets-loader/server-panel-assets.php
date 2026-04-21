@@ -8,7 +8,7 @@ use Elementor\Plugin;
 class Server_Panel_Assets {
 		private const VITE_PORT  = 4200;
 		private const PAGE_SLUG  = 'debug-panel';
-		private const PAGE_TITLE = 'Debug Panel';
+		private const PAGE_TITLE = 'Server Panel';
 		private const SCREEN_ID  = 'toplevel_page_debug-panel';
 		private const BUILD_FOLDER = 'build/server-panel/';
 

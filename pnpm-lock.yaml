@@ -8,15 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@monaco-editor/react':
-        specifier: ^4.7.0
-        version: 4.7.0(monaco-editor@0.55.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      express:
-        specifier: ^4.21.2
-        version: 4.22.1
-      monaco-editor:
-        specifier: ^0.55.1
-        version: 0.55.1
       ws:
         specifier: ^8.20.0
         version: 8.20.0
@@ -27,6 +18,9 @@ importers:
       '@babel/preset-react':
         specifier: ^7.14.5
         version: 7.28.5(@babel/core@7.29.0)
+      '@monaco-editor/react':
+        specifier: ^4.7.0
+        version: 4.7.0(monaco-editor@0.55.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nx/devkit':
         specifier: 22.6.0
         version: 22.6.0(nx@22.6.0(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))
@@ -159,6 +153,9 @@ importers:
       eslint-plugin-simple-import-sort:
         specifier: ^12.1.1
         version: 12.1.1(eslint@8.57.1)
+      express:
+        specifier: ^4.21.2
+        version: 4.22.1
       grunt:
         specifier: ^1.6.1
         version: 1.6.1
@@ -201,6 +198,9 @@ importers:
       jsdom:
         specifier: ~22.1.0
         version: 22.1.0
+      monaco-editor:
+        specifier: ^0.55.1
+        version: 0.55.1
       nx:
         specifier: 22.6.0
         version: 22.6.0(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))

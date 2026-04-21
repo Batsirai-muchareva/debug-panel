@@ -6,7 +6,7 @@ import { globalClassesSource } from './sources/global-classes-source';
 export const registerEditorProvider = () => {
     registerProvider( {
         id: 'editor',
-        title: 'Editor',
+        label: 'Editor',
         order: 1,
         emptyMessage: 'Please select element to see live snapshots of data',
         variants: [

@@ -1,5 +1,4 @@
-import { usePopover } from '@debug-panel/popover';
-
+import { usePopover } from '../../context/popover-context';
 import { Panel } from './index';
 
 export const PanelVisibility = () => {

@@ -5,7 +5,7 @@ import { schemaSource } from './schema-source';
 export const registerSchemaProvider = () => {
     registerProvider( {
         id: 'schema',
-        title: 'Schema',
+        label: 'Schema',
         order: 3,
         browsable: true,
         variants: [
