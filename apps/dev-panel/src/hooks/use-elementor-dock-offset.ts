@@ -17,6 +17,10 @@ export const useElementorDockOffset = () => {
 
         if ( isNavDocked && !isNaN( parsed ) && parsed > 0 ) {
             setRightOffset( parsed );
+            document.body.classList.add( 'dock-transition' );
+            setTimeout( () => {
+                document.body.classList.remove( 'dock-transition' );
+            }, 300 );
         } else {
             setRightOffset( 0 );
         }
