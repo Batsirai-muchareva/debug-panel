@@ -16,10 +16,19 @@
 }
 
 .active {
-  color: rgba(34, 211, 238, 0.9);
-  background: rgba(34, 211, 238, 0.12);
+  background: #1e3535;
+  color: #e5c47a;
+  //border-color: #3a5545;
+  //
+  //color: rgba(34, 211, 238, 0.9);
+  //background: rgba(34, 211, 238, 0.12);
 
-  &:hover {
-    background: rgba(34, 211, 238, 0.2);
-  }
+  //&:hover {
+  //  background: rgba(34, 211, 238, 0.2);
+  //}
 }
+
+
+//     background: #1e3535;
+//    color: #e5c47a;
+//    border-color: #3a5545;

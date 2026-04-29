@@ -22,17 +22,3 @@ export const useProvidersConfigs = () => {
 const sortByOrder = <T extends { order?: number }>( a: T, b: T ) => {
     return ( a.order ?? DEFAULT_ORDER ) - ( b.order ?? DEFAULT_ORDER );
 };
-
-
-
-//.map( ( { id, title, variants } ): ProviderConfig => ( {
-//         id,
-//         title,
-//         variants: Object.entries( variants ?? {} ).map(
-//           ( [ , { id, label }] ): VariantConfig => ( {
-//             id,
-//             label,
-//           } ),
-//         ),
-//       } ),
-//     )

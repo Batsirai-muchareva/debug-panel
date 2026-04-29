@@ -2,16 +2,18 @@ import {
     createContext,
     type PropsWithChildren,
     useContext,
-    useMemo,
     useState,
 } from 'react';
 
 import {
     useProvidersConfigs,
 } from '../hooks/use-providers-configs';
-import type { Tab } from '../types';
-import { providerRegistry } from "@debug-panel/providers";
 import { store } from "@debug-panel/storage";
+
+type Tab = {
+    id: string;
+    label: string;
+}
 
 type ContextValue = {
     provider: {

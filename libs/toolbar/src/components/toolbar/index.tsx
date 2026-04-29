@@ -66,7 +66,14 @@ export const Toolbar = ( { data, variantId }: { data: unknown; variantId: string
             {
                 key && (
                     <Box className={ styles.back}>
-                        <Button onMouseDown={ () => eventBus.emit( 'browse:key:clear' ) } className={ styles.backBtn }>
+                        <Button
+                            onMouseDown={ () => {
+                                store.setBrowseKey( null );
+
+                                eventBus.emit( 'browse:key:clear' );
+                            } }
+                            className={ styles.backBtn }
+                        >
                             <ArrowIcon />
                         </Button>
                         <Text className={styles.backTxt}>

@@ -13,6 +13,5 @@ export const Content = () => {
             <Toolbar data={ data } variantId={ id }/>
             <MonacoEditor data={ data } variantId={ id } />
         </>
-
     )
 }

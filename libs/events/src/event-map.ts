@@ -19,8 +19,10 @@ export type EventMap = {
     'notification:show': { id: string; message: string; type: string; };
     'notification:hide': { id: string; },
 
-    'browse:key:clear': void;
     'actions:clip:hide': string[];
 
-    'text-field:focus': { id: string }
+    'text-field:focus': { id: string };
+    'browser:key:selected': void;
+    'browse:key:clear': void;
+    'pin-popover:update': void;
 }

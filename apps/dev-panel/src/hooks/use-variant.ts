@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { providerRegistry } from '@debug-panel/providers';
-import { store } from "@debug-panel/storage";
 
 import { useTabs } from '../context/tabs-context';
 

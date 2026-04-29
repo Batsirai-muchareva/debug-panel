@@ -10,9 +10,7 @@ export const globalClassesSource = createElementSource<any>( {
 
         let prevClasses = elementorAdapter.elementDataExtractor( element ).settings?.classes?.value;
 
-        const unsubscribeElement = elementorAdapter.elementSubscriber.subscribe(
-            element,
-            ( el ) => {
+        const unsubscribeElement = elementorAdapter.elementSubscriber.subscribe( element, ( el ) => {
                 const nextClasses = elementorAdapter.elementDataExtractor( el ).settings?.classes?.value;
 
                 if ( prevClasses !== nextClasses ) {

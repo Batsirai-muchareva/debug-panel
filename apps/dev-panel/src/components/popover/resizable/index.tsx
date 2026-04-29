@@ -34,7 +34,7 @@ export const Resizable = ( { children }: PropsWithChildren ) => {
                     key={ dir }
                     variant="edge"
                     direction={ dir }
-                    onMouseDown={ ( e ) => startResize( e, dir ) }
+                    onMouseDown={ ( e ) => startResize( e as unknown as MouseEvent, dir ) }
                 />
             ) ) }
 
@@ -43,7 +43,7 @@ export const Resizable = ( { children }: PropsWithChildren ) => {
                     key={ dir }
                     variant="corner"
                     direction={ dir }
-                    onMouseDown={ ( e ) => startResize( e, dir ) }
+                    onMouseDown={ ( e ) => startResize( e as unknown as MouseEvent, dir ) }
                 />
             ) ) }
         </>

@@ -4,7 +4,11 @@ export const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     readOnly: true,
     minimap: { enabled: false },
     folding: true,
-    lineNumbers: 'off',
+    // lineNumbers: 'off',
     glyphMargin: false,
     stickyScroll: { enabled: false },
+    scrollBeyondLastLine: false,
+    padding: {
+        bottom: 20,
+    },
 };

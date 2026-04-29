@@ -12,7 +12,7 @@ export const PopoverHeader = ( { children }: PropsWithChildren ) => {
         <>
             <Draggable>
                 <Box className={ styles.header }>
-                    <Box>
+                    <Box className={ styles.children }>
                         { children }
                     </Box>
                     <Button className={ styles.closeBtn } onClick={ close }>

@@ -13,9 +13,11 @@ export const filterClassesBySelectedElement = (
 
     const elementClasses = elementDataExtractor( element ).settings?.classes?.value ?? [];
 
-    return Object.fromEntries(
+    const classes = Object.fromEntries(
         Object.entries( globalClasses.items ).filter( ( [ id ] ) => {
             return elementClasses.includes( id )
         } )
     );
+
+    return classes && Object.keys( classes ).length > 0 ? classes : null;
 }

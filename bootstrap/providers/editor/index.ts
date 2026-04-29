@@ -8,21 +8,27 @@ export const registerEditorProvider = () => {
         id: 'editor',
         label: 'Editor',
         order: 1,
-        emptyMessage: 'Please select element to see live snapshots of data',
         variants: [
             {
                 id: 'local',
                 label: 'Local',
                 order: 1,
-                source: localSource
+                source: localSource,
+                empty: {
+                    title: 'No element selected',
+                    message: 'Select element to see live Element state',
+                },
             },
             {
                 id: 'classes',
                 label: 'Classes',
                 order: 2,
                 source: globalClassesSource,
-                emptyMessage: 'No Global classes assigned to this element',
-            }
-        ]
+                empty: {
+                    title: 'No global classes',
+                    message: 'Assign global classes to selected element to see their state on element',
+                },
+            },
+        ],
     } );
 }

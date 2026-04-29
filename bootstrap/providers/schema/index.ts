@@ -1,5 +1,4 @@
-import { registerProvider } from '@debug-panel/dev-panel-sdk';
-
+import { keys, registerProvider } from '@debug-panel/dev-panel-sdk';
 import { schemaSource } from './schema-source';
 
 export const registerSchemaProvider = () => {
@@ -7,18 +6,23 @@ export const registerSchemaProvider = () => {
         id: 'schema',
         label: 'Schema',
         order: 3,
-        browsable: true,
         variants: [
             {
                 id: 'style-schema',
                 label: 'Style',
                 source: schemaSource( 'style' ),
+                middleware: [ keys ],
             },
             {
                 id: 'elements-schema',
                 label: 'Elements',
                 source: schemaSource( 'elements' ),
+                middleware: [ keys ],
             },
         ],
     } );
 }
+
+
+// browsable: true,
+// , throttle, log , throttle, log

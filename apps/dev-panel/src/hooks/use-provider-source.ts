@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
-import type { Variant } from '@debug-panel/providers';
+import type { Payload } from '@debug-panel/providers';
 
 import { useVariant } from './use-variant';
 
-
-export const useProviderSource = <T = unknown>() => {
+export const useProviderSource = () => {
     const variant = useVariant();
-    const [ data, setData ] = useState< Record< string, unknown > | undefined >( undefined );
+    const [ data, setData ] = useState< Payload | null >( null );
 
-    useEffect( () => {
-        const source = variant.source as Variant<T>['source'];
+    useLayoutEffect( () => {
+        const source = variant.source;
 
-        source.subscribe( ( incoming ) => setData( incoming ?? undefined ) );
+        source.subscribe( ( incoming ) => setData( incoming ) );
 
         return () => source.unsubscribe();
     }, [ variant.id  ] );

@@ -1,9 +1,10 @@
+import { applyMiddleware } from './apply-middleware';
 import type { Provider } from './types';
 
 const providers = new Map< string, Provider>();
 let sealed = false;
 
-const add = <TData>( provider: Provider<TData> ) => {
+const add = ( provider: Provider ) => {
     assertNotSealed( provider.id );
 
     if ( providers.has( provider.id ) ) {
@@ -16,7 +17,20 @@ const add = <TData>( provider: Provider<TData> ) => {
         }
     }
 
-    providers.set( provider.id, provider as Provider );
+    providers.set( provider.id, {
+        ...provider,
+        variants: provider.variants.map( applyMiddleware ),
+    } );
+};
+
+const prefetchAll = () => {
+    for ( const provider of providers.values() ) {
+        if ( provider.prefetch ) {
+            for ( const variant of provider.variants ) {
+                variant.source.prefetch?.();
+            }
+        }
+    }
 };
 
 const assertNotSealed = ( id: string ) => {
@@ -28,7 +42,7 @@ const assertNotSealed = ( id: string ) => {
     }
 };
 
-const getAll = (): Provider[] => {
+const getAll = () => {
   return [ ...providers.values() ];
 };
 
@@ -58,4 +72,4 @@ const seal = (): void => {
   sealed = true;
 };
 
-export const providerRegistry = { add, seal, getAll, find, findVariant };
+export const providerRegistry = { add, seal, getAll, find, findVariant, prefetchAll };

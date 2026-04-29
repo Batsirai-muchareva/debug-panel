@@ -1,21 +1,29 @@
-import { createContext, type PropsWithChildren, useContext, useState } from 'react';
+import {
+    createContext,
+    type PropsWithChildren,
+    useContext,
+    useLayoutEffect,
+    useState,
+} from 'react';
 
 import { useEventBus } from '@debug-panel/events';
 import { usePath } from '@debug-panel/path';
 import { store } from '@debug-panel/storage';
 
+import { useVariant } from '../hooks/use-variant';
+
 type BrowseContextValue = {
     browsePath: string | null;
     setBrowsePath: ( key: string ) => void;
     goBack: () => void;
-
 };
 
 const BrowseContext = createContext<BrowseContextValue | null>( null );
 
 export const BrowseProvider = ( { children }: PropsWithChildren ) => {
-    const [ , setBrowsePath ] = useState<BrowseContextValue[ 'browsePath' ]>();
+    const [ browsePath, setBrowsePath ] = useState<BrowseContextValue[ 'browsePath' ]>( null );
     const { setPath } = usePath();
+    const { id } = useVariant();
 
     useEventBus( 'browse:key:clear', () => {
         store.setBrowseKey( null );
@@ -23,10 +31,14 @@ export const BrowseProvider = ( { children }: PropsWithChildren ) => {
         setPath( '' );
     } );
 
+    useLayoutEffect( () => {
+        setBrowsePath( store.getBrowseKey() )
+    }, [ id ] );
+
     return (
         <BrowseContext.Provider
             value={ {
-                browsePath: store.getBrowseKey(),
+                browsePath,
                 setBrowsePath: ( key ) => {
                     setBrowsePath( key );
                     store.setBrowseKey( key );

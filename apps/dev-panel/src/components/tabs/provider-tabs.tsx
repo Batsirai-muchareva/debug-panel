@@ -5,7 +5,6 @@ import { Tab } from './tab';
 
 import styles from './pill/pill-group.module.scss';
 
-
 export const ProviderTabs = () => {
     const { provider: { tabs, id, setId } } = useTabs();
 

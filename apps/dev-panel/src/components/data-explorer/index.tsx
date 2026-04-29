@@ -1,22 +1,29 @@
 import { useState } from 'react';
 
+import { eventBus } from '@debug-panel/events';
 import { SearchIcon } from '@debug-panel/icons';
+import { store } from '@debug-panel/storage';
 import { Box, Button, Text,TextField } from '@debug-panel/ui';
 
-import { useBrowsePath } from '../../context/browse-context';
 import { useData } from '../../context/data-context';
 
 import styles from './data-explorer.module.scss';
 
 export const DataExplorer = () => {
-    const { rawData } = useData();
-    const { setBrowsePath } = useBrowsePath();
+    const { data: keys } = useData();
 
     const [ value, setValue ] = useState( '' );
 
-    const data = Object.keys( rawData ?? {} ).map( ( p, index ) => ( { label: p, index: index + 1 } ) );
+    const filteredData = buildListData( keys as string[] )
+        .filter( p =>
+            p.label.includes( value )
+        );
 
-    const filteredData = data.filter( p => p.label.includes( value ) );
+    const selectKey = ( key: string ) => {
+        store.setBrowseKey( key );
+
+        eventBus.emit( 'browser:key:selected' );
+    };
 
     return (
         <Box className={ styles.container }>
@@ -32,7 +39,7 @@ export const DataExplorer = () => {
                      <Button
                          key={ p.index }
                          className={ styles.row }
-                         onClick={ () => setBrowsePath( p.label ) }
+                         onClick={ () => selectKey( p.label ) }
                      >
                          <Box className={ styles.numbering }>
                              {p.index }
@@ -51,4 +58,8 @@ export const DataExplorer = () => {
              </Box>
         </Box>
     )
+}
+
+const buildListData = ( data: string[] ) => {
+    return data.map( ( p, index ) => ( { label: p, index: index + 1 } ) );
 }

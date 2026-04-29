@@ -4,8 +4,10 @@ import {
     type PropsWithChildren,
     type SetStateAction,
     useContext,
+    useEffect,
     useState,
 } from 'react';
+import { store } from '@debug-panel/storage';
 
 const INITIAL_HEIGHT = 550;
 
@@ -34,10 +36,18 @@ const Context = createContext<ContextValue | undefined>( undefined );
 
 export const LayoutBoundsProvider = ( { children }: PropsWithChildren ) => {
     const [ position, setPosition ] = useState<Position>( { x: 0, y: 0 } );
-    const [ size, setSize ] = useState<Size>( {
-        width: INITIAL_WIDTH,
-        height: INITIAL_HEIGHT,
+    const [ size, setSize ] = useState<Size>( () => {
+        const stored = store.getLayout();
+
+        return {
+            width: stored?.width ?? INITIAL_WIDTH,
+            height: stored?.height ?? INITIAL_HEIGHT,
+        }
     } );
+
+    useEffect( () => {
+        store.setLayout( { height: size.height, width: size.width } )
+    }, [ size.height, size.width ] );
 
     return (
         <Context.Provider value={ { position, setPosition, size, setSize } }>

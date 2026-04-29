@@ -10,6 +10,7 @@ export const registerDatabaseProvider = () => {
         id: 'database',
         label: 'Database',
         order: 1,
+        prefetch: true,
         variants: [
             {
                 id: 'post',

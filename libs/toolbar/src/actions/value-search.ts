@@ -5,4 +5,4 @@ export const valueSearch = defineAction( {
     id: 'valueSearch',
     title: 'Value Search',
     icon: 'search',
-} )
+} );

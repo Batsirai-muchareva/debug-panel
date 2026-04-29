@@ -1,45 +1,32 @@
-import { createContext, type PropsWithChildren, useContext } from 'react';
-import { useEffect } from 'react';
+import {
+    createContext,
+    type PropsWithChildren,
+    useContext,
+} from 'react';
 
-import { pathIndex, usePath } from '@debug-panel/path';
-import { createPipeline } from '@debug-panel/pipeline';
-import { sourceLocator } from '@debug-panel/source-locator';
-import { useToolbar } from '@debug-panel/toolbar';
-
+import { useFilteredData } from '../hooks/use-filtered-data';
+import { useFilteredDataSync } from '../hooks/use-filtered-data-sync';
 import { useProviderSource } from '../hooks/use-provider-source';
-import { filterDataByBrowsePath } from '../pipelines/filter-data-by-browse-path';
-import { filterDataByPath } from '../pipelines/filter-data-by-path';
-import { useBrowsePath } from './browse-context';
-import { useProvider } from '../hooks/use-provider';
+import { useRawDataSync } from '../hooks/use-raw-data-sync';
+import type { DataState } from '../types';
 
-type ContextValue = { data: unknown; rawData: unknown } | undefined;
+type ContextValue = {
+    data: DataState;
+};
 
-const DataContext = createContext< ContextValue >( undefined );
+const DataContext = createContext< ContextValue | null>( null );
 
 export const DataProvider = ( { children }: PropsWithChildren ) => {
-    const rawData = useProviderSource();
-    const { path } = usePath();
-    const { browsePath } = useBrowsePath();
-    const { isValueSearchActive } = useToolbar();
-    const { browsable = false } = useProvider();
+    const payload = useProviderSource();
 
-    useEffect( () => {
-        pathIndex.build( filterDataByBrowsePath( rawData, browsePath ), { includePrimitivesPath: isValueSearchActive } );
-    }, [ rawData, browsePath ] );
+    useRawDataSync( payload );
 
-    const runSearch = createPipeline<unknown>()
-        .pipe( data => filterDataByBrowsePath( data, browsePath ) )
-        .pipe( data => filterDataByPath( data, path ) )
-        .build();
+    const data = useFilteredData( payload )
 
-    const data = runSearch( rawData );
-
-    if ( ! browsable || browsePath ) {
-        sourceLocator.indexSource( data );
-    }
+    useFilteredDataSync( data.value, payload?.meta )
 
     return (
-        <DataContext.Provider value={ { data, rawData } }>
+        <DataContext.Provider value={ { data } }>
             { children }
         </DataContext.Provider>
     );
@@ -52,5 +39,13 @@ export const useData = () => {
         throw new Error( "useData must be used within a DataProvider" );
     }
 
-    return context;
+    const { data } = context;
+
+    return {
+        isExploring: data.meta?.type === 'keys',
+        isEmpty: data.status === 'empty',
+        hasNoResults: data.status === 'no-results',
+        data: data.status === 'data' ? data.value : null, // think more abt this part
+        meta: data.meta,
+    };
 };

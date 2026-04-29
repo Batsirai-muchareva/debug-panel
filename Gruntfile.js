@@ -5,6 +5,7 @@ module.exports = function (grunt) {
             npm_install: {
                 command: 'pnpm install',
             },
+            // use pnpm install --prod instead of getting packages individually in node_modules
             production: {
                 command: function() {
                     const pkg = grunt.file.readJSON('package.json');

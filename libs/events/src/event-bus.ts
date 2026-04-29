@@ -13,7 +13,10 @@ export type EventHandler<E extends EventName> = ( payload: EventPayload<E> ) => 
 type EventPayload<E extends EventName> = EventMap[E];
 
 interface EventBus {
-    on<E extends EventName | EventName[]>( event: E, handler: EventHandler<EventName> ): Unsubscribe;
+    on<E extends EventName | EventName[]>(
+        event: E,
+        handler: EventHandler<E extends readonly EventName[] ? E[number] : E>
+    ): Unsubscribe;
     once<E extends EventName>( event: E, handler: EventHandler<E> ): void;
     emit<E extends EventName>(
         event: E,

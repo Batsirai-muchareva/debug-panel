@@ -9,7 +9,7 @@ export const useResizable = () => {
     const { position, setPosition, size, setSize } = useLayoutBounds();
     const { stateRef, reset } = useResizeState();
 
-    const startResize = ( e: React.MouseEvent, direction: Direction ) => {
+    const startResize = ( e: MouseEvent, direction: Direction ) => {
         e.preventDefault();
 
         stateRef.current = {

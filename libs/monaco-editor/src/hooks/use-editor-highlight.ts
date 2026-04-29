@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { editor } from 'monaco-editor';
 import type { RefObject } from 'react';
@@ -9,15 +9,27 @@ interface Options {
     editorRef: RefObject<editor.IStandaloneCodeEditor | null>;
     data: unknown;
     isHighlightActive: boolean;
+    variantId: string;
 }
 
 const HIGHLIGHT_DURATION_MS = 2000;
 
-export function useEditorHighlight( { editorRef, data, isHighlightActive }: Options ) {
+export function useEditorHighlight( { editorRef, data, isHighlightActive, variantId }: Options ) {
     const decorationsRef = useRef<string[]>( [] );
     const { highlightLines: highlightRange, scrollToLine } = useJsonDelta( data, isHighlightActive );
+    const [ variantChanged, setVariantChanged ] = useState( false );
 
     useEffect( () => {
+        setVariantChanged( true );
+    }, [ variantId ] );
+
+    useEffect( () => {
+        if ( variantChanged ) {
+            setVariantChanged( false );
+
+            return;
+        }
+
         const editor = editorRef.current;
 
         if ( ! editor || ! highlightRange?.length ) {
@@ -29,20 +41,29 @@ export function useEditorHighlight( { editorRef, data, isHighlightActive }: Opti
 
         decorationsRef.current = editor.deltaDecorations(
             decorationsRef.current,
-            [ {
-                range: {
-                    startLineNumber,
-                    startColumn: 1,
-                    endLineNumber,
-                    endColumn: 1
-                },
+            highlightRange.map( ( lineNumber ) => ( {
+                range: { startLineNumber: lineNumber, startColumn: 1, endLineNumber: lineNumber, endColumn: 1 },
                 options: {
                     isWholeLine: true,
                     className: 'highlighted',
                     linesDecorationsClassName: 'monaco-changed-line-gutter',
                     overviewRuler: { color: '#7ab8a8', position: 1 },
                 },
-            } ]
+            } ) )
+            // [ {
+            //     range: {
+            //         startLineNumber,
+            //         startColumn: 1,
+            //         endLineNumber,
+            //         endColumn: 1
+            //     },
+            //     options: {
+            //         isWholeLine: true,
+            //         className: 'highlighted',
+            //         linesDecorationsClassName: 'monaco-changed-line-gutter',
+            //         overviewRuler: { color: '#7ab8a8', position: 1 },
+            //     },
+            // } ]
         );
 
         if ( scrollToLine ) {
