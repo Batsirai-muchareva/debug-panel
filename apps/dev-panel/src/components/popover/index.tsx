@@ -1,10 +1,10 @@
-import { type PropsWithChildren, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { useEventBus } from '@debug-panel/events';
-import { store } from '@debug-panel/storage';
 import { Box } from '@debug-panel/ui';
 
 import { useLayoutBounds } from '../../context/layout-bounds-context';
+import { usePopover } from '../../context/popover-context';
+import { useElementorDockOffset } from '../../hooks/use-elementor-dock-offset';
 import { Resizable } from './resizable';
 
 import popoverStyles from './popover.module.scss';
@@ -13,20 +13,18 @@ const ELEMENTOR_HEADER_HEIGHT = 50; // TODO this has to be dynamic
 
 export const Popover = ( { children }: PropsWithChildren ) => {
     const { position, size } = useLayoutBounds();
-    const [ isPopoverPinned, setIsPopoverPinned ] = useState( store.getPopoverPin );
+    const { isPinned } = usePopover();
+    const rightOffset = useElementorDockOffset();
 
-    useEventBus( 'pin-popover:update', () => {
-        setIsPopoverPinned( store.getPopoverPin() );
-    } );
-
-    const styles = isPopoverPinned
+    const styles = isPinned
         ? {
-            top: ELEMENTOR_HEADER_HEIGHT,
-            height: `calc(100vh - ${ELEMENTOR_HEADER_HEIGHT}px)`,
-            right: 0,
+            top: ELEMENTOR_HEADER_HEIGHT - 2,
+            height: `calc(100vh - ${ELEMENTOR_HEADER_HEIGHT - 2}px)`,
+            right: rightOffset,
             zIndex: 10,
             width: size.width,
-            borderRadius: 0
+            borderRadius: 0,
+            border: 'none'
         }
         : {
             width: size.width,
@@ -34,7 +32,6 @@ export const Popover = ( { children }: PropsWithChildren ) => {
             left: position.x,
             top: position.y,
       };
-
 
   return (
       <Box

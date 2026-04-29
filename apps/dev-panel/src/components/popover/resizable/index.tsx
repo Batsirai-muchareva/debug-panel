@@ -1,5 +1,6 @@
 import  type { PropsWithChildren } from "react";
 
+import { usePopover } from '../../../context/popover-context';
 import { useResizable } from '../../../hooks/use-resizable';
 import type { Direction } from '../../../hooks/use-resize-state';
 import { ResizeHandle } from './resize-handle';
@@ -24,12 +25,17 @@ export const CORNER_HANDLES: HandleConfig[] = [
 
 export const Resizable = ( { children }: PropsWithChildren ) => {
     const { startResize } = useResizable();
+    const { isPinned } = usePopover();
+
+    const edgeHandles = isPinned
+        ? EDGE_HANDLES.filter( ( { dir } ) => dir === 'w' )
+        : EDGE_HANDLES;
 
     return (
         <>
             { children }
 
-            { EDGE_HANDLES.map( ( { dir } ) => (
+            { edgeHandles.map( ( { dir } ) => (
                 <ResizeHandle
                     key={ dir }
                     variant="edge"
@@ -38,7 +44,7 @@ export const Resizable = ( { children }: PropsWithChildren ) => {
                 />
             ) ) }
 
-            { CORNER_HANDLES.map( ( { dir } ) => (
+            { ! isPinned && CORNER_HANDLES.map( ( { dir } ) => (
                 <ResizeHandle
                     key={ dir }
                     variant="corner"

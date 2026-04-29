@@ -5,6 +5,14 @@
   "projectType": "library",
   "tags": ["public lib"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/events",
+        "command": "vite build"
+      },
+      "outputs": ["{workspaceRoot}/dist/libs/events"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

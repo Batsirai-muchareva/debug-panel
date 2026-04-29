@@ -1,5 +1,5 @@
 {
-    "name": "@debug-panel/providers",
+    "name": "@debug-panel/storage",
     "version": "0.0.1",
     "main": "./index.mjs",
     "types": "./index.d.ts",

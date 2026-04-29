@@ -24,5 +24,5 @@ export type EventMap = {
     'text-field:focus': { id: string };
     'browser:key:selected': void;
     'browse:key:clear': void;
-    'pin-popover:update': void;
+    // 'pin-popover:update': void;
 }

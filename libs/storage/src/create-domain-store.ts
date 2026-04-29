@@ -54,8 +54,8 @@ export const createDomainStore = () => {
             storage.unscoped.set('pin-popover', !status);
         },
 
-        getPopoverPin: () => {
-            return storage.unscoped.get('pin-popover');
+        getPopoverPin: (): boolean => {
+            return storage.unscoped.get('pin-popover') as boolean;
         },
 
         getToolbarState: (key: string): boolean | null => {
