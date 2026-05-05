@@ -3,9 +3,9 @@ import { useContext, useState } from 'react';
 
 import { usePath } from '@debug-panel/path';
 import { createPipeline } from '@debug-panel/pipeline';
-// TODO fix this dependency cycle with toolbar
-import { useToolbar } from '@debug-panel/toolbar';
 
+import { useToolbar } from '../../../context/toolbar-context';
+// TODO fix this dependency cycle with toolbar
 import { useRecentSearches } from '../hooks/use-recent-searches';
 import { appendRecentSearches } from '../pipelines/append-recent-searches';
 import { filterByPath } from '../pipelines/filter-by-path';

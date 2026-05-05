@@ -3,7 +3,7 @@
     "version": "1.0.3",
     "description": "A WordPress plugin that provides real-time database and editor schema viewing within the Elementor editor interface.",
     "scripts": {
-        "install": "pnpm i --frozen-lockfile && composer install --ignore-platform-reqs",
+        "pnpm:install": "pnpm i --frozen-lockfile && composer install --ignore-platform-reqs",
         "dev": "npx nx run-many --target=serve --all",
         "build": "npx nx run-many --target=build --all --exclude=debug-panel",
         "build:production": "npx nx run build-production",

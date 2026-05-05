@@ -1,14 +1,11 @@
 import { useRef, useState } from 'react';
 
-// import { useLayoutBounds } from '@debug-panel/popover';
-
 export const MIN_HEIGHT = 120;
 const INITIAL_HEIGHT = 240;
 const HEADER_HEIGHT = 150;
 
 export const useSuggestionResizable = ( initialHeight = INITIAL_HEIGHT ) => {
     const [height, setHeight] = useState( initialHeight );
-    // const { size } = useLayoutBounds();
     const dragRef = useRef<{ startY: number; startHeight: number } | null>( null );
     const availableHeight = 200 - HEADER_HEIGHT;
 

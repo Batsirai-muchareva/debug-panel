@@ -2,11 +2,11 @@ import React, { type ComponentType, Fragment, useEffect } from 'react';
 
 import { PinIcon } from '@debug-panel/icons';
 import { usePath } from '@debug-panel/path';
-// TODO fix this dependency cycle with toolbar
-import { useToolbar } from '@debug-panel/toolbar';
 import { ClipRow } from '@debug-panel/truncate';
 import { Box, Button, cx, Text } from '@debug-panel/ui';
 
+// TODO fix this dependency cycle with toolbar
+import { useToolbar } from '../../../../context/toolbar-context';
 import { useSearch } from '../../context/search-context';
 import { useSuggestions } from '../../context/suggestions-context';
 import { useRecentSearches } from "../../hooks/use-recent-searches";

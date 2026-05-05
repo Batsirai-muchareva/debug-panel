@@ -88,8 +88,8 @@ const isInArrayScope = ( state: LocatorState ) => {
 
 const isPrimitive = ( value: string ) => {
     return (
-        !value.startsWith( "{" ) &&
-        !value.startsWith( "}" ) &&
+        ! value.startsWith( "{" ) &&
+        ! value.startsWith( "}" ) &&
         value !== "]" &&
         value !== "],"
     );
@@ -105,30 +105,3 @@ export {
     openScope,
     closeScope
 }
-
-
-// const enterArrayItem = (
-//     state: LocatorState,
-//     depth: number
-// ): string => {
-//     const idx = state.arrayStack.length - 1;
-//     state.arrayStack[idx]++;
-//
-//     state.pathStack.length = Math.max( 0, depth - 1 );
-//     state.pathStack.push( state.arrayStack[idx] );
-//
-//     return state.pathStack.join( "." );
-// };
-
-
-// const enterObjectKey = (
-//     state: LocatorState,
-//     key: string,
-//     depth: number
-// ): string => {
-//     state.pathStack.length = Math.max( 0, depth - 1 );
-//
-//     state.pathStack.push( key );
-//
-//     return state.pathStack.join( "." );
-// };

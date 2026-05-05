@@ -15,7 +15,7 @@ export function createSourceLocator() {
        Build Index
     ======================= */
     const indexSource = ( json: unknown ) => {
-        if ( !json ) {
+        if ( ! json ) {
             return;
         }
 

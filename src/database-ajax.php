@@ -42,6 +42,8 @@ class Database_Ajax {
 						$elementor_data = json_decode( $elementor_data, true );
 				}
 
+				dp( $elementor_data );
+
 				wp_send_json_success( [
 						'schema' => $elementor_data,
 						'post_id' => $post_id,

@@ -19,7 +19,10 @@ export const createCollection = <T>( items: T[] ): Collection<T> => {
     const api: CollectionApi<T> = {
         first: () => list[0],
         firstOrThrow: () => {
-            if ( list.length === 0 ) throw new Error( 'Collection is empty' );
+            if ( list.length === 0 ) {
+                throw new Error( 'Collection is empty' );
+            }
+
             return list[0];
         },
         last: () => list.at( -1 ),

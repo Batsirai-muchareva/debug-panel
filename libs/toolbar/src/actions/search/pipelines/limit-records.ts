@@ -1,4 +1,4 @@
-import type { ListCategory } from '../types';
+import type { ListCategory } from '../../../types';
 
 const LIMIT_CONFIG = {
     key: 5,

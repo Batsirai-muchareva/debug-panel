@@ -1,10 +1,10 @@
 // TODO fix this dependency cycle with toolbar
-import { useToolbar } from '@debug-panel/toolbar';
 import { Box } from '@debug-panel/ui';
 
+import { useToolbar } from '../../../../context/toolbar-context';
+import type { ListContentProps } from '../../../../types';
 import { useSearch } from '../../context/search-context';
 import { useSuggestions } from '../../context/suggestions-context';
-import type { ListContentProps } from '../../types';
 import { HighlightMatch } from './highlight-match';
 import { SuggestionMeta } from './suggestion-meta';
 
